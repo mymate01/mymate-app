@@ -11,60 +11,63 @@ export default function CourseInfoPanel({ details, title }: CourseInfoPanelProps
   if (!details) return null;
 
   return (
-    <div className={styles.panel}>
-      <h2 className={styles.title}>About {title}</h2>
-      
-      {details.about && (
-        <p className={styles.about}>{details.about}</p>
-      )}
+    <div className={styles.tilesContainer}>
+      <h2 className={styles.panelTitle}>About {title}</h2>
 
       <div className={styles.grid}>
-        {details.duration && (
-          <div className={styles.card}>
-            <h4>Duration</h4>
-            <p>{details.duration}</p>
+        {details.about && (
+          <div className={`${styles.tile} ${styles.fullWidth}`}>
+            <h4>Description</h4>
+            <p className={styles.aboutText}>{details.about}</p>
           </div>
         )}
-        
+
+        {details.duration && (
+          <div className={styles.tile}>
+            <h4>Duration</h4>
+            <div className={styles.valueLarge}>{details.duration}</div>
+          </div>
+        )}
+
         {details.fees && (
-          <div className={styles.card}>
+          <div className={styles.tile}>
             <h4>Approx. Fees</h4>
-            <p>{details.fees}</p>
+            <div className={styles.valueLarge}>{details.fees}</div>
           </div>
         )}
 
         {details.subjects && details.subjects.length > 0 && (
-          <div className={styles.card}>
+          <div className={styles.tile}>
             <h4>Key Subjects</h4>
             <div className={styles.tags}>
-              {details.subjects.map(s => <span key={s} className={styles.tag}>{s}</span>)}
+              {details.subjects.map(s => <span key={s} className={styles.tagSecondary}>{s}</span>)}
             </div>
           </div>
         )}
 
         {details.exams && details.exams.length > 0 && (
-          <div className={styles.card}>
+          <div className={styles.tile}>
             <h4>Entrance Exams</h4>
             <div className={styles.tags}>
-              {details.exams.map(e => <span key={e} className={styles.tag}>{e}</span>)}
+              {details.exams.map(e => <span key={e} className={styles.tagPrimary}>{e}</span>)}
             </div>
           </div>
         )}
 
         {details.colleges && details.colleges.length > 0 && (
-          <div className={`${styles.card} ${styles.fullWidth}`}>
+          <div className={styles.tile}>
             <h4>Top Institutions</h4>
             <div className={styles.tags}>
-              {details.colleges.map(c => <span key={c} className={styles.tagPrimary}>{c}</span>)}
+              {details.colleges.map(c => <span key={c} className={styles.tagOutline}>{c}</span>)}
             </div>
           </div>
         )}
 
         {details.jobs && details.jobs.length > 0 && (
-          <div className={`${styles.card} ${styles.fullWidth}`}>
+          <div className={styles.tile}>
             <h4>Eligible Roles & Jobs</h4>
             <div className={styles.tags}>
-              {details.jobs.map(j => <span key={j} className={styles.tagPrimary}>{j}</span>)}
+              {details.jobs.map(j => <span key={j} className={styles.tagAccent}>{j}</span>)}
             </div>
           </div>
         )}
