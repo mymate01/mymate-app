@@ -1,0 +1,178 @@
+.nodeContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  position: relative;
+  margin-left: 20px;
+}
+
+.rootContainer {
+  margin-left: 0;
+  align-items: center; /* Center the root node */
+}
+
+.node {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  border-radius: 12px;
+  padding: 16px 20px;
+  min-width: 200px;
+  max-width: 300px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  z-index: 2;
+}
+
+.rootNode {
+  background: linear-gradient(135deg, var(--color-primary-light), var(--color-primary));
+  color: white;
+  border: none;
+  box-shadow: 0 8px 25px rgba(255, 107, 107, 0.3);
+  transform: scale(1.05);
+  padding: 20px 24px;
+}
+
+.rootNode .nodeDescription {
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.clickable {
+  cursor: pointer;
+}
+
+.clickable:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+  background: rgba(255, 255, 255, 0.9);
+}
+
+.rootNode.clickable:hover {
+  transform: scale(1.05) translateY(-2px);
+  background: linear-gradient(135deg, var(--color-primary-light), var(--color-accent));
+}
+
+.expanded {
+  border-bottom-color: var(--color-primary-light);
+}
+
+.nodeContent {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.nodeTitle {
+  font-size: 1rem;
+  font-weight: 600;
+  margin: 0;
+  line-height: 1.3;
+}
+
+.nodeDescription {
+  font-size: 0.85rem;
+  color: var(--color-text-light);
+  margin: 0;
+  line-height: 1.4;
+}
+
+.iconIndicator {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.05);
+  font-weight: bold;
+  font-size: 1.2rem;
+  color: var(--color-primary);
+  transition: all 0.3s ease;
+}
+
+.rootNode .iconIndicator {
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+}
+
+.childrenContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-top: 16px;
+  padding-left: 20px;
+  border-left: 2px dashed rgba(255, 107, 107, 0.3); /* Connects to parent */
+  margin-left: 20px;
+  
+  /* Animation setup */
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.rootContainer > .childrenContainer {
+  margin-left: 0; /* Center children under root visually better */
+  border-left: none;
+  padding-left: 0;
+  align-items: center;
+}
+
+.rootContainer > .childrenContainer > .childWrapper {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.showChildren {
+  max-height: 2000px; /* Large enough to fit children */
+  opacity: 1;
+  overflow: visible;
+}
+
+.childWrapper {
+  position: relative;
+  animation: slideIn 0.4s ease forwards;
+}
+
+.connector {
+  position: absolute;
+  left: -20px;
+  top: 24px;
+  width: 20px;
+  height: 2px;
+  background-color: rgba(255, 107, 107, 0.3);
+  border-top: 2px dashed rgba(255, 107, 107, 0.3);
+  z-index: 1;
+}
+
+.rootContainer > .childrenContainer > .childWrapper > .connector {
+  display: none; /* Hide connector for immediate children of root to make it look like a floating map */
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateX(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@media (min-width: 768px) {
+  .rootContainer > .childrenContainer {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: flex-start;
+  }
+}
