@@ -26,6 +26,7 @@ Upon completing a task, if you made any architectural changes (added libraries, 
 For every feature or ticket you work on, you MUST:
 1. Create a new branch from `dev` (`git checkout dev`, `git pull`, `git checkout -b feature/...`).
 2. Implement the changes.
-3. Push the branch to the remote repository.
-4. Ask the user to merge the branch.
+3. Clean up and delete any temporary scripts or files created during the task before committing.
+4. Push the branch to the remote repository.
+5. Ask the user to merge the branch.
 Do NOT skip these steps.
