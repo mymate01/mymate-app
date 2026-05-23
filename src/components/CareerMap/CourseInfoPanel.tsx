@@ -12,11 +12,9 @@ export default function CourseInfoPanel({ details, title }: CourseInfoPanelProps
 
   return (
     <div className={styles.tilesContainer}>
-      <h2 className={styles.panelTitle}>About {title}</h2>
-
       <div className={styles.grid}>
         {details.about && (
-          <div className={`${styles.tile} ${styles.fullWidth}`}>
+          <div className={`${styles.tile} ${styles.descTile}`}>
             <h4>Description</h4>
             <p className={styles.aboutText}>{details.about}</p>
           </div>

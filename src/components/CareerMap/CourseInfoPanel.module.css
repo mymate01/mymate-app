@@ -10,21 +10,37 @@
 }
 
 .panelTitle {
-  font-size: 1.8rem;
-  color: #2d3748;
-  text-align: center;
-  margin-bottom: 10px;
-  font-weight: 800;
+  display: none;
 }
 
 .grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
   gap: 20px;
   align-items: stretch;
+  width: 100%;
+  overflow-x: auto;
+  padding-bottom: 20px;
+}
+
+.grid::-webkit-scrollbar {
+  height: 8px;
+}
+
+.grid::-webkit-scrollbar-track {
+  background: rgba(0,0,0,0.05);
+  border-radius: 4px;
+}
+
+.grid::-webkit-scrollbar-thumb {
+  background: rgba(255,107,107,0.3);
+  border-radius: 4px;
 }
 
 .tile {
+  flex: 0 0 auto;
+  width: 280px;
   background: rgba(255, 255, 255, 0.9);
   backdrop-filter: blur(12px);
   border: 1px solid rgba(255, 107, 107, 0.15);
@@ -34,6 +50,10 @@
   transition: transform 0.2s, box-shadow 0.2s;
   display: flex;
   flex-direction: column;
+}
+
+.descTile {
+  width: 350px;
 }
 
 .tile:hover {
