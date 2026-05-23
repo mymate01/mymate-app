@@ -33,4 +33,10 @@
 ## Project Management
 - **Tool:** Linear
 - **Workflow:** For every Linear ticket, agents MUST read this file before writing code or infrastructure scripts, and MUST update this file if architectural decisions are made.
+- **Git Workflow Rule:** For every feature/ticket, you MUST:
+  1. Create a new branch from `dev`
+  2. Pull the latest code
+  3. Implement changes
+  4. Push to remote
+  5. Ask the user to merge
 - **Testing Rule:** Agents MUST write tests and run the full test suite to guarantee existing functionality is unbroken before completing any ticket.
