@@ -57,12 +57,12 @@ export default function CareerMap({ data }: { data: CareerNode }) {
       <div className={styles.mainContent} ref={containerRef}>
         
         {/* SVG Overlay for curved line */}
-        {lineCoords && (
+        {lineCoords && hasChildren && (
           <svg className={styles.svgOverlay}>
             <path 
               d={`M ${lineCoords.x1} ${lineCoords.y1} C ${lineCoords.x1} ${(lineCoords.y1 + lineCoords.y2) / 2}, ${lineCoords.x2} ${(lineCoords.y1 + lineCoords.y2) / 2}, ${lineCoords.x2} ${lineCoords.y2}`} 
               stroke="rgba(255, 107, 107, 0.4)" 
-              strokeWidth="3" 
+              strokeWidth="2" 
               fill="none" 
             />
           </svg>
@@ -87,13 +87,11 @@ export default function CareerMap({ data }: { data: CareerNode }) {
           })}
         </div>
 
-        {/* Main Body Flow */}
-        <div className={styles.mainBodyFlow} ref={bodyRef}>
-          <CourseInfoPanel key={`panel-${activeNode.id}`} details={activeNode.details} />
+        {/* Main Body Flow (Children Tree) */}
+        <div className={styles.mainBodyFlow}>
           {hasChildren && (
             <div className={styles.childrenArea}>
-              <div className={styles.activeNodeStem}></div>
-              <div className={styles.childrenGrid}>
+              <div className={styles.childrenGrid} ref={bodyRef}>
                   {activeNode.children!.map((child) => (
                     <div key={child.id} className={styles.childNodeWrapper}>
                       <div 
@@ -114,6 +112,9 @@ export default function CareerMap({ data }: { data: CareerNode }) {
             </div>
           )}
         </div>
+
+        {/* Detailed tiles render strictly below the entire tree */}
+        <CourseInfoPanel key={`panel-${activeNode.id}`} details={activeNode.details} />
       </div>
     </div>
   );
