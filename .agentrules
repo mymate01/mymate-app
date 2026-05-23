@@ -21,3 +21,11 @@ Before marking any feature as complete, you MUST:
 Do not ask for a human tester. You are responsible for test-driven development and verification.
 
 Upon completing a task, if you made any architectural changes (added libraries, changed schema), you MUST update `ARCHITECTURE.md` to reflect the new state.
+
+## STRICT GIT WORKFLOW DIRECTIVE
+For every feature or ticket you work on, you MUST:
+1. Create a new branch from `dev` (`git checkout dev`, `git pull`, `git checkout -b feature/...`).
+2. Implement the changes.
+3. Push the branch to the remote repository.
+4. Ask the user to merge the branch.
+Do NOT skip these steps.
