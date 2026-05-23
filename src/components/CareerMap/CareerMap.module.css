@@ -1,42 +1,54 @@
 .nodeContainer {
   display: flex;
-  flex-direction: column;
-  align-items: flex-start;
+  flex-direction: row;
+  align-items: stretch;
   position: relative;
-  margin-left: 20px;
-}
-
-.rootContainer {
-  margin-left: 0;
-  align-items: center; /* Center the root node */
 }
 
 .node {
-  background: rgba(255, 255, 255, 0.7);
+  background: rgba(255, 255, 255, 0.95);
   backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.5);
-  border-radius: 12px;
+  border: 1px solid rgba(255, 107, 107, 0.2);
+  border-radius: 16px;
   padding: 16px 20px;
-  min-width: 200px;
-  max-width: 300px;
+  min-width: 220px;
+  max-width: 280px;
+  height: fit-content;
+  align-self: center;
   display: flex;
   justify-content: space-between;
   align-items: center;
   gap: 16px;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all 0.3s ease;
   position: relative;
   z-index: 2;
 }
 
+.nodeTitle {
+  font-size: 1.05rem;
+  font-weight: 700;
+  margin: 0;
+  color: #2d3748;
+}
+
+.nodeDescription {
+  font-size: 0.85rem;
+  color: #718096;
+  margin-top: 4px;
+  line-height: 1.4;
+}
+
 .rootNode {
-  background: linear-gradient(135deg, var(--color-primary-light), var(--color-primary));
-  color: white;
+  background: linear-gradient(135deg, #ff6b6b, #fca048);
   border: none;
-  box-shadow: 0 8px 25px rgba(255, 107, 107, 0.3);
-  transform: scale(1.05);
+  box-shadow: 0 8px 20px rgba(255, 107, 107, 0.3);
   padding: 20px 24px;
+  transform: scale(1.05);
+}
+
+.rootNode .nodeTitle {
+  color: #ffffff;
 }
 
 .rootNode .nodeDescription {
@@ -49,112 +61,109 @@
 
 .clickable:hover {
   transform: translateY(-2px);
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
-  background: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 8px 25px rgba(255, 107, 107, 0.15);
+  border-color: rgba(255, 107, 107, 0.4);
 }
 
 .rootNode.clickable:hover {
   transform: scale(1.05) translateY(-2px);
-  background: linear-gradient(135deg, var(--color-primary-light), var(--color-accent));
-}
-
-.expanded {
-  border-bottom-color: var(--color-primary-light);
-}
-
-.nodeContent {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
-
-.nodeTitle {
-  font-size: 1rem;
-  font-weight: 600;
-  margin: 0;
-  line-height: 1.3;
-}
-
-.nodeDescription {
-  font-size: 0.85rem;
-  color: var(--color-text-light);
-  margin: 0;
-  line-height: 1.4;
 }
 
 .iconIndicator {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 24px;
-  height: 24px;
+  width: 26px;
+  height: 26px;
+  min-width: 26px;
   border-radius: 50%;
-  background: rgba(0, 0, 0, 0.05);
+  background: rgba(255, 107, 107, 0.1);
+  color: #ff6b6b;
   font-weight: bold;
-  font-size: 1.2rem;
-  color: var(--color-primary);
-  transition: all 0.3s ease;
+  font-size: 1.4rem;
+  line-height: 1;
+  transition: transform 0.3s ease;
+}
+
+.iconExpanded {
+  transform: rotate(45deg);
 }
 
 .rootNode .iconIndicator {
-  background: rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.25);
   color: white;
 }
 
 .childrenContainer {
   display: flex;
   flex-direction: column;
-  gap: 16px;
-  margin-top: 16px;
-  padding-left: 20px;
-  border-left: 2px dashed rgba(255, 107, 107, 0.3); /* Connects to parent */
-  margin-left: 20px;
+  justify-content: center;
+  padding-left: 40px;
+  position: relative;
+  margin-left: 40px;
   
-  /* Animation setup */
-  max-height: 0;
+  max-width: 0;
   opacity: 0;
   overflow: hidden;
-  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.rootContainer > .childrenContainer {
-  margin-left: 0; /* Center children under root visually better */
-  border-left: none;
-  padding-left: 0;
-  align-items: center;
-}
-
-.rootContainer > .childrenContainer > .childWrapper {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  transition: all 0.5s ease;
 }
 
 .showChildren {
-  max-height: 2000px; /* Large enough to fit children */
+  max-width: 3000px;
   opacity: 1;
   overflow: visible;
 }
 
-.childWrapper {
-  position: relative;
-  animation: slideIn 0.4s ease forwards;
-}
-
-.connector {
+.spineConnector {
   position: absolute;
-  left: -20px;
-  top: 24px;
-  width: 20px;
+  left: -40px;
+  top: 50%;
+  width: 40px;
   height: 2px;
-  background-color: rgba(255, 107, 107, 0.3);
-  border-top: 2px dashed rgba(255, 107, 107, 0.3);
+  background: rgba(255, 107, 107, 0.4);
   z-index: 1;
 }
 
-.rootContainer > .childrenContainer > .childWrapper > .connector {
-  display: none; /* Hide connector for immediate children of root to make it look like a floating map */
+.childWrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  padding: 10px 0;
+  animation: slideIn 0.4s ease forwards;
+}
+
+.childWrapper::before {
+  content: '';
+  position: absolute;
+  left: -40px;
+  top: 50%;
+  width: 40px;
+  height: 2px;
+  background: rgba(255, 107, 107, 0.3);
+  z-index: 1;
+}
+
+.childWrapper::after {
+  content: '';
+  position: absolute;
+  left: -40px;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: rgba(255, 107, 107, 0.3);
+  z-index: 1;
+}
+
+.childWrapper:first-child::after {
+  top: 50%;
+}
+
+.childWrapper:last-child::after {
+  bottom: 50%;
+}
+
+.childWrapper:first-child:last-child::after {
+  display: none;
 }
 
 @keyframes slideIn {
@@ -165,14 +174,5 @@
   to {
     opacity: 1;
     transform: translateX(0);
-  }
-}
-
-@media (min-width: 768px) {
-  .rootContainer > .childrenContainer {
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: center;
-    align-items: flex-start;
   }
 }
