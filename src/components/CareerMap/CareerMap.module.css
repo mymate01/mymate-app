@@ -170,32 +170,32 @@
 }
 
 .node {
-  background: rgba(255, 255, 255, 0.95);
-  backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 107, 107, 0.2);
-  border-radius: 16px;
+  background: white;
+  border: 2px solid transparent;
+  border-radius: 20px;
   padding: 16px;
-  width: 160px; /* Reduced to fit in one line */
-  height: 100%; /* Stretch to fill wrapper */
+  width: 260px;
+  min-height: 110px;
   display: flex;
-  flex-direction: column;
   align-items: center;
+  justify-content: center;
   text-align: center;
-  gap: 12px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
-  transition: all 0.3s ease;
+  position: relative;
+  z-index: 2;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .activeNode {
   background: linear-gradient(135deg, #ff6b6b, #fca048);
+  border: none;
+  min-height: 120px;
+  width: 320px;
+  box-shadow: 0 12px 30px rgba(255,107,107,0.3);
+  transform: scale(1.02);
   color: white;
   padding: 24px 32px;
   border-radius: 20px;
-  box-shadow: 0 10px 30px rgba(255,107,107,0.3);
-  border: none;
-  transform: scale(1.05);
-  width: auto;
-  max-width: 400px;
 }
 
 .nodeTitle {
