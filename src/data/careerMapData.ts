@@ -43,56 +43,53 @@ export const post10thCareerMap: CareerNode = {
             about: "The MPC stream focuses heavily on analytical and mathematical skills, making it the primary gateway for engineering, architecture, and defense services.",
             duration: "2 Years",
             subjects: ["Mathematics", "Physics", "Chemistry", "English"],
-            exams: ["JEE Main", "JEE Advanced", "BITSAT", "State CETs"],
-            colleges: ["Sri Chaitanya", "Narayana", "Kendriya Vidyalaya", "DPS"]
+            exams: ["JEE Main", "JEE Advanced", "BITSAT", "State CETs"]
           },
           children: [
             { 
               id: "btech", 
               label: "Engineering (B.Tech/B.E)",
-              details: {
-                about: "Bachelor of Technology/Engineering is a professional undergraduate degree awarded after completion of a four-year academic program in the field of engineering.",
-                duration: "4 Years",
-                fees: "₹1L - ₹4L per year",
-                subjects: ["Computer Science", "Mechanical", "Electrical", "Civil", "Electronics"],
-                exams: ["JEE Main", "JEE Advanced", "GATE (for PG)"],
-                colleges: ["IITs", "NITs", "BITS Pilani", "IIITs", "Top State Colleges"]
-              },
+              details: { duration: "4 Years", exams: ["JEE Main", "JEE Advanced"] },
               children: [
                 {
-                  id: "mtech",
-                  label: "M.Tech / M.E (Post Grad)",
-                  description: "Master's degree in engineering specializations",
-                  children: [
-                    { id: "phd_eng", label: "Ph.D in Engineering", description: "Research & Academia" }
-                  ]
+                  id: "mtech", label: "M.Tech / M.E (Post Grad)",
+                  children: [{ id: "phd_eng", label: "Ph.D in Engineering" }]
                 },
                 {
-                  id: "mba_eng",
-                  label: "MBA (Management)",
-                  description: "Master of Business Administration",
-                  children: [
-                    { id: "phd_mgmt", label: "Ph.D in Management", description: "Business Research & Academia" }
-                  ]
+                  id: "mba_eng", label: "MBA (Management)",
+                  children: [{ id: "phd_mgmt", label: "Ph.D in Management" }]
                 },
-                {
-                  id: "ms_eng",
-                  label: "MS (Master of Science)",
-                  description: "Higher education usually abroad",
-                  children: [
-                    { id: "phd_ms", label: "Ph.D (Global)", description: "Global Research & Innovations" }
-                  ]
-                },
-                {
-                  id: "job_eng",
-                  label: "Direct Employment",
-                  description: "IT, Core Engineering, PSUs, or UPSC"
-                }
+                { id: "job_eng", label: "Direct Employment (IT, Core)" }
               ]
             },
-            { id: "barch", label: "Architecture (B.Arch)" },
-            { id: "nda", label: "NDA (Defense Services)" },
-            { id: "bsc_maths", label: "B.Sc (Mathematics/Physics)" }
+            { 
+              id: "barch", 
+              label: "Architecture (B.Arch)",
+              details: { duration: "5 Years", exams: ["NATA", "JEE Main Paper 2"] },
+              children: [
+                { id: "march", label: "M.Arch", children: [{ id: "phd_arch", label: "Ph.D in Architecture" }] },
+                { id: "job_arch", label: "Architectural Practice" }
+              ]
+            },
+            { 
+              id: "nda", 
+              label: "NDA (Defense Services)",
+              details: { duration: "3 Years Academy + 1 Year Training", exams: ["NDA Exam"] },
+              children: [
+                { id: "army", label: "Indian Army (Lieutenant)" },
+                { id: "navy", label: "Indian Navy (Sub-Lieutenant)" },
+                { id: "airforce", label: "Indian Air Force (Flying Officer)" }
+              ]
+            },
+            { 
+              id: "bsc_maths", 
+              label: "B.Sc (Mathematics/Physics)",
+              children: [
+                { id: "msc_maths", label: "M.Sc", children: [{ id: "phd_sci", label: "Ph.D in Science" }] },
+                { id: "mca", label: "MCA (Computer Applications)" },
+                { id: "bed_maths", label: "B.Ed (Teaching)" }
+              ]
+            }
           ]
         },
         {
@@ -102,66 +99,83 @@ export const post10thCareerMap: CareerNode = {
             { 
               id: "mbbs", 
               label: "Medicine (MBBS)",
+              details: { duration: "5.5 Years", exams: ["NEET UG"] },
               children: [
-                {
-                  id: "md",
-                  label: "MD (Doctor of Medicine)",
-                  description: "General Medicine, Pediatrics, etc.",
-                  children: [
-                    { id: "dm", label: "DM (Super Specialization)", description: "Cardiology, Neurology, etc." }
-                  ]
-                },
-                {
-                  id: "ms_med",
-                  label: "MS (Master of Surgery)",
-                  description: "General Surgery, Orthopedics, etc.",
-                  children: [
-                    { id: "mch", label: "M.Ch (Super Specialization)", description: "Neurosurgery, Plastic Surgery, etc." }
-                  ]
-                },
-                {
-                  id: "diploma_med",
-                  label: "PG Diploma",
-                  description: "2-year clinical diplomas"
-                }
+                { id: "md", label: "MD (Doctor of Medicine)", children: [{ id: "dm", label: "DM (Super Specialization)" }] },
+                { id: "ms_med", label: "MS (Master of Surgery)", children: [{ id: "mch", label: "M.Ch (Super Specialization)" }] }
               ]
             },
             { 
               id: "bds", 
               label: "Dentistry (BDS)", 
-              children: [ 
-                { id: "mds", label: "MDS (Master of Dental Surgery)" } 
-              ] 
+              children: [ { id: "mds", label: "MDS (Master of Dental Surgery)", children: [{ id: "phd_dent", label: "Ph.D in Dentistry" }] } ] 
             },
-            { id: "pharm", label: "Pharmacy (B.Pharm)" },
-            { id: "agri", label: "Agriculture (B.Sc Agri)" },
-            { id: "nursing", label: "Nursing (B.Sc Nursing)" }
+            { 
+              id: "pharm", 
+              label: "Pharmacy (B.Pharm)",
+              children: [
+                { id: "mpharm", label: "M.Pharm", children: [{ id: "phd_pharm", label: "Ph.D in Pharmacy" }] },
+                { id: "pharmd", label: "Pharm.D (Doctor of Pharmacy)" }
+              ]
+            },
+            { 
+              id: "agri", 
+              label: "Agriculture (B.Sc Agri)",
+              children: [ { id: "msc_agri", label: "M.Sc Agriculture", children: [{ id: "phd_agri", label: "Ph.D in Agriculture" }] } ]
+            },
+            { 
+              id: "nursing", 
+              label: "Nursing (B.Sc Nursing)",
+              children: [ { id: "msc_nursing", label: "M.Sc Nursing", children: [{ id: "phd_nursing", label: "Ph.D in Nursing" }] } ]
+            }
           ]
         },
         {
           id: "cec",
           label: "CEC (Civics, Econ, Comm)",
           children: [
-            { id: "bcom", label: "B.Com (Commerce)" },
-            { id: "ca", label: "Chartered Accountancy (CA)" },
-            { id: "bba", label: "BBA (Business Admin)" }
-          ]
-        },
-        {
-          id: "mec",
-          label: "MEC (Maths, Econ, Comm)",
-          children: [
-            { id: "eco_honors", label: "Economics Honors" },
-            { id: "finance", label: "Finance & Accounting" }
+            { 
+              id: "bcom", 
+              label: "B.Com (Commerce)",
+              children: [
+                { id: "mcom", label: "M.Com", children: [{ id: "phd_com", label: "Ph.D in Commerce" }] },
+                { id: "mba_com", label: "MBA", children: [{ id: "phd_mgmt_com", label: "Ph.D in Management" }] }
+              ]
+            },
+            { 
+              id: "ca", 
+              label: "Chartered Accountancy (CA)",
+              children: [
+                { id: "ca_practice", label: "Independent Practice" },
+                { id: "ca_corp", label: "Corporate Finance/Audit" }
+              ]
+            },
+            { 
+              id: "bba", 
+              label: "BBA (Business Admin)",
+              children: [ { id: "mba_bba", label: "MBA", children: [{ id: "phd_bus", label: "Ph.D in Business Admin" }] } ]
+            }
           ]
         },
         {
           id: "hec",
           label: "HEC (Arts & Humanities)",
           children: [
-            { id: "ba", label: "Bachelor of Arts (BA)" },
-            { id: "law", label: "Law (BA LLB)" },
-            { id: "design", label: "Design & Fine Arts" }
+            { 
+              id: "ba", 
+              label: "Bachelor of Arts (BA)",
+              children: [ { id: "ma", label: "Master of Arts (MA)", children: [{ id: "phd_arts", label: "Ph.D in Arts/Humanities" }] } ]
+            },
+            { 
+              id: "law", 
+              label: "Law (BA LLB)",
+              children: [ { id: "llm", label: "LLM (Master of Laws)", children: [{ id: "lld", label: "LLD (Doctor of Laws) / Judiciary" }] } ]
+            },
+            { 
+              id: "design", 
+              label: "Design & Fine Arts (B.Des/BFA)",
+              children: [ { id: "mdes", label: "M.Des / MFA", children: [{ id: "phd_design", label: "Ph.D in Design" }] } ]
+            }
           ]
         }
       ]
@@ -171,21 +185,14 @@ export const post10thCareerMap: CareerNode = {
       label: "Polytechnic Diploma",
       description: "3-year practical engineering courses",
       children: [
-        { id: "mech_dip", label: "Mechanical Engineering" },
-        { id: "civil_dip", label: "Civil Engineering" },
-        { id: "comp_dip", label: "Computer Science" },
-        { id: "ece_dip", label: "Electronics & Communication" }
-      ]
-    },
-    {
-      id: "iti",
-      label: "ITI (Industrial Training)",
-      description: "1-2 year technical certification courses",
-      children: [
-        { id: "electrician", label: "Electrician" },
-        { id: "fitter", label: "Fitter" },
-        { id: "mechanic", label: "Motor Mechanic" },
-        { id: "welder", label: "Welder" }
+        { 
+          id: "mech_dip", 
+          label: "Mechanical / Civil / CS / ECE",
+          children: [ 
+            { id: "btech_lat", label: "B.Tech (Lateral Entry)", children: [{ id: "mtech_lat", label: "M.Tech", children: [{id: "phd_lat", label: "Ph.D"}]}] },
+            { id: "dip_jobs", label: "Junior Engineer (Govt/Private)" }
+          ]
+        }
       ]
     },
     {
@@ -193,19 +200,14 @@ export const post10thCareerMap: CareerNode = {
       label: "Paramedical Courses",
       description: "Diploma in medical support services",
       children: [
-        { id: "dmlt", label: "DMLT (Lab Tech)" },
-        { id: "dmit", label: "Radiology Tech" },
-        { id: "doa", label: "Ophthalmic Assistant" }
-      ]
-    },
-    {
-      id: "vocational",
-      label: "Short-term Vocational",
-      description: "Skill-based training programs",
-      children: [
-        { id: "tourism", label: "Travel & Tourism" },
-        { id: "beauty", label: "Beauty & Wellness" },
-        { id: "animation", label: "Animation & VFX" }
+        { 
+          id: "dmlt", 
+          label: "DMLT / Radiology / Ophthalmic",
+          children: [
+            { id: "bsc_paramed", label: "B.Sc Paramedical", children: [{ id: "msc_paramed", label: "M.Sc Paramedical", children: [{ id: "phd_paramed", label: "Ph.D"}] }] },
+            { id: "paramed_jobs", label: "Clinical / Hospital Technician" }
+          ]
+        }
       ]
     }
   ]
