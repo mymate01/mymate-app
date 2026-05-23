@@ -206,13 +206,32 @@ export const post10thCareerMap: CareerNode = {
       label: "Polytechnic Diploma",
       description: "3-year practical engineering courses",
       children: [
-        { 
-          id: "mech_dip", 
-          label: "Mechanical / Civil / CS / ECE",
-          description: "Core engineering diplomas",
+        {
+          id: "mech_dip", label: "Mechanical Engineering", description: "Core engineering diploma in mechanics",
           children: [ 
-            { id: "btech_lat", label: "B.Tech (Lateral Entry)", description: "Direct admission to 2nd year B.Tech", children: [{ id: "mtech_lat", label: "M.Tech", description: "Master of Technology", children: [{id: "phd_lat", label: "Ph.D", description: "Doctorate in engineering"}]}] },
-            { id: "dip_jobs", label: "Junior Engineer (Govt/Private)", description: "Employment as a diploma engineer" }
+            { id: "btech_lat_mech", label: "B.Tech (Lateral Entry)", description: "Direct admission to 2nd year B.Tech", children: [{ id: "mtech_lat_mech", label: "M.Tech", description: "Master of Technology", children: [{id: "phd_lat_mech", label: "Ph.D", description: "Doctorate in engineering"}]}] },
+            { id: "dip_jobs_mech", label: "Junior Engineer", description: "Employment as a mechanical diploma engineer" }
+          ]
+        },
+        {
+          id: "civil_dip", label: "Civil Engineering", description: "Core engineering diploma in construction",
+          children: [ 
+            { id: "btech_lat_civil", label: "B.Tech (Lateral Entry)", description: "Direct admission to 2nd year B.Tech", children: [{ id: "mtech_lat_civil", label: "M.Tech", description: "Master of Technology", children: [{id: "phd_lat_civil", label: "Ph.D", description: "Doctorate in civil engineering"}]}] },
+            { id: "dip_jobs_civil", label: "Junior Engineer", description: "Employment as a civil diploma engineer" }
+          ]
+        },
+        {
+          id: "cs_dip", label: "Computer Science", description: "Engineering diploma in software",
+          children: [ 
+            { id: "btech_lat_cs", label: "B.Tech (Lateral Entry)", description: "Direct admission to 2nd year B.Tech", children: [{ id: "mtech_lat_cs", label: "M.Tech", description: "Master of Technology", children: [{id: "phd_lat_cs", label: "Ph.D", description: "Doctorate in computer science"}]}] },
+            { id: "dip_jobs_cs", label: "Junior Software Engineer", description: "Employment as a software diploma engineer" }
+          ]
+        },
+        {
+          id: "ece_dip", label: "Electronics & Communication", description: "Engineering diploma in electronics",
+          children: [ 
+            { id: "btech_lat_ece", label: "B.Tech (Lateral Entry)", description: "Direct admission to 2nd year B.Tech", children: [{ id: "mtech_lat_ece", label: "M.Tech", description: "Master of Technology", children: [{id: "phd_lat_ece", label: "Ph.D", description: "Doctorate in electronics"}]}] },
+            { id: "dip_jobs_ece", label: "Junior Electronics Engineer", description: "Employment as an electronics diploma engineer" }
           ]
         }
       ]
@@ -224,11 +243,29 @@ export const post10thCareerMap: CareerNode = {
       children: [
         { 
           id: "dmlt", 
-          label: "DMLT / Radiology / Ophthalmic",
-          description: "Clinical and diagnostic technician courses",
+          label: "DMLT",
+          description: "Diploma in Medical Laboratory Technology",
           children: [
-            { id: "bsc_paramed", label: "B.Sc Paramedical", description: "Bachelor's degree in allied health", children: [{ id: "msc_paramed", label: "M.Sc Paramedical", description: "Master's degree in allied health", children: [{ id: "phd_paramed", label: "Ph.D", description: "Doctorate in clinical research"}] }] },
-            { id: "paramed_jobs", label: "Clinical / Hospital Technician", description: "Employment in hospitals and diagnostic labs" }
+            { id: "bsc_paramed_dmlt", label: "B.Sc Paramedical", description: "Bachelor's degree in allied health", children: [{ id: "msc_paramed_dmlt", label: "M.Sc Paramedical", description: "Master's degree in allied health", children: [{ id: "phd_paramed_dmlt", label: "Ph.D", description: "Doctorate in clinical research"}] }] },
+            { id: "paramed_jobs_dmlt", label: "Lab Technician", description: "Employment in hospitals and diagnostic labs" }
+          ]
+        },
+        { 
+          id: "radiology", 
+          label: "Radiology",
+          description: "Diploma in Radiology and Imaging Technology",
+          children: [
+            { id: "bsc_paramed_rad", label: "B.Sc Radiology", description: "Bachelor's degree in allied health", children: [{ id: "msc_paramed_rad", label: "M.Sc Radiology", description: "Master's degree in allied health", children: [{ id: "phd_paramed_rad", label: "Ph.D", description: "Doctorate in clinical research"}] }] },
+            { id: "paramed_jobs_rad", label: "Radiology Technician", description: "Employment in hospitals and diagnostic labs" }
+          ]
+        },
+        { 
+          id: "ophthalmic", 
+          label: "Ophthalmic",
+          description: "Diploma in Ophthalmic Technology",
+          children: [
+            { id: "bsc_paramed_oph", label: "B.Sc Optometry", description: "Bachelor's degree in allied health", children: [{ id: "msc_paramed_oph", label: "M.Sc Optometry", description: "Master's degree in allied health", children: [{ id: "phd_paramed_oph", label: "Ph.D", description: "Doctorate in clinical research"}] }] },
+            { id: "paramed_jobs_oph", label: "Ophthalmic Technician", description: "Employment in hospitals and eye clinics" }
           ]
         }
       ]
