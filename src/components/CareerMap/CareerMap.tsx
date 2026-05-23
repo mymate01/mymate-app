@@ -12,9 +12,7 @@ export default function CareerMap({ data }: { data: CareerNode }) {
   const hasChildren = activeNode.children && activeNode.children.length > 0;
 
   const handleNodeClick = (child: CareerNode) => {
-    if (child.children && child.children.length > 0) {
-      setPath([...path, child]);
-    }
+    setPath([...path, child]);
   };
 
   const handleCrumbClick = (index: number) => {
@@ -29,39 +27,37 @@ export default function CareerMap({ data }: { data: CareerNode }) {
         
         {/* Render Active Node and its history path */}
         <div className={styles.activeBranchWrapper} key={`wrapper-${activeNode.id}`}>
-          <div className={styles.activeNodeContainer}>
-            {/* History path attached to the left */}
-            {path.length > 1 && (
-              <div className={styles.historyPathLeft}>
-                {path.slice(0, -1).map((node, index) => (
-                  <React.Fragment key={node.id}>
-                    <div 
-                      className={styles.historyPill}
-                      onClick={() => handleCrumbClick(index)}
-                      title="Click to go back"
-                    >
-                      {node.label}
-                    </div>
-                    <div className={styles.horizontalStem}></div>
-                  </React.Fragment>
-                ))}
-              </div>
-            )}
-
-            {/* The Active Node */}
-            <div className={styles.activeNodePill}>
-              {activeNode.label}
+          {/* History path attached to the left */}
+          {path.length > 1 && (
+            <div className={styles.historyPathLeft}>
+              {path.slice(0, -1).map((node, index) => (
+                <React.Fragment key={node.id}>
+                  <div 
+                    className={styles.historyPill}
+                    onClick={() => handleCrumbClick(index)}
+                    title="Click to go back"
+                  >
+                    {node.label}
+                  </div>
+                  <div className={styles.horizontalStem}></div>
+                </React.Fragment>
+              ))}
             </div>
+          )}
+
+          {/* The Active Node */}
+          <div className={styles.activeNodePill}>
+            {activeNode.label}
           </div>
 
           {hasChildren && (
-            <>
+            <div className={styles.childrenArea}>
               <div className={styles.activeNodeStem}></div>
               <div className={styles.childrenGrid}>
                   {activeNode.children!.map((child) => (
                     <div key={child.id} className={styles.childNodeWrapper}>
                       <div 
-                        className={`${styles.node} ${styles.childNode} ${child.children && child.children.length > 0 ? styles.clickable : ''}`}
+                        className={`${styles.node} ${styles.childNode} ${styles.clickable}`}
                         onClick={() => handleNodeClick(child)}
                       >
                         <div className={styles.nodeContent}>
@@ -75,12 +71,12 @@ export default function CareerMap({ data }: { data: CareerNode }) {
                     </div>
                   ))}
                 </div>
-              </>
-            )}
-          </div>
+            </div>
+          )}
+        </div>
 
         {/* Detailed tiles render below the tree */}
-        <CourseInfoPanel key={`panel-${activeNode.id}`} details={activeNode.details} title={activeNode.label} />
+        <CourseInfoPanel key={`panel-${activeNode.id}`} details={activeNode.details} />
       </div>
     </div>
   );
