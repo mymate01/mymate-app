@@ -21,14 +21,14 @@ export default function CourseInfoPanel({ details, title }: CourseInfoPanelProps
         )}
 
         {details.duration && (
-          <div className={styles.tile}>
+          <div className={`${styles.tile} ${styles.smallTile}`}>
             <h4>Duration</h4>
             <div className={styles.valueLarge}>{details.duration}</div>
           </div>
         )}
 
         {details.fees && (
-          <div className={styles.tile}>
+          <div className={`${styles.tile} ${styles.smallTile}`}>
             <h4>Approx. Fees</h4>
             <div className={styles.valueLarge}>{details.fees}</div>
           </div>

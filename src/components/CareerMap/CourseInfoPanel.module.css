@@ -53,7 +53,13 @@
 }
 
 .descTile {
-  width: 350px;
+  width: 450px;
+}
+
+.smallTile {
+  width: 180px;
+  align-items: center;
+  text-align: center;
 }
 
 .tile:hover {
