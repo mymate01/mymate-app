@@ -28,62 +28,74 @@ export default function CareerMap({ data }: { data: CareerNode }) {
   };
 
   return (
-    <div className={styles.mapWrapper}>
+    <div className={`${styles.mapWrapper} ${path.length > 1 ? styles.withSidebar : ''}`}>
+      
+      {/* Left Sidebar: Vertical Path Map */}
       {path.length > 1 && (
-        <div className={styles.header}>
+        <div className={styles.sidebar}>
           <button className={styles.backButton} onClick={handleBack}>
-            ← Back
+            ← Go Back
           </button>
-          <div className={styles.breadcrumbs}>
-            {path.map((node, idx) => (
-              <React.Fragment key={node.id}>
-                <span 
-                  className={`${styles.crumb} ${idx === path.length - 1 ? styles.crumbActive : ''}`} 
-                  onClick={() => handleCrumbClick(idx)}
-                >
-                  {node.label}
-                </span>
-                {idx < path.length - 1 && <span className={styles.crumbSeparator}>/</span>}
-              </React.Fragment>
-            ))}
+          
+          <div className={styles.verticalMap}>
+            {path.map((node, idx) => {
+              const isActive = idx === path.length - 1;
+              return (
+                <div key={node.id} className={styles.pathStep}>
+                  <div className={styles.stepMarker}>
+                    <div className={`${styles.dot} ${isActive ? styles.dotActive : ''}`}></div>
+                    {idx < path.length - 1 && <div className={styles.verticalLine}></div>}
+                  </div>
+                  <div 
+                    className={`${styles.stepContent} ${isActive ? styles.stepActive : ''}`}
+                    onClick={() => handleCrumbClick(idx)}
+                  >
+                    <span className={styles.stepTitle}>{node.label}</span>
+                  </div>
+                </div>
+              );
+            })}
           </div>
         </div>
       )}
 
-      <div className={styles.drillDownContainer} key={activeNode.id}>
-        <div className={styles.activeNodeWrapper}>
-          <div className={`${styles.node} ${styles.activeNode}`}>
-            <div className={styles.nodeContent}>
-              <h3 className={styles.nodeTitle}>{activeNode.label}</h3>
-              {activeNode.description && <p className={styles.nodeDescription}>{activeNode.description}</p>}
+      {/* Main Content Area */}
+      <div className={styles.mainContent}>
+        <div className={styles.drillDownContainer} key={activeNode.id}>
+          <div className={styles.activeNodeWrapper}>
+            <div className={`${styles.node} ${styles.activeNode}`}>
+              <div className={styles.nodeContent}>
+                <h3 className={styles.nodeTitle}>{activeNode.label}</h3>
+                {activeNode.description && <p className={styles.nodeDescription}>{activeNode.description}</p>}
+              </div>
             </div>
+            {hasChildren && <div className={styles.activeNodeStem}></div>}
           </div>
-          {hasChildren && <div className={styles.activeNodeStem}></div>}
+
+          {hasChildren && (
+            <div className={styles.childrenGrid}>
+              {activeNode.children!.map((child) => (
+                <div key={child.id} className={styles.childNodeWrapper}>
+                  <div 
+                    className={`${styles.node} ${styles.childNode} ${child.children && child.children.length > 0 ? styles.clickable : ''}`}
+                    onClick={() => handleNodeClick(child)}
+                  >
+                    <div className={styles.nodeContent}>
+                      <h3 className={styles.nodeTitle}>{child.label}</h3>
+                      {child.description && <p className={styles.nodeDescription}>{child.description}</p>}
+                    </div>
+                    {child.children && child.children.length > 0 && (
+                      <div className={styles.forwardIcon}>→</div>
+                    )}
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
         </div>
 
-        {hasChildren && (
-          <div className={styles.childrenGrid}>
-            {activeNode.children!.map((child) => (
-              <div key={child.id} className={styles.childNodeWrapper}>
-                <div 
-                  className={`${styles.node} ${styles.childNode} ${child.children && child.children.length > 0 ? styles.clickable : ''}`}
-                  onClick={() => handleNodeClick(child)}
-                >
-                  <div className={styles.nodeContent}>
-                    <h3 className={styles.nodeTitle}>{child.label}</h3>
-                    {child.description && <p className={styles.nodeDescription}>{child.description}</p>}
-                  </div>
-                  {child.children && child.children.length > 0 && (
-                    <div className={styles.forwardIcon}>→</div>
-                  )}
-                </div>
-              </div>
-            ))}
-          </div>
-        )}
+        <CourseInfoPanel details={activeNode.details} title={activeNode.label} />
       </div>
-
-      <CourseInfoPanel details={activeNode.details} title={activeNode.label} />
     </div>
   );
 }
