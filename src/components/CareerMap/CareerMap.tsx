@@ -19,40 +19,79 @@ export default function CareerMap({ data }: { data: CareerNode }) {
     setPath(path.slice(0, index + 1));
   };
 
+  const containerRef = React.useRef<HTMLDivElement>(null);
+  const activeNodeRef = React.useRef<HTMLDivElement>(null);
+  const bodyRef = React.useRef<HTMLDivElement>(null);
+  const [lineCoords, setLineCoords] = useState<{ x1: number, y1: number, x2: number, y2: number } | null>(null);
+
+  const updateLine = () => {
+    if (containerRef.current && activeNodeRef.current && bodyRef.current) {
+      const containerRect = containerRef.current.getBoundingClientRect();
+      const nodeRect = activeNodeRef.current.getBoundingClientRect();
+      const bodyRect = bodyRef.current.getBoundingClientRect();
+
+      setLineCoords({
+        x1: nodeRect.left + nodeRect.width / 2 - containerRect.left,
+        y1: nodeRect.bottom - containerRect.top,
+        x2: bodyRect.left + bodyRect.width / 2 - containerRect.left,
+        y2: bodyRect.top - containerRect.top
+      });
+    }
+  };
+
+  React.useEffect(() => {
+    updateLine();
+    window.addEventListener('resize', updateLine);
+    // Slight delay to allow DOM/fonts to settle
+    const timeout = setTimeout(updateLine, 50);
+    return () => {
+      window.removeEventListener('resize', updateLine);
+      clearTimeout(timeout);
+    };
+  }, [path]);
+
   return (
     <div className={styles.mapWrapper}>
       
       {/* Main Content Area */}
-      <div className={styles.mainContent}>
-        {/* Render Active Node and its history path */}
-        <div className={styles.activeBranchWrapper} key={`wrapper-${activeNode.id}`}>
-          <div className={styles.activeNodeContainer}>
-            {/* History path attached to the left */}
-            {path.length > 1 && (
-              <div className={styles.historyPathLeft}>
-                {path.slice(0, -1).map((node, index) => (
-                  <React.Fragment key={node.id}>
-                    <div 
-                      className={styles.historyPill}
-                      onClick={() => handleCrumbClick(index)}
-                      title="Click to go back"
-                    >
-                      {node.label}
-                    </div>
-                    <div className={styles.horizontalStem}></div>
-                  </React.Fragment>
-                ))}
-              </div>
-            )}
+      <div className={styles.mainContent} ref={containerRef}>
+        
+        {/* SVG Overlay for curved line */}
+        {lineCoords && (
+          <svg className={styles.svgOverlay}>
+            <path 
+              d={`M ${lineCoords.x1} ${lineCoords.y1} C ${lineCoords.x1} ${(lineCoords.y1 + lineCoords.y2) / 2}, ${lineCoords.x2} ${(lineCoords.y1 + lineCoords.y2) / 2}, ${lineCoords.x2} ${lineCoords.y2}`} 
+              stroke="rgba(255, 107, 107, 0.4)" 
+              strokeWidth="3" 
+              fill="none" 
+            />
+          </svg>
+        )}
 
-            {/* The Active Node */}
-            <div className={styles.activeNodePill}>
-              {activeNode.label}
-            </div>
-          </div>
+        {/* Top Level: All nodes in the path */}
+        <div className={styles.topRow}>
+          {path.map((node, index) => {
+            const isActive = index === path.length - 1;
+            return (
+              <React.Fragment key={node.id}>
+                <div 
+                  className={isActive ? styles.activeNodePill : styles.historyPill}
+                  onClick={() => !isActive && handleCrumbClick(index)}
+                  ref={isActive ? activeNodeRef : null}
+                >
+                  {node.label}
+                </div>
+                {!isActive && <div className={styles.horizontalStem}></div>}
+              </React.Fragment>
+            );
+          })}
+        </div>
 
+        {/* Main Body Flow */}
+        <div className={styles.mainBodyFlow} ref={bodyRef}>
+          <CourseInfoPanel key={`panel-${activeNode.id}`} details={activeNode.details} />
           {hasChildren && (
-            <>
+            <div className={styles.childrenArea}>
               <div className={styles.activeNodeStem}></div>
               <div className={styles.childrenGrid}>
                   {activeNode.children!.map((child) => (
@@ -71,13 +110,10 @@ export default function CareerMap({ data }: { data: CareerNode }) {
                       </div>
                     </div>
                   ))}
-                </div>
-            </>
+              </div>
+            </div>
           )}
         </div>
-
-        {/* Detailed tiles render below the tree */}
-        <CourseInfoPanel key={`panel-${activeNode.id}`} details={activeNode.details} />
       </div>
     </div>
   );
