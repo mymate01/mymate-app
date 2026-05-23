@@ -6,12 +6,12 @@ import styles from './CourseInfoPanel.module.css';
 
 interface CourseInfoPanelProps {
   details?: CourseDetails;
-  title?: string;
+  title: string;
 }
 
 type TabType = 'about' | 'duration_fees' | 'subjects' | 'exams' | 'colleges' | 'jobs';
 
-export default function CourseInfoPanel({ details }: CourseInfoPanelProps) {
+export default function CourseInfoPanel({ details, title }: CourseInfoPanelProps) {
   const [activeTab, setActiveTab] = useState<TabType | null>(() => {
     if (!details) return null;
     if (details.about) return 'about';
@@ -27,6 +27,7 @@ export default function CourseInfoPanel({ details }: CourseInfoPanelProps) {
 
   return (
     <div className={styles.container}>
+      <h2 className={styles.panelTitle}>More about {title}</h2>
       {/* Horizontal Nodes Line */}
       <div className={styles.nodeList}>
         {details.about && (

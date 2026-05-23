@@ -80,7 +80,7 @@ export default function CareerMap({ data }: { data: CareerNode }) {
           </div>
 
         {/* Detailed tiles render below the tree */}
-        <CourseInfoPanel key={`panel-${activeNode.id}`} details={activeNode.details} />
+        <CourseInfoPanel key={`panel-${activeNode.id}`} details={activeNode.details} title={activeNode.label} />
       </div>
     </div>
   );
