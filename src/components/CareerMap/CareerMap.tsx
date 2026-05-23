@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import { CareerNode } from '../../data/careerMapData';
+import CourseInfoPanel from './CourseInfoPanel';
 import styles from './CareerMap.module.css';
 
 export default function CareerMap({ data }: { data: CareerNode }) {
@@ -81,6 +82,8 @@ export default function CareerMap({ data }: { data: CareerNode }) {
           </div>
         )}
       </div>
+
+      <CourseInfoPanel details={activeNode.details} title={activeNode.label} />
     </div>
   );
 }

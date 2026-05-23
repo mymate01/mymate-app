@@ -1,7 +1,17 @@
+export interface CourseDetails {
+  about?: string;
+  duration?: string;
+  fees?: string;
+  subjects?: string[];
+  exams?: string[];
+  colleges?: string[];
+}
+
 export interface CareerNode {
   id: string;
   label: string;
   description?: string;
+  details?: CourseDetails;
   children?: CareerNode[];
 }
 
@@ -9,19 +19,45 @@ export const post10thCareerMap: CareerNode = {
   id: "10th",
   label: "10th Grade",
   description: "Your foundational step. Choose your path wisely!",
+  details: {
+    about: "The 10th grade (Secondary School Certificate) is a crucial milestone in the Indian education system. It serves as the foundation for choosing specialized streams in higher secondary education.",
+    duration: "1 Year",
+    subjects: ["Mathematics", "Science", "Social Studies", "Languages"],
+    exams: ["State Board", "CBSE", "ICSE"]
+  },
   children: [
     {
       id: "intermediate",
       label: "Intermediate (10+2)",
       description: "2-year pre-university courses",
+      details: {
+        about: "A two-year higher secondary education phase where students pick specialized streams (Science, Commerce, Arts) that dictate their future undergraduate options.",
+        duration: "2 Years",
+        fees: "₹10,000 - ₹1,50,000 per year",
+      },
       children: [
         {
           id: "mpc",
           label: "MPC (Maths, Physics, Chem)",
+          details: {
+            about: "The MPC stream focuses heavily on analytical and mathematical skills, making it the primary gateway for engineering, architecture, and defense services.",
+            duration: "2 Years",
+            subjects: ["Mathematics", "Physics", "Chemistry", "English"],
+            exams: ["JEE Main", "JEE Advanced", "BITSAT", "State CETs"],
+            colleges: ["Sri Chaitanya", "Narayana", "Kendriya Vidyalaya", "DPS"]
+          },
           children: [
             { 
               id: "btech", 
               label: "Engineering (B.Tech/B.E)",
+              details: {
+                about: "Bachelor of Technology/Engineering is a professional undergraduate degree awarded after completion of a four-year academic program in the field of engineering.",
+                duration: "4 Years",
+                fees: "₹1L - ₹4L per year",
+                subjects: ["Computer Science", "Mechanical", "Electrical", "Civil", "Electronics"],
+                exams: ["JEE Main", "JEE Advanced", "GATE (for PG)"],
+                colleges: ["IITs", "NITs", "BITS Pilani", "IIITs", "Top State Colleges"]
+              },
               children: [
                 {
                   id: "mtech",

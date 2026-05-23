@@ -1,0 +1,92 @@
+.panel {
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 107, 107, 0.2);
+  border-radius: 20px;
+  padding: 32px;
+  margin-top: 20px;
+  width: 100%;
+  max-width: 900px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.05);
+  animation: slideUp 0.5s ease;
+  text-align: left;
+}
+
+.title {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #2d3748;
+  margin-bottom: 16px;
+  margin-top: 0;
+}
+
+.about {
+  font-size: 1.05rem;
+  color: #4a5568;
+  line-height: 1.6;
+  margin-bottom: 24px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+}
+
+.card {
+  background: rgba(255, 255, 255, 0.6);
+  border: 1px solid rgba(255, 107, 107, 0.15);
+  border-radius: 12px;
+  padding: 16px;
+}
+
+.fullWidth {
+  grid-column: 1 / -1;
+}
+
+.card h4 {
+  font-size: 0.95rem;
+  color: #ff6b6b;
+  margin-bottom: 8px;
+  margin-top: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-weight: 700;
+}
+
+.card p {
+  font-size: 1.1rem;
+  color: #2d3748;
+  font-weight: 500;
+  margin: 0;
+}
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.tag {
+  background: rgba(0, 0, 0, 0.05);
+  color: #4a5568;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+
+.tagPrimary {
+  background: rgba(255, 107, 107, 0.1);
+  color: #ff6b6b;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  border: 1px solid rgba(255, 107, 107, 0.2);
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
