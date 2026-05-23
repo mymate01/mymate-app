@@ -9,28 +9,46 @@
   position: relative;
 }
 
-.horizontalPathContainer {
+.activeNodeContainer {
+  position: relative;
   display: flex;
-  flex-direction: row;
-  align-items: flex-start;
   justify-content: center;
-  width: 100%;
-  margin-bottom: 40px;
-  overflow-x: auto;
-  padding: 20px 0;
-  gap: 0;
+  align-items: center;
+  z-index: 10;
 }
 
-.historyNodeWrapper {
+.historyPathLeft {
+  position: absolute;
+  right: 100%;
+  top: 50%;
+  transform: translateY(-50%);
   display: flex;
-  align-items: flex-start;
+  align-items: center;
+}
+
+.historyPill {
+  background: white;
+  border: 2px solid rgba(255, 107, 107, 0.3);
+  border-radius: 30px;
+  padding: 10px 24px;
+  color: #4a5568;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  transition: all 0.3s ease;
+}
+
+.historyPill:hover {
+  transform: translateY(-2px);
+  border-color: rgba(255, 107, 107, 0.6);
+  box-shadow: 0 6px 15px rgba(255,107,107,0.15);
 }
 
 .horizontalStem {
   width: 40px;
   height: 2px;
-  background: rgba(255,107,107,0.3);
-  margin-top: 55px; /* Aligns with middle of history nodes */
+  background: rgba(255, 107, 107, 0.3);
   flex-shrink: 0;
 }
 
@@ -38,30 +56,8 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-}
-
-.historyNode {
-  background: rgba(241, 245, 249, 0.8);
-  border: 1px solid #cbd5e1;
-  color: #64748b;
-  width: 200px;
-  min-height: 90px;
-  opacity: 0.8;
-  cursor: pointer;
-  transform: scale(0.95);
-  box-shadow: none;
-}
-
-.historyNode .nodeTitle {
-  color: #64748b;
-  font-size: 1.1rem;
-}
-
-.historyNode:hover {
-  opacity: 1;
-  transform: scale(0.98);
-  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-  border-color: #94a3b8;
+  padding-left: 250px; /* Give room for history nodes to prevent clipping on left edge */
+  padding-right: 250px;
 }
 
 .mainContent {

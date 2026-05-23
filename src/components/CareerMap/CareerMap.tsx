@@ -27,38 +27,42 @@ export default function CareerMap({ data }: { data: CareerNode }) {
       {/* Main Content Area */}
       <div className={styles.mainContent}>
         
-        <div className={styles.horizontalPathContainer}>
-          {/* Render all history nodes in a horizontal line */}
-          {path.slice(0, -1).map((node, index) => (
-            <React.Fragment key={node.id}>
-              <div className={styles.historyNodeWrapper}>
-                <div 
-                  className={`${styles.node} ${styles.historyNode}`}
-                  onClick={() => handleCrumbClick(index)}
-                  title="Click to go back"
-                >
-                  <div className={styles.nodeContent}>
-                    <h3 className={styles.nodeTitle}>{node.label}</h3>
-                  </div>
-                </div>
+        {/* Render Active Node and its history path */}
+        <div className={styles.activeBranchWrapper} key={activeNode.id}>
+          
+          <div className={styles.activeNodeContainer}>
+            
+            {/* History path attached to the left */}
+            {path.length > 1 && (
+              <div className={styles.historyPathLeft}>
+                {path.slice(0, -1).map((node, index) => (
+                  <React.Fragment key={node.id}>
+                    <div 
+                      className={styles.historyPill}
+                      onClick={() => handleCrumbClick(index)}
+                      title="Click to go back"
+                    >
+                      {node.label}
+                    </div>
+                    <div className={styles.horizontalStem}></div>
+                  </React.Fragment>
+                ))}
               </div>
-              <div className={styles.horizontalStem}></div>
-            </React.Fragment>
-          ))}
+            )}
 
-          {/* Render Active Node and its children */}
-          <div className={styles.activeBranchWrapper} key={activeNode.id}>
+            {/* The Active Node */}
             <div className={`${styles.node} ${styles.activeNode}`}>
               <div className={styles.nodeContent}>
                 <h3 className={styles.nodeTitle}>{activeNode.label}</h3>
                 {activeNode.description && <p className={styles.nodeDescription}>{activeNode.description}</p>}
               </div>
             </div>
+          </div>
 
-            {hasChildren && (
-              <>
-                <div className={styles.activeNodeStem}></div>
-                <div className={styles.childrenGrid}>
+          {hasChildren && (
+            <>
+              <div className={styles.activeNodeStem}></div>
+              <div className={styles.childrenGrid}>
                   {activeNode.children!.map((child) => (
                     <div key={child.id} className={styles.childNodeWrapper}>
                       <div 
