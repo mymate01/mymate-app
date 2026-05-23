@@ -5,6 +5,7 @@ export interface CourseDetails {
   subjects?: string[];
   exams?: string[];
   colleges?: string[];
+  jobs?: string[];
 }
 
 export interface CareerNode {
@@ -23,7 +24,8 @@ export const post10thCareerMap: CareerNode = {
     about: "The 10th grade (Secondary School Certificate) is a crucial milestone in the Indian education system. It serves as the foundation for choosing specialized streams in higher secondary education.",
     duration: "1 Year",
     subjects: ["Mathematics", "Science", "Social Studies", "Languages"],
-    exams: ["State Board", "CBSE", "ICSE"]
+    exams: ["State Board", "CBSE", "ICSE"],
+    jobs: ["Constable (Police)", "Clerk", "Peon/Office Attendant", "Data Entry Operator", "Postman", "Defense (Soldier)"]
   },
   children: [
     {
@@ -34,6 +36,7 @@ export const post10thCareerMap: CareerNode = {
         about: "A two-year higher secondary education phase where students pick specialized streams (Science, Commerce, Arts) that dictate their future undergraduate options.",
         duration: "2 Years",
         fees: "₹10,000 - ₹1,50,000 per year",
+        jobs: ["Call Center Executive", "Lower Division Clerk (LDC)", "Data Entry Operator", "Armed Forces (NDA)", "Railway Ticket Collector"]
       },
       children: [
         {

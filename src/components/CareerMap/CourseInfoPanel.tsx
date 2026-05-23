@@ -59,6 +59,15 @@ export default function CourseInfoPanel({ details, title }: CourseInfoPanelProps
             </div>
           </div>
         )}
+
+        {details.jobs && details.jobs.length > 0 && (
+          <div className={`${styles.card} ${styles.fullWidth}`}>
+            <h4>Eligible Roles & Jobs</h4>
+            <div className={styles.tags}>
+              {details.jobs.map(j => <span key={j} className={styles.tagPrimary}>{j}</span>)}
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

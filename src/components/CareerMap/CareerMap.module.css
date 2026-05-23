@@ -193,15 +193,21 @@
 }
 
 .nodeDescription {
-  font-size: 0.8rem;
+  font-size: 0.75rem;
   color: #718096;
   margin: 0;
   line-height: 1.3;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .activeNode .nodeDescription {
   color: rgba(255,255,255,0.9);
   font-size: 0.95rem;
+  display: block; /* Remove clamp for active node */
 }
 
 .childrenGrid {
