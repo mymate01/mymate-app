@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from 'react';
-import { CareerNode } from '../../data/careerMapData';
+import { CareerNode } from '../../types/career';
 import CourseInfoPanel from './CourseInfoPanel';
 import styles from './CareerMap.module.css';
 

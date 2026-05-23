@@ -75,3 +75,23 @@ CREATE TABLE scraping_sources (
     is_active BOOLEAN DEFAULT TRUE,
     last_scraped_at TIMESTAMPTZ
 );
+
+-- Career Nodes Table (Tree structure)
+CREATE TABLE career_nodes (
+    id VARCHAR PRIMARY KEY,
+    parent_id VARCHAR REFERENCES career_nodes(id) ON DELETE CASCADE,
+    label TEXT NOT NULL,
+    description TEXT,
+    details JSONB
+);
+
+-- Job Roles Table
+CREATE TABLE job_roles (
+    role_name TEXT PRIMARY KEY,
+    description TEXT,
+    avg_salary TEXT,
+    skills TEXT[],
+    work_environment TEXT,
+    growth_outlook TEXT,
+    icon TEXT
+);

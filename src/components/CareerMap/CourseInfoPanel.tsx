@@ -1,8 +1,8 @@
 "use client";
 
-import React, { useState } from 'react';
-import { CourseDetails } from '../../data/careerMapData';
-import { jobRoleDetails } from '../../data/jobRoleDetails';
+import React, { useState, useEffect } from 'react';
+import { CourseDetails } from '../../types/career';
+import { supabase } from '../../utils/supabase';
 import styles from './CourseInfoPanel.module.css';
 
 interface CourseInfoPanelProps {
@@ -25,10 +25,41 @@ export default function CourseInfoPanel({ details }: CourseInfoPanelProps) {
   });
 
   const [selectedJob, setSelectedJob] = useState<string | null>(null);
+  const [jobDetail, setJobDetail] = useState<any | null>(null);
+  const [loadingJob, setLoadingJob] = useState(false);
+
+  useEffect(() => {
+    async function fetchJobDetail() {
+      if (!selectedJob) {
+        setJobDetail(null);
+        return;
+      }
+      setLoadingJob(true);
+      const { data, error } = await supabase
+        .from('job_roles')
+        .select('*')
+        .eq('role_name', selectedJob)
+        .single();
+        
+      if (data && !error) {
+        // Map database columns back to camelCase for the component
+        setJobDetail({
+          description: data.description,
+          avgSalary: data.avg_salary,
+          skills: data.skills,
+          workEnvironment: data.work_environment,
+          growthOutlook: data.growth_outlook,
+          icon: data.icon
+        });
+      } else {
+        setJobDetail(null);
+      }
+      setLoadingJob(false);
+    }
+    fetchJobDetail();
+  }, [selectedJob]);
 
   if (!details) return null;
-
-  const jobDetail = selectedJob ? jobRoleDetails[selectedJob] : null;
 
   return (
     <div className={styles.container}>
@@ -243,7 +274,9 @@ export default function CourseInfoPanel({ details }: CourseInfoPanelProps) {
                 </div>
               </div>
 
-              {jobDetail ? (
+              {loadingJob ? (
+                <p className={styles.jobDetailDesc}>Loading details...</p>
+              ) : jobDetail ? (
                 <>
                   <p className={styles.jobDetailDesc}>{jobDetail.description}</p>
                   
@@ -251,7 +284,7 @@ export default function CourseInfoPanel({ details }: CourseInfoPanelProps) {
                     <div className={styles.jobDetailSection}>
                       <h4>🛠️ Key Skills</h4>
                       <div className={styles.jobSkillTags}>
-                        {jobDetail.skills.map(s => (
+                        {jobDetail.skills.map((s: string) => (
                           <span key={s} className={styles.jobSkillTag}>{s}</span>
                         ))}
                       </div>
