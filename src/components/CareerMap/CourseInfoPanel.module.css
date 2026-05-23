@@ -1,5 +1,5 @@
 .container {
-  margin-top: 40px;
+  margin-top: 10px; /* Reduced from 40px */
   width: 100%;
   max-width: 1000px;
   display: flex;
@@ -14,7 +14,7 @@
   justify-content: flex-start;
   align-items: center;
   position: relative;
-  margin-bottom: 32px;
+  margin-bottom: 16px; /* Reduced from 32px */
   flex-wrap: nowrap;
   width: 100%;
   max-width: 100%;
