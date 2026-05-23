@@ -6,13 +6,16 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "generate:careers": "tsx src/scripts/generate-career-paths.ts"
   },
   "dependencies": {
+    "@google/generative-ai": "^0.24.1",
     "@react-three/drei": "^10.7.7",
     "@react-three/fiber": "^9.6.1",
     "@supabase/ssr": "^0.10.3",
     "@supabase/supabase-js": "^2.106.1",
+    "dotenv": "^17.4.2",
     "next": "16.2.6",
     "react": "19.2.4",
     "react-dom": "19.2.4",
@@ -29,6 +32,7 @@
     "eslint": "^9",
     "eslint-config-next": "16.2.6",
     "jest": "^30.4.2",
+    "tsx": "^4.22.3",
     "typescript": "^5"
   }
 }
