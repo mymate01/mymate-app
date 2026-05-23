@@ -28,7 +28,7 @@ export default function CareerMap({ data }: { data: CareerNode }) {
       <div className={styles.mainContent}>
         
         {/* Render Active Node and its history path */}
-        <div className={styles.activeBranchWrapper} key={activeNode.id}>
+        <div className={styles.activeBranchWrapper} key={`wrapper-${activeNode.id}`}>
           
             {/* Back Button for History */}
             {path.length > 1 && (
@@ -71,7 +71,7 @@ export default function CareerMap({ data }: { data: CareerNode }) {
           </div>
 
         {/* Detailed tiles render below the tree */}
-        <CourseInfoPanel key={activeNode.id} details={activeNode.details} />
+        <CourseInfoPanel key={`panel-${activeNode.id}`} details={activeNode.details} />
       </div>
     </div>
   );
