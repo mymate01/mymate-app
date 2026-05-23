@@ -29,21 +29,30 @@ export default function CareerMap({ data }: { data: CareerNode }) {
         
         {/* Render Active Node and its history path */}
         <div className={styles.activeBranchWrapper} key={`wrapper-${activeNode.id}`}>
-          
-            {/* Back Button for History */}
+          <div className={styles.activeNodeContainer}>
+            {/* History path attached to the left */}
             {path.length > 1 && (
-              <button 
-                className={styles.backButton}
-                onClick={() => handleCrumbClick(path.length - 2)}
-              >
-                ← Back to {path[path.length - 2].label}
-              </button>
+              <div className={styles.historyPathLeft}>
+                {path.slice(0, -1).map((node, index) => (
+                  <React.Fragment key={node.id}>
+                    <div 
+                      className={styles.historyPill}
+                      onClick={() => handleCrumbClick(index)}
+                      title="Click to go back"
+                    >
+                      {node.label}
+                    </div>
+                    <div className={styles.horizontalStem}></div>
+                  </React.Fragment>
+                ))}
+              </div>
             )}
 
             {/* The Active Node */}
             <div className={styles.activeNodePill}>
               {activeNode.label}
             </div>
+          </div>
 
           {hasChildren && (
             <>
