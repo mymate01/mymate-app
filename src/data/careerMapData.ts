@@ -1,3 +1,17 @@
+export interface ReservationInfo {
+  category: string;
+  quota: string;
+  relaxation?: string;
+}
+
+export interface EligibilityInfo {
+  minMarks?: string;
+  minMarksReserved?: string;
+  ageLimit?: string;
+  eligibility?: string;
+  reservation?: ReservationInfo[];
+}
+
 export interface CourseDetails {
   about?: string;
   duration?: string;
@@ -6,6 +20,7 @@ export interface CourseDetails {
   exams?: string[];
   colleges?: string[];
   jobs?: string[];
+  eligibility?: EligibilityInfo;
 }
 
 export interface CareerNode {
@@ -2861,11 +2876,24 @@ export const post10thCareerMap: CareerNode = {
               "Reputed Private Colleges"
             ],
             jobs: [
-              "Senior Specialist",
-              "Consultant",
-              "Researcher / Academician",
-              "Lead Analyst"
-            ]
+              "X-Ray Technician",
+              "CT Scan Operator",
+              "MRI Technician",
+              "Diagnostic Imaging Assistant"
+            ],
+            eligibility: {
+              minMarks: "50% in 10+2 (PCB)",
+              minMarksReserved: "45% in 10+2 (PCB)",
+              ageLimit: "17 – 35 years",
+              eligibility: "Must have passed 10+2 with Physics, Chemistry & Biology from a recognized board",
+              reservation: [
+                { category: "General", quota: "50% seats", relaxation: "No relaxation" },
+                { category: "OBC", quota: "27% seats", relaxation: "5% marks relaxation" },
+                { category: "SC", quota: "15% seats", relaxation: "10% marks relaxation" },
+                { category: "ST", quota: "7.5% seats", relaxation: "10% marks relaxation" },
+                { category: "EWS", quota: "10% seats", relaxation: "5% marks relaxation" }
+              ]
+            }
           },
           children: [
             {
@@ -2893,11 +2921,24 @@ export const post10thCareerMap: CareerNode = {
                   "Reputed Private Colleges"
                 ],
                 jobs: [
-                  "Senior Specialist",
-                  "Consultant",
-                  "Researcher / Academician",
-                  "Lead Analyst"
-                ]
+                  "Radiologic Technologist",
+                  "Sonographer / Ultrasound Tech",
+                  "MRI Technologist",
+                  "Interventional Radiology Technologist"
+                ],
+                eligibility: {
+                  minMarks: "50% in 10+2 (PCB/PCM)",
+                  minMarksReserved: "40% in 10+2 (PCB/PCM)",
+                  ageLimit: "17 – 35 years",
+                  eligibility: "10+2 with Physics, Chemistry & Biology/Maths. Some universities accept Diploma in Radiology holders.",
+                  reservation: [
+                    { category: "General", quota: "50% seats", relaxation: "No relaxation" },
+                    { category: "OBC", quota: "27% seats", relaxation: "5% marks relaxation" },
+                    { category: "SC", quota: "15% seats", relaxation: "10% marks relaxation" },
+                    { category: "ST", quota: "7.5% seats", relaxation: "10% marks relaxation" },
+                    { category: "EWS", quota: "10% seats", relaxation: "5% marks relaxation" }
+                  ]
+                }
               },
               children: [
                 {
@@ -2925,11 +2966,24 @@ export const post10thCareerMap: CareerNode = {
                       "Reputed Private Colleges"
                     ],
                     jobs: [
-                      "Senior Specialist",
-                      "Consultant",
-                      "Researcher / Academician",
-                      "Lead Analyst"
-                    ]
+                      "Senior Radiologist",
+                      "Radiation Safety Officer",
+                      "Clinical Research Coordinator",
+                      "Radiology Lab Manager"
+                    ],
+                    eligibility: {
+                      minMarks: "55% in B.Sc Radiology / Allied Health",
+                      minMarksReserved: "50% in B.Sc Radiology / Allied Health",
+                      ageLimit: "No upper limit (typically)",
+                      eligibility: "B.Sc in Radiology or Imaging Technology from a recognized university",
+                      reservation: [
+                        { category: "General", quota: "50% seats", relaxation: "No relaxation" },
+                        { category: "OBC", quota: "27% seats", relaxation: "5% marks relaxation" },
+                        { category: "SC", quota: "15% seats", relaxation: "5% marks relaxation" },
+                        { category: "ST", quota: "7.5% seats", relaxation: "5% marks relaxation" },
+                        { category: "EWS", quota: "10% seats", relaxation: "5% marks relaxation" }
+                      ]
+                    }
                   },
                   children: [
                     {
@@ -2957,11 +3011,24 @@ export const post10thCareerMap: CareerNode = {
                           "Reputed Private Colleges"
                         ],
                         jobs: [
-                          "Senior Specialist",
-                          "Consultant",
-                          "Researcher / Academician",
-                          "Lead Analyst"
-                        ]
+                          "Radiology Professor",
+                          "Medical Imaging Researcher",
+                          "Chief Radiologist",
+                          "Radiology Consultant"
+                        ],
+                        eligibility: {
+                          minMarks: "60% in M.Sc Radiology or equivalent",
+                          minMarksReserved: "55% in M.Sc Radiology or equivalent",
+                          ageLimit: "No upper limit",
+                          eligibility: "M.Sc in Radiology/Imaging Technology with research aptitude. UGC NET/CSIR NET may be required.",
+                          reservation: [
+                            { category: "General", quota: "50% seats", relaxation: "No relaxation" },
+                            { category: "OBC", quota: "27% seats", relaxation: "5% marks relaxation" },
+                            { category: "SC", quota: "15% seats", relaxation: "5% marks relaxation" },
+                            { category: "ST", quota: "7.5% seats", relaxation: "5% marks relaxation" },
+                            { category: "EWS", quota: "10% seats", relaxation: "5% marks relaxation" }
+                          ]
+                        }
                       }
                     }
                   ]
@@ -2977,10 +3044,10 @@ export const post10thCareerMap: CareerNode = {
                 duration: "3-4 Years",
                 fees: "N/A",
                 jobs: [
-                  "Senior Specialist",
-                  "Consultant",
-                  "Researcher / Academician",
-                  "Lead Analyst"
+                  "Hospital X-Ray Technician",
+                  "CT / MRI Machine Operator",
+                  "Diagnostic Lab Technician",
+                  "Radiology Department Assistant"
                 ]
               }
             }

@@ -2,13 +2,14 @@
 
 import React, { useState } from 'react';
 import { CourseDetails } from '../../data/careerMapData';
+import { jobRoleDetails } from '../../data/jobRoleDetails';
 import styles from './CourseInfoPanel.module.css';
 
 interface CourseInfoPanelProps {
   details?: CourseDetails;
 }
 
-type TabType = 'about' | 'duration_fees' | 'subjects' | 'exams' | 'colleges' | 'jobs';
+type TabType = 'about' | 'duration_fees' | 'subjects' | 'exams' | 'colleges' | 'jobs' | 'eligibility';
 
 export default function CourseInfoPanel({ details }: CourseInfoPanelProps) {
   const [activeTab, setActiveTab] = useState<TabType | null>(() => {
@@ -19,10 +20,15 @@ export default function CourseInfoPanel({ details }: CourseInfoPanelProps) {
     if (details.exams && details.exams.length > 0) return 'exams';
     if (details.colleges && details.colleges.length > 0) return 'colleges';
     if (details.jobs && details.jobs.length > 0) return 'jobs';
+    if (details.eligibility) return 'eligibility';
     return null;
   });
 
+  const [selectedJob, setSelectedJob] = useState<string | null>(null);
+
   if (!details) return null;
+
+  const jobDetail = selectedJob ? jobRoleDetails[selectedJob] : null;
 
   return (
     <div className={styles.container}>
@@ -31,7 +37,7 @@ export default function CourseInfoPanel({ details }: CourseInfoPanelProps) {
         {details.about && (
           <button 
             className={`${styles.navNode} ${activeTab === 'about' ? styles.activeNavNode : ''}`}
-            onClick={() => setActiveTab('about')}
+            onClick={() => { setActiveTab('about'); setSelectedJob(null); }}
           >
             Description
           </button>
@@ -39,15 +45,23 @@ export default function CourseInfoPanel({ details }: CourseInfoPanelProps) {
         {(details.duration || details.fees) && (
           <button 
             className={`${styles.navNode} ${activeTab === 'duration_fees' ? styles.activeNavNode : ''}`}
-            onClick={() => setActiveTab('duration_fees')}
+            onClick={() => { setActiveTab('duration_fees'); setSelectedJob(null); }}
           >
             Duration & Fees
+          </button>
+        )}
+        {details.eligibility && (
+          <button 
+            className={`${styles.navNode} ${activeTab === 'eligibility' ? styles.activeNavNode : ''}`}
+            onClick={() => { setActiveTab('eligibility'); setSelectedJob(null); }}
+          >
+            Eligibility & Marks
           </button>
         )}
         {details.subjects && details.subjects.length > 0 && (
           <button 
             className={`${styles.navNode} ${activeTab === 'subjects' ? styles.activeNavNode : ''}`}
-            onClick={() => setActiveTab('subjects')}
+            onClick={() => { setActiveTab('subjects'); setSelectedJob(null); }}
           >
             Key Subjects
           </button>
@@ -55,7 +69,7 @@ export default function CourseInfoPanel({ details }: CourseInfoPanelProps) {
         {details.exams && details.exams.length > 0 && (
           <button 
             className={`${styles.navNode} ${activeTab === 'exams' ? styles.activeNavNode : ''}`}
-            onClick={() => setActiveTab('exams')}
+            onClick={() => { setActiveTab('exams'); setSelectedJob(null); }}
           >
             Entrance Exams
           </button>
@@ -63,7 +77,7 @@ export default function CourseInfoPanel({ details }: CourseInfoPanelProps) {
         {details.colleges && details.colleges.length > 0 && (
           <button 
             className={`${styles.navNode} ${activeTab === 'colleges' ? styles.activeNavNode : ''}`}
-            onClick={() => setActiveTab('colleges')}
+            onClick={() => { setActiveTab('colleges'); setSelectedJob(null); }}
           >
             Top Institutions
           </button>
@@ -71,7 +85,7 @@ export default function CourseInfoPanel({ details }: CourseInfoPanelProps) {
         {details.jobs && details.jobs.length > 0 && (
           <button 
             className={`${styles.navNode} ${activeTab === 'jobs' ? styles.activeNavNode : ''}`}
-            onClick={() => setActiveTab('jobs')}
+            onClick={() => { setActiveTab('jobs'); setSelectedJob(null); }}
           >
             Eligible Roles
           </button>
@@ -104,6 +118,67 @@ export default function CourseInfoPanel({ details }: CourseInfoPanelProps) {
           </div>
         )}
 
+        {activeTab === 'eligibility' && details.eligibility && (
+          <div className={styles.animatedContent} key="eligibility">
+            <div className={styles.eligibilityPanel}>
+              {/* Top row: marks, age */}
+              <div className={styles.eligibilityTopRow}>
+                {details.eligibility.minMarks && (
+                  <div className={styles.eligibilityCard}>
+                    <div className={styles.eligibilityIcon}>📝</div>
+                    <div className={styles.eligibilityLabel}>Min. Marks (General)</div>
+                    <div className={styles.eligibilityValue}>{details.eligibility.minMarks}</div>
+                  </div>
+                )}
+                {details.eligibility.minMarksReserved && (
+                  <div className={styles.eligibilityCard}>
+                    <div className={styles.eligibilityIcon}>📋</div>
+                    <div className={styles.eligibilityLabel}>Min. Marks (Reserved)</div>
+                    <div className={styles.eligibilityValue}>{details.eligibility.minMarksReserved}</div>
+                  </div>
+                )}
+                {details.eligibility.ageLimit && (
+                  <div className={styles.eligibilityCard}>
+                    <div className={styles.eligibilityIcon}>🎂</div>
+                    <div className={styles.eligibilityLabel}>Age Limit</div>
+                    <div className={styles.eligibilityValue}>{details.eligibility.ageLimit}</div>
+                  </div>
+                )}
+              </div>
+
+              {/* Eligibility description */}
+              {details.eligibility.eligibility && (
+                <div className={styles.eligibilityDesc}>
+                  <strong>Eligibility: </strong>{details.eligibility.eligibility}
+                </div>
+              )}
+
+              {/* Reservation table */}
+              {details.eligibility.reservation && details.eligibility.reservation.length > 0 && (
+                <div className={styles.reservationSection}>
+                  <h4 className={styles.reservationTitle}>Reservation & Seat Quota</h4>
+                  <div className={styles.reservationTable}>
+                    <div className={`${styles.reservationRow} ${styles.reservationHeader}`}>
+                      <div className={styles.reservationCell}>Category</div>
+                      <div className={styles.reservationCell}>Seat Quota</div>
+                      <div className={styles.reservationCell}>Marks Relaxation</div>
+                    </div>
+                    {details.eligibility.reservation.map((r) => (
+                      <div key={r.category} className={styles.reservationRow}>
+                        <div className={`${styles.reservationCell} ${styles.categoryCell}`}>
+                          <span className={styles.categoryBadge} data-category={r.category}>{r.category}</span>
+                        </div>
+                        <div className={styles.reservationCell}>{r.quota}</div>
+                        <div className={styles.reservationCell}>{r.relaxation || '—'}</div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+        )}
+
         {activeTab === 'subjects' && details.subjects && (
           <div className={styles.animatedContent} key="subjects">
             <div className={styles.tags}>
@@ -128,10 +203,74 @@ export default function CourseInfoPanel({ details }: CourseInfoPanelProps) {
           </div>
         )}
 
-        {activeTab === 'jobs' && details.jobs && (
+        {activeTab === 'jobs' && details.jobs && !selectedJob && (
           <div className={styles.animatedContent} key="jobs">
              <div className={styles.tags}>
-              {details.jobs.map(j => <span key={j} className={styles.tagAccent}>{j}</span>)}
+              {details.jobs.map(j => (
+                <button
+                  key={j}
+                  className={styles.tagAccentClickable}
+                  onClick={() => setSelectedJob(j)}
+                  title="Click to view role details"
+                >
+                  {j}
+                  <span className={styles.tagArrow}>›</span>
+                </button>
+              ))}
+            </div>
+            <p className={styles.clickHint}>Click a role to view details</p>
+          </div>
+        )}
+
+        {/* Job Role Detail Card */}
+        {activeTab === 'jobs' && selectedJob && (
+          <div className={styles.animatedContent} key={`job-${selectedJob}`}>
+            <div className={styles.jobDetailCard}>
+              <button className={styles.jobBackBtn} onClick={() => setSelectedJob(null)}>
+                ← Back to all roles
+              </button>
+              <div className={styles.jobDetailHeader}>
+                <div className={styles.jobDetailIcon}>
+                  {jobDetail?.icon || '💼'}
+                </div>
+                <div className={styles.jobDetailHeaderText}>
+                  <h3 className={styles.jobDetailTitle}>{selectedJob}</h3>
+                  {jobDetail?.avgSalary && (
+                    <div className={styles.jobDetailSalary}>
+                      💰 Avg. Salary: <strong>{jobDetail.avgSalary}</strong>
+                    </div>
+                  )}
+                </div>
+              </div>
+
+              {jobDetail ? (
+                <>
+                  <p className={styles.jobDetailDesc}>{jobDetail.description}</p>
+                  
+                  <div className={styles.jobDetailGrid}>
+                    <div className={styles.jobDetailSection}>
+                      <h4>🛠️ Key Skills</h4>
+                      <div className={styles.jobSkillTags}>
+                        {jobDetail.skills.map(s => (
+                          <span key={s} className={styles.jobSkillTag}>{s}</span>
+                        ))}
+                      </div>
+                    </div>
+                    <div className={styles.jobDetailSection}>
+                      <h4>🏢 Work Environment</h4>
+                      <p>{jobDetail.workEnvironment}</p>
+                    </div>
+                    <div className={styles.jobDetailSection}>
+                      <h4>📈 Growth Outlook</h4>
+                      <p>{jobDetail.growthOutlook}</p>
+                    </div>
+                  </div>
+                </>
+              ) : (
+                <p className={styles.jobDetailDesc}>
+                  Detailed information for this role is being updated. Check back soon!
+                </p>
+              )}
             </div>
           </div>
         )}
