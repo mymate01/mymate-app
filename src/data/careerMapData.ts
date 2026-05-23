@@ -125,10 +125,10 @@ export const post10thCareerMap: CareerNode = {
             ],
             fees: "₹50,000 - ₹3,000,000 per year",
             jobs: [
-              "Senior Specialist",
-              "Consultant",
-              "Researcher / Academician",
-              "Lead Analyst"
+              "Engineer",
+              "Scientist",
+              "Architect",
+              "Defense Officer"
             ]
           },
           children: [
@@ -158,10 +158,10 @@ export const post10thCareerMap: CareerNode = {
                   "IIITs"
                 ],
                 jobs: [
-                  "Senior Specialist",
-                  "Consultant",
-                  "Researcher / Academician",
-                  "Lead Analyst"
+                  "Software Engineer",
+                  "Mechanical Engineer",
+                  "Civil Engineer",
+                  "Electronics Engineer"
                 ]
               },
               children: [
@@ -185,10 +185,10 @@ export const post10thCareerMap: CareerNode = {
                     ],
                     about: "This is a comprehensive program focused on M.Tech / M.E. It prepares students for advanced careers and deep academic understanding in the field.",
                     jobs: [
-                      "Senior Specialist",
-                      "Consultant",
-                      "Researcher / Academician",
-                      "Lead Analyst"
+                      "Senior Engineer",
+                      "R&D Engineer",
+                      "Technical Lead",
+                      "Design Engineer"
                     ]
                   },
                   children: [
@@ -217,10 +217,10 @@ export const post10thCareerMap: CareerNode = {
                           "Reputed Private Colleges"
                         ],
                         jobs: [
-                          "Senior Specialist",
-                          "Consultant",
-                          "Researcher / Academician",
-                          "Lead Analyst"
+                          "Engineering Professor",
+                          "Principal Scientist",
+                          "Research Director",
+                          "CTO"
                         ]
                       }
                     }
@@ -251,10 +251,10 @@ export const post10thCareerMap: CareerNode = {
                       "Research Methodology"
                     ],
                     jobs: [
-                      "Senior Specialist",
-                      "Consultant",
-                      "Researcher / Academician",
-                      "Lead Analyst"
+                      "Business Analyst",
+                      "Product Manager",
+                      "Management Consultant",
+                      "Operations Manager"
                     ]
                   },
                   children: [
@@ -283,10 +283,10 @@ export const post10thCareerMap: CareerNode = {
                           "Reputed Private Colleges"
                         ],
                         jobs: [
-                          "Senior Specialist",
-                          "Consultant",
-                          "Researcher / Academician",
-                          "Lead Analyst"
+                          "Management Professor",
+                          "Strategy Consultant",
+                          "Dean of Business School",
+                          "Policy Researcher"
                         ]
                       }
                     }
@@ -301,10 +301,10 @@ export const post10thCareerMap: CareerNode = {
                     duration: "3-4 Years",
                     fees: "N/A",
                     jobs: [
-                      "Senior Specialist",
-                      "Consultant",
-                      "Researcher / Academician",
-                      "Lead Analyst"
+                      "Junior Engineer (PSU)",
+                      "Technical Assistant",
+                      "Lab Technician",
+                      "Field Engineer"
                     ]
                   }
                 }
@@ -335,10 +335,10 @@ export const post10thCareerMap: CareerNode = {
                   "Research Methodology"
                 ],
                 jobs: [
-                  "Senior Specialist",
-                  "Consultant",
-                  "Researcher / Academician",
-                  "Lead Analyst"
+                  "Architect",
+                  "Interior Designer",
+                  "Urban Planner",
+                  "Landscape Architect"
                 ]
               },
               children: [
@@ -364,10 +364,10 @@ export const post10thCareerMap: CareerNode = {
                       "Reputed Private Colleges"
                     ],
                     jobs: [
-                      "Senior Specialist",
-                      "Consultant",
-                      "Researcher / Academician",
-                      "Lead Analyst"
+                      "Senior Architect",
+                      "Conservation Architect",
+                      "Sustainable Design Specialist",
+                      "Urban Design Consultant"
                     ]
                   },
                   children: [
@@ -396,10 +396,10 @@ export const post10thCareerMap: CareerNode = {
                           "Reputed Private Colleges"
                         ],
                         jobs: [
-                          "Senior Specialist",
-                          "Consultant",
-                          "Researcher / Academician",
-                          "Lead Analyst"
+                          "Architecture Professor",
+                          "Heritage Conservation Expert",
+                          "Research Fellow",
+                          "Design Think Tank Lead"
                         ]
                       }
                     }
@@ -414,10 +414,10 @@ export const post10thCareerMap: CareerNode = {
                     duration: "3-4 Years",
                     fees: "N/A",
                     jobs: [
-                      "Senior Specialist",
-                      "Consultant",
-                      "Researcher / Academician",
-                      "Lead Analyst"
+                      "Licensed Architect",
+                      "Project Manager (Construction)",
+                      "Real Estate Consultant",
+                      "Town Planning Officer"
                     ]
                   }
                 }
@@ -445,10 +445,10 @@ export const post10thCareerMap: CareerNode = {
                   "Research Methodology"
                 ],
                 jobs: [
-                  "Senior Specialist",
-                  "Consultant",
-                  "Researcher / Academician",
-                  "Lead Analyst"
+                  "Army Officer (Lieutenant)",
+                  "Navy Officer (Sub-Lt)",
+                  "Air Force Officer (Fg Off)",
+                  "Defense Analyst"
                 ]
               },
               children: [
@@ -477,10 +477,10 @@ export const post10thCareerMap: CareerNode = {
                       "Reputed Private Colleges"
                     ],
                     jobs: [
-                      "Senior Specialist",
-                      "Consultant",
-                      "Researcher / Academician",
-                      "Lead Analyst"
+                      "Captain",
+                      "Major",
+                      "Colonel",
+                      "Brigadier"
                     ]
                   }
                 },
@@ -509,10 +509,10 @@ export const post10thCareerMap: CareerNode = {
                       "Reputed Private Colleges"
                     ],
                     jobs: [
-                      "Senior Specialist",
-                      "Consultant",
-                      "Researcher / Academician",
-                      "Lead Analyst"
+                      "Lieutenant",
+                      "Lt Commander",
+                      "Commander",
+                      "Captain (Navy)"
                     ]
                   }
                 },
@@ -541,10 +541,10 @@ export const post10thCareerMap: CareerNode = {
                       "Reputed Private Colleges"
                     ],
                     jobs: [
-                      "Senior Specialist",
-                      "Consultant",
-                      "Researcher / Academician",
-                      "Lead Analyst"
+                      "Flight Lieutenant",
+                      "Squadron Leader",
+                      "Wing Commander",
+                      "Group Captain"
                     ]
                   }
                 }
@@ -574,10 +574,10 @@ export const post10thCareerMap: CareerNode = {
                   "Reputed Private Colleges"
                 ],
                 jobs: [
-                  "Senior Specialist",
-                  "Consultant",
-                  "Researcher / Academician",
-                  "Lead Analyst"
+                  "Data Analyst",
+                  "Lab Researcher",
+                  "Statistical Analyst",
+                  "Science Educator"
                 ]
               },
               children: [
@@ -604,10 +604,10 @@ export const post10thCareerMap: CareerNode = {
                       "Reputed Private Colleges"
                     ],
                     jobs: [
-                      "Senior Specialist",
-                      "Consultant",
-                      "Researcher / Academician",
-                      "Lead Analyst"
+                      "Research Scientist",
+                      "Data Scientist",
+                      "Quality Analyst",
+                      "Scientific Officer"
                     ]
                   },
                   children: [
@@ -636,10 +636,10 @@ export const post10thCareerMap: CareerNode = {
                           "Reputed Private Colleges"
                         ],
                         jobs: [
-                          "Senior Specialist",
-                          "Consultant",
-                          "Researcher / Academician",
-                          "Lead Analyst"
+                          "University Professor",
+                          "Principal Investigator",
+                          "ISRO/DRDO Scientist",
+                          "Research Director"
                         ]
                       }
                     }
@@ -668,10 +668,10 @@ export const post10thCareerMap: CareerNode = {
                       "Research Methodology"
                     ],
                     jobs: [
-                      "Senior Specialist",
-                      "Consultant",
-                      "Researcher / Academician",
-                      "Lead Analyst"
+                      "Software Developer",
+                      "Full-Stack Developer",
+                      "Systems Analyst",
+                      "Database Administrator"
                     ]
                   }
                 },
@@ -700,10 +700,10 @@ export const post10thCareerMap: CareerNode = {
                       "Reputed Private Colleges"
                     ],
                     jobs: [
-                      "Senior Specialist",
-                      "Consultant",
-                      "Researcher / Academician",
-                      "Lead Analyst"
+                      "School Teacher (TGT)",
+                      "PGT Teacher",
+                      "Education Coordinator",
+                      "Curriculum Developer"
                     ]
                   }
                 }
@@ -735,10 +735,10 @@ export const post10thCareerMap: CareerNode = {
               "Reputed Private Colleges"
             ],
             jobs: [
-              "Senior Specialist",
-              "Consultant",
-              "Researcher / Academician",
-              "Lead Analyst"
+              "Doctor (MBBS)",
+              "Pharmacist",
+              "Nurse",
+              "Agricultural Scientist"
             ]
           },
           children: [
@@ -767,10 +767,10 @@ export const post10thCareerMap: CareerNode = {
                   "Research Methodology"
                 ],
                 jobs: [
-                  "Senior Specialist",
-                  "Consultant",
-                  "Researcher / Academician",
-                  "Lead Analyst"
+                  "General Physician",
+                  "Medical Officer (Govt)",
+                  "Clinical Research Associate",
+                  "Emergency Medicine Doctor"
                 ]
               },
               children: [
@@ -798,10 +798,10 @@ export const post10thCareerMap: CareerNode = {
                       "Reputed Private Colleges"
                     ],
                     jobs: [
-                      "Senior Specialist",
-                      "Consultant",
-                      "Researcher / Academician",
-                      "Lead Analyst"
+                      "Specialist Doctor",
+                      "Cardiologist",
+                      "Neurologist",
+                      "Pulmonologist"
                     ]
                   },
                   children: [
@@ -828,10 +828,10 @@ export const post10thCareerMap: CareerNode = {
                           "Reputed Private Colleges"
                         ],
                         jobs: [
-                          "Senior Specialist",
-                          "Consultant",
-                          "Researcher / Academician",
-                          "Lead Analyst"
+                          "Super Specialist Consultant",
+                          "Department Head",
+                          "Medical Director",
+                          "Interventional Cardiologist"
                         ]
                       }
                     }
@@ -861,10 +861,10 @@ export const post10thCareerMap: CareerNode = {
                       "Reputed Private Colleges"
                     ],
                     jobs: [
-                      "Senior Specialist",
-                      "Consultant",
-                      "Researcher / Academician",
-                      "Lead Analyst"
+                      "General Surgeon",
+                      "Orthopedic Surgeon",
+                      "ENT Surgeon",
+                      "Ophthalmic Surgeon"
                     ]
                   },
                   children: [
@@ -891,10 +891,10 @@ export const post10thCareerMap: CareerNode = {
                           "Reputed Private Colleges"
                         ],
                         jobs: [
-                          "Senior Specialist",
-                          "Consultant",
-                          "Researcher / Academician",
-                          "Lead Analyst"
+                          "Neurosurgeon",
+                          "Cardiac Surgeon",
+                          "Plastic Surgeon",
+                          "Pediatric Surgeon"
                         ]
                       }
                     }
@@ -924,10 +924,10 @@ export const post10thCareerMap: CareerNode = {
                   "Research Methodology"
                 ],
                 jobs: [
-                  "Senior Specialist",
-                  "Consultant",
-                  "Researcher / Academician",
-                  "Lead Analyst"
+                  "Dentist",
+                  "Dental Surgeon",
+                  "Orthodontist (after MDS)",
+                  "Public Health Dentist"
                 ]
               },
               children: [
@@ -954,10 +954,10 @@ export const post10thCareerMap: CareerNode = {
                       "Reputed Private Colleges"
                     ],
                     jobs: [
-                      "Senior Specialist",
-                      "Consultant",
-                      "Researcher / Academician",
-                      "Lead Analyst"
+                      "Oral Surgeon",
+                      "Prosthodontist",
+                      "Periodontist",
+                      "Endodontist"
                     ]
                   },
                   children: [
@@ -986,10 +986,10 @@ export const post10thCareerMap: CareerNode = {
                           "Reputed Private Colleges"
                         ],
                         jobs: [
-                          "Senior Specialist",
-                          "Consultant",
-                          "Researcher / Academician",
-                          "Lead Analyst"
+                          "Dental Professor",
+                          "Dental Researcher",
+                          "Dean of Dental College",
+                          "Oral Pathology Expert"
                         ]
                       }
                     }
@@ -1023,10 +1023,10 @@ export const post10thCareerMap: CareerNode = {
                   "Research Methodology"
                 ],
                 jobs: [
-                  "Senior Specialist",
-                  "Consultant",
-                  "Researcher / Academician",
-                  "Lead Analyst"
+                  "Pharmacist",
+                  "Drug Inspector",
+                  "Medical Representative",
+                  "Quality Control Analyst"
                 ]
               },
               children: [
@@ -1053,10 +1053,10 @@ export const post10thCareerMap: CareerNode = {
                       "Reputed Private Colleges"
                     ],
                     jobs: [
-                      "Senior Specialist",
-                      "Consultant",
-                      "Researcher / Academician",
-                      "Lead Analyst"
+                      "Senior Pharmacist",
+                      "Pharmaceutical Scientist",
+                      "Regulatory Affairs Officer",
+                      "Formulation Scientist"
                     ]
                   },
                   children: [
@@ -1085,10 +1085,10 @@ export const post10thCareerMap: CareerNode = {
                           "Reputed Private Colleges"
                         ],
                         jobs: [
-                          "Senior Specialist",
-                          "Consultant",
-                          "Researcher / Academician",
-                          "Lead Analyst"
+                          "Pharmacy Professor",
+                          "Drug Development Researcher",
+                          "Clinical Pharmacologist",
+                          "Pharma R&D Director"
                         ]
                       }
                     }
@@ -1119,10 +1119,10 @@ export const post10thCareerMap: CareerNode = {
                       "Reputed Private Colleges"
                     ],
                     jobs: [
-                      "Senior Specialist",
-                      "Consultant",
-                      "Researcher / Academician",
-                      "Lead Analyst"
+                      "Clinical Pharmacist",
+                      "Hospital Pharmacy Director",
+                      "Pharmacovigilance Specialist",
+                      "Drug Safety Associate"
                     ]
                   }
                 }
@@ -1153,10 +1153,10 @@ export const post10thCareerMap: CareerNode = {
                   "Research Methodology"
                 ],
                 jobs: [
-                  "Senior Specialist",
-                  "Consultant",
-                  "Researcher / Academician",
-                  "Lead Analyst"
+                  "Agriculture Officer",
+                  "Farm Manager",
+                  "Agri-Business Executive",
+                  "Soil Scientist"
                 ]
               },
               children: [
@@ -1183,10 +1183,10 @@ export const post10thCareerMap: CareerNode = {
                       "Reputed Private Colleges"
                     ],
                     jobs: [
-                      "Senior Specialist",
-                      "Consultant",
-                      "Researcher / Academician",
-                      "Lead Analyst"
+                      "Senior Agronomist",
+                      "Plant Breeder",
+                      "Agricultural Research Scientist",
+                      "Horticulture Specialist"
                     ]
                   },
                   children: [
@@ -1215,10 +1215,10 @@ export const post10thCareerMap: CareerNode = {
                           "Reputed Private Colleges"
                         ],
                         jobs: [
-                          "Senior Specialist",
-                          "Consultant",
-                          "Researcher / Academician",
-                          "Lead Analyst"
+                          "Agriculture Professor",
+                          "Principal Scientist (ICAR)",
+                          "Agri-Biotech Researcher",
+                          "Agriculture Policy Advisor"
                         ]
                       }
                     }
@@ -1250,10 +1250,10 @@ export const post10thCareerMap: CareerNode = {
                   "Research Methodology"
                 ],
                 jobs: [
-                  "Senior Specialist",
-                  "Consultant",
-                  "Researcher / Academician",
-                  "Lead Analyst"
+                  "Staff Nurse",
+                  "ICU Nurse",
+                  "Community Health Nurse",
+                  "Nursing Supervisor"
                 ]
               },
               children: [
@@ -1282,10 +1282,10 @@ export const post10thCareerMap: CareerNode = {
                       "Reputed Private Colleges"
                     ],
                     jobs: [
-                      "Senior Specialist",
-                      "Consultant",
-                      "Researcher / Academician",
-                      "Lead Analyst"
+                      "Nurse Practitioner",
+                      "Nursing Superintendent",
+                      "Clinical Nurse Specialist",
+                      "Nursing Educator"
                     ]
                   },
                   children: [
@@ -1314,10 +1314,10 @@ export const post10thCareerMap: CareerNode = {
                           "Reputed Private Colleges"
                         ],
                         jobs: [
-                          "Senior Specialist",
-                          "Consultant",
-                          "Researcher / Academician",
-                          "Lead Analyst"
+                          "Nursing Professor",
+                          "Chief Nursing Officer",
+                          "Healthcare Policy Researcher",
+                          "Nursing Director"
                         ]
                       }
                     }
@@ -1351,10 +1351,10 @@ export const post10thCareerMap: CareerNode = {
               "Reputed Private Colleges"
             ],
             jobs: [
-              "Senior Specialist",
-              "Consultant",
-              "Researcher / Academician",
-              "Lead Analyst"
+              "Chartered Accountant",
+              "Bank Manager",
+              "Financial Analyst",
+              "Business Consultant"
             ]
           },
           children: [
@@ -1383,10 +1383,10 @@ export const post10thCareerMap: CareerNode = {
                   "Research Methodology"
                 ],
                 jobs: [
-                  "Senior Specialist",
-                  "Consultant",
-                  "Researcher / Academician",
-                  "Lead Analyst"
+                  "Accountant",
+                  "Tax Consultant",
+                  "Bank PO",
+                  "Insurance Analyst"
                 ]
               },
               children: [
@@ -1415,10 +1415,10 @@ export const post10thCareerMap: CareerNode = {
                       "Reputed Private Colleges"
                     ],
                     jobs: [
-                      "Senior Specialist",
-                      "Consultant",
-                      "Researcher / Academician",
-                      "Lead Analyst"
+                      "Senior Accountant",
+                      "Financial Analyst",
+                      "University Lecturer",
+                      "Audit Manager"
                     ]
                   },
                   children: [
@@ -1447,10 +1447,10 @@ export const post10thCareerMap: CareerNode = {
                           "Reputed Private Colleges"
                         ],
                         jobs: [
-                          "Senior Specialist",
-                          "Consultant",
-                          "Researcher / Academician",
-                          "Lead Analyst"
+                          "Commerce Professor",
+                          "Economic Researcher",
+                          "Policy Analyst",
+                          "Finance Director"
                         ]
                       }
                     }
@@ -1481,10 +1481,10 @@ export const post10thCareerMap: CareerNode = {
                       "Reputed Private Colleges"
                     ],
                     jobs: [
-                      "Senior Specialist",
-                      "Consultant",
-                      "Researcher / Academician",
-                      "Lead Analyst"
+                      "Marketing Manager",
+                      "HR Manager",
+                      "Finance Manager",
+                      "Strategy Consultant"
                     ]
                   },
                   children: [
@@ -1513,10 +1513,10 @@ export const post10thCareerMap: CareerNode = {
                           "Reputed Private Colleges"
                         ],
                         jobs: [
-                          "Senior Specialist",
-                          "Consultant",
-                          "Researcher / Academician",
-                          "Lead Analyst"
+                          "Management Professor",
+                          "Strategy Consultant",
+                          "Dean of Business School",
+                          "Policy Researcher"
                         ]
                       }
                     }
@@ -1547,10 +1547,10 @@ export const post10thCareerMap: CareerNode = {
                 about: "This is a comprehensive program focused on Chartered Accountancy (CA). It prepares students for advanced careers and deep academic understanding in the field.",
                 fees: "₹50,000 - ₹3,000,000 per year",
                 jobs: [
-                  "Senior Specialist",
-                  "Consultant",
-                  "Researcher / Academician",
-                  "Lead Analyst"
+                  "Chartered Accountant",
+                  "Audit Partner",
+                  "CFO",
+                  "Tax Advisor"
                 ]
               },
               children: [
@@ -1579,10 +1579,10 @@ export const post10thCareerMap: CareerNode = {
                       "Reputed Private Colleges"
                     ],
                     jobs: [
-                      "Senior Specialist",
-                      "Consultant",
-                      "Researcher / Academician",
-                      "Lead Analyst"
+                      "CA Practitioner",
+                      "Tax Consultant (Independent)",
+                      "Financial Advisor",
+                      "Forensic Auditor"
                     ]
                   }
                 },
@@ -1611,10 +1611,10 @@ export const post10thCareerMap: CareerNode = {
                       "Reputed Private Colleges"
                     ],
                     jobs: [
-                      "Senior Specialist",
-                      "Consultant",
-                      "Researcher / Academician",
-                      "Lead Analyst"
+                      "Internal Auditor",
+                      "Corporate Finance Manager",
+                      "Risk Analyst",
+                      "Compliance Officer"
                     ]
                   }
                 }
@@ -1647,10 +1647,10 @@ export const post10thCareerMap: CareerNode = {
                   "Research Methodology"
                 ],
                 jobs: [
-                  "Senior Specialist",
-                  "Consultant",
-                  "Researcher / Academician",
-                  "Lead Analyst"
+                  "Business Development Executive",
+                  "HR Executive",
+                  "Marketing Coordinator",
+                  "Office Manager"
                 ]
               },
               children: [
@@ -1677,10 +1677,10 @@ export const post10thCareerMap: CareerNode = {
                       "Reputed Private Colleges"
                     ],
                     jobs: [
-                      "Senior Specialist",
-                      "Consultant",
-                      "Researcher / Academician",
-                      "Lead Analyst"
+                      "Marketing Manager",
+                      "HR Manager",
+                      "Finance Manager",
+                      "Strategy Consultant"
                     ]
                   },
                   children: [
@@ -1709,10 +1709,10 @@ export const post10thCareerMap: CareerNode = {
                           "Reputed Private Colleges"
                         ],
                         jobs: [
-                          "Senior Specialist",
-                          "Consultant",
-                          "Researcher / Academician",
-                          "Lead Analyst"
+                          "Business Professor",
+                          "Strategy Researcher",
+                          "Corporate Trainer",
+                          "Think Tank Fellow"
                         ]
                       }
                     }
@@ -1747,10 +1747,10 @@ export const post10thCareerMap: CareerNode = {
               "Reputed Private Colleges"
             ],
             jobs: [
-              "Senior Specialist",
-              "Consultant",
-              "Researcher / Academician",
-              "Lead Analyst"
+              "Lawyer",
+              "Journalist",
+              "Civil Services Officer",
+              "Designer"
             ]
           },
           children: [
@@ -1778,10 +1778,10 @@ export const post10thCareerMap: CareerNode = {
                   "Research Methodology"
                 ],
                 jobs: [
-                  "Senior Specialist",
-                  "Consultant",
-                  "Researcher / Academician",
-                  "Lead Analyst"
+                  "Content Writer",
+                  "Journalist",
+                  "Social Worker",
+                  "Government Services (UPSC)"
                 ]
               },
               children: [
@@ -1810,10 +1810,10 @@ export const post10thCareerMap: CareerNode = {
                       "Reputed Private Colleges"
                     ],
                     jobs: [
-                      "Senior Specialist",
-                      "Consultant",
-                      "Researcher / Academician",
-                      "Lead Analyst"
+                      "University Lecturer",
+                      "Research Associate",
+                      "Policy Analyst",
+                      "Museum Curator"
                     ]
                   },
                   children: [
@@ -1842,10 +1842,10 @@ export const post10thCareerMap: CareerNode = {
                           "Reputed Private Colleges"
                         ],
                         jobs: [
-                          "Senior Specialist",
-                          "Consultant",
-                          "Researcher / Academician",
-                          "Lead Analyst"
+                          "Arts Professor",
+                          "Senior Researcher",
+                          "Cultural Advisor",
+                          "Academic Author"
                         ]
                       }
                     }
@@ -1879,10 +1879,10 @@ export const post10thCareerMap: CareerNode = {
                   "Research Methodology"
                 ],
                 jobs: [
-                  "Senior Specialist",
-                  "Consultant",
-                  "Researcher / Academician",
-                  "Lead Analyst"
+                  "Advocate",
+                  "Legal Advisor",
+                  "Corporate Lawyer",
+                  "Public Prosecutor"
                 ]
               },
               children: [
@@ -1909,10 +1909,10 @@ export const post10thCareerMap: CareerNode = {
                       "Reputed Private Colleges"
                     ],
                     jobs: [
-                      "Senior Specialist",
-                      "Consultant",
-                      "Researcher / Academician",
-                      "Lead Analyst"
+                      "Senior Advocate",
+                      "Legal Consultant",
+                      "Judge (after exam)",
+                      "International Law Specialist"
                     ]
                   },
                   children: [
@@ -1941,10 +1941,10 @@ export const post10thCareerMap: CareerNode = {
                           "Reputed Private Colleges"
                         ],
                         jobs: [
-                          "Senior Specialist",
-                          "Consultant",
-                          "Researcher / Academician",
-                          "Lead Analyst"
+                          "High Court Judge",
+                          "Law Professor",
+                          "Legal Scholar",
+                          "Supreme Court Advocate"
                         ]
                       }
                     }
@@ -1978,10 +1978,10 @@ export const post10thCareerMap: CareerNode = {
                   "Research Methodology"
                 ],
                 jobs: [
-                  "Senior Specialist",
-                  "Consultant",
-                  "Researcher / Academician",
-                  "Lead Analyst"
+                  "Graphic Designer",
+                  "UI/UX Designer",
+                  "Art Director",
+                  "Illustrator"
                 ]
               },
               children: [
@@ -2008,10 +2008,10 @@ export const post10thCareerMap: CareerNode = {
                       "Reputed Private Colleges"
                     ],
                     jobs: [
-                      "Senior Specialist",
-                      "Consultant",
-                      "Researcher / Academician",
-                      "Lead Analyst"
+                      "Senior UX Designer",
+                      "Design Lead",
+                      "Creative Director",
+                      "Design Researcher"
                     ]
                   },
                   children: [
@@ -2040,10 +2040,10 @@ export const post10thCareerMap: CareerNode = {
                           "Reputed Private Colleges"
                         ],
                         jobs: [
-                          "Senior Specialist",
-                          "Consultant",
-                          "Researcher / Academician",
-                          "Lead Analyst"
+                          "Design Professor",
+                          "Design Thinking Consultant",
+                          "Chief Design Officer",
+                          "Research Fellow"
                         ]
                       }
                     }
@@ -2078,10 +2078,10 @@ export const post10thCareerMap: CareerNode = {
           "Reputed Private Colleges"
         ],
         jobs: [
-          "Senior Specialist",
-          "Consultant",
-          "Researcher / Academician",
-          "Lead Analyst"
+          "Junior Engineer",
+          "Technician",
+          "Site Supervisor",
+          "CAD Draftsman"
         ]
       },
       children: [
@@ -2110,10 +2110,10 @@ export const post10thCareerMap: CareerNode = {
               "Reputed Private Colleges"
             ],
             jobs: [
-              "Senior Specialist",
-              "Consultant",
-              "Researcher / Academician",
-              "Lead Analyst"
+              "CNC Operator",
+              "Maintenance Technician",
+              "Quality Inspector",
+              "Workshop Supervisor"
             ]
           },
           children: [
@@ -2140,10 +2140,10 @@ export const post10thCareerMap: CareerNode = {
                   "Reputed Private Colleges"
                 ],
                 jobs: [
-                  "Senior Specialist",
-                  "Consultant",
-                  "Researcher / Academician",
-                  "Lead Analyst"
+                  "Design Engineer",
+                  "Production Engineer",
+                  "Project Engineer",
+                  "Quality Engineer"
                 ]
               },
               children: [
@@ -2170,10 +2170,10 @@ export const post10thCareerMap: CareerNode = {
                       "Reputed Private Colleges"
                     ],
                     jobs: [
-                      "Senior Specialist",
-                      "Consultant",
-                      "Researcher / Academician",
-                      "Lead Analyst"
+                      "Senior Design Engineer",
+                      "R&D Lead",
+                      "Technical Manager",
+                      "Simulation Engineer"
                     ]
                   },
                   children: [
@@ -2202,10 +2202,10 @@ export const post10thCareerMap: CareerNode = {
                           "Reputed Private Colleges"
                         ],
                         jobs: [
-                          "Senior Specialist",
-                          "Consultant",
-                          "Researcher / Academician",
-                          "Lead Analyst"
+                          "Engineering Professor",
+                          "Research Scientist",
+                          "Principal Engineer",
+                          "Technical Director"
                         ]
                       }
                     }
@@ -2222,10 +2222,10 @@ export const post10thCareerMap: CareerNode = {
                 duration: "3-4 Years",
                 fees: "N/A",
                 jobs: [
-                  "Senior Specialist",
-                  "Consultant",
-                  "Researcher / Academician",
-                  "Lead Analyst"
+                  "Junior Engineer (Railways)",
+                  "JE (State PWD)",
+                  "Site Supervisor",
+                  "Technical Assistant"
                 ]
               }
             }
@@ -2256,10 +2256,10 @@ export const post10thCareerMap: CareerNode = {
               "Reputed Private Colleges"
             ],
             jobs: [
-              "Senior Specialist",
-              "Consultant",
-              "Researcher / Academician",
-              "Lead Analyst"
+              "Site Engineer",
+              "Surveyor",
+              "Draftsman",
+              "PWD Technician"
             ]
           },
           children: [
@@ -2286,10 +2286,10 @@ export const post10thCareerMap: CareerNode = {
                   "Reputed Private Colleges"
                 ],
                 jobs: [
-                  "Senior Specialist",
-                  "Consultant",
-                  "Researcher / Academician",
-                  "Lead Analyst"
+                  "Design Engineer",
+                  "Production Engineer",
+                  "Project Engineer",
+                  "Quality Engineer"
                 ]
               },
               children: [
@@ -2316,10 +2316,10 @@ export const post10thCareerMap: CareerNode = {
                       "Reputed Private Colleges"
                     ],
                     jobs: [
-                      "Senior Specialist",
-                      "Consultant",
-                      "Researcher / Academician",
-                      "Lead Analyst"
+                      "Senior Design Engineer",
+                      "R&D Lead",
+                      "Technical Manager",
+                      "Simulation Engineer"
                     ]
                   },
                   children: [
@@ -2348,10 +2348,10 @@ export const post10thCareerMap: CareerNode = {
                           "Reputed Private Colleges"
                         ],
                         jobs: [
-                          "Senior Specialist",
-                          "Consultant",
-                          "Researcher / Academician",
-                          "Lead Analyst"
+                          "Engineering Professor",
+                          "Research Scientist",
+                          "Principal Engineer",
+                          "Technical Director"
                         ]
                       }
                     }
@@ -2368,10 +2368,10 @@ export const post10thCareerMap: CareerNode = {
                 duration: "3-4 Years",
                 fees: "N/A",
                 jobs: [
-                  "Senior Specialist",
-                  "Consultant",
-                  "Researcher / Academician",
-                  "Lead Analyst"
+                  "Junior Engineer (Railways)",
+                  "JE (State PWD)",
+                  "Site Supervisor",
+                  "Technical Assistant"
                 ]
               }
             }
@@ -2402,10 +2402,10 @@ export const post10thCareerMap: CareerNode = {
               "Reputed Private Colleges"
             ],
             jobs: [
-              "Senior Specialist",
-              "Consultant",
-              "Researcher / Academician",
-              "Lead Analyst"
+              "Web Developer",
+              "IT Support Engineer",
+              "Junior Programmer",
+              "Technical Support"
             ]
           },
           children: [
@@ -2432,10 +2432,10 @@ export const post10thCareerMap: CareerNode = {
                   "Reputed Private Colleges"
                 ],
                 jobs: [
-                  "Senior Specialist",
-                  "Consultant",
-                  "Researcher / Academician",
-                  "Lead Analyst"
+                  "Design Engineer",
+                  "Production Engineer",
+                  "Project Engineer",
+                  "Quality Engineer"
                 ]
               },
               children: [
@@ -2462,10 +2462,10 @@ export const post10thCareerMap: CareerNode = {
                       "Reputed Private Colleges"
                     ],
                     jobs: [
-                      "Senior Specialist",
-                      "Consultant",
-                      "Researcher / Academician",
-                      "Lead Analyst"
+                      "Senior Design Engineer",
+                      "R&D Lead",
+                      "Technical Manager",
+                      "Simulation Engineer"
                     ]
                   },
                   children: [
@@ -2494,10 +2494,10 @@ export const post10thCareerMap: CareerNode = {
                           "Reputed Private Colleges"
                         ],
                         jobs: [
-                          "Senior Specialist",
-                          "Consultant",
-                          "Researcher / Academician",
-                          "Lead Analyst"
+                          "Engineering Professor",
+                          "Research Scientist",
+                          "Principal Engineer",
+                          "Technical Director"
                         ]
                       }
                     }
@@ -2514,10 +2514,10 @@ export const post10thCareerMap: CareerNode = {
                 duration: "3-4 Years",
                 fees: "N/A",
                 jobs: [
-                  "Senior Specialist",
-                  "Consultant",
-                  "Researcher / Academician",
-                  "Lead Analyst"
+                  "Software Developer",
+                  "QA Tester",
+                  "IT Helpdesk",
+                  "System Administrator"
                 ]
               }
             }
@@ -2548,10 +2548,10 @@ export const post10thCareerMap: CareerNode = {
               "Reputed Private Colleges"
             ],
             jobs: [
-              "Senior Specialist",
-              "Consultant",
-              "Researcher / Academician",
-              "Lead Analyst"
+              "Electronics Technician",
+              "Telecom Technician",
+              "PCB Designer",
+              "Embedded Systems Tech"
             ]
           },
           children: [
@@ -2578,10 +2578,10 @@ export const post10thCareerMap: CareerNode = {
                   "Reputed Private Colleges"
                 ],
                 jobs: [
-                  "Senior Specialist",
-                  "Consultant",
-                  "Researcher / Academician",
-                  "Lead Analyst"
+                  "Design Engineer",
+                  "Production Engineer",
+                  "Project Engineer",
+                  "Quality Engineer"
                 ]
               },
               children: [
@@ -2608,10 +2608,10 @@ export const post10thCareerMap: CareerNode = {
                       "Reputed Private Colleges"
                     ],
                     jobs: [
-                      "Senior Specialist",
-                      "Consultant",
-                      "Researcher / Academician",
-                      "Lead Analyst"
+                      "Senior Design Engineer",
+                      "R&D Lead",
+                      "Technical Manager",
+                      "Simulation Engineer"
                     ]
                   },
                   children: [
@@ -2640,10 +2640,10 @@ export const post10thCareerMap: CareerNode = {
                           "Reputed Private Colleges"
                         ],
                         jobs: [
-                          "Senior Specialist",
-                          "Consultant",
-                          "Researcher / Academician",
-                          "Lead Analyst"
+                          "Engineering Professor",
+                          "Research Scientist",
+                          "Principal Engineer",
+                          "Technical Director"
                         ]
                       }
                     }
@@ -2660,10 +2660,10 @@ export const post10thCareerMap: CareerNode = {
                 duration: "3-4 Years",
                 fees: "N/A",
                 jobs: [
-                  "Senior Specialist",
-                  "Consultant",
-                  "Researcher / Academician",
-                  "Lead Analyst"
+                  "Maintenance Engineer",
+                  "Service Engineer",
+                  "Network Technician",
+                  "Instrumentation Tech"
                 ]
               }
             }
@@ -2694,10 +2694,10 @@ export const post10thCareerMap: CareerNode = {
           "Reputed Private Colleges"
         ],
         jobs: [
-          "Senior Specialist",
-          "Consultant",
-          "Researcher / Academician",
-          "Lead Analyst"
+          "Lab Technician",
+          "Radiology Technician",
+          "Optometrist",
+          "Physiotherapist"
         ]
       },
       children: [
@@ -2726,10 +2726,10 @@ export const post10thCareerMap: CareerNode = {
               "Reputed Private Colleges"
             ],
             jobs: [
-              "Senior Specialist",
-              "Consultant",
-              "Researcher / Academician",
-              "Lead Analyst"
+              "Pathology Lab Technician",
+              "Blood Bank Technician",
+              "Microbiology Lab Technician",
+              "Biochemistry Analyst"
             ]
           },
           children: [
@@ -2758,10 +2758,10 @@ export const post10thCareerMap: CareerNode = {
                   "Reputed Private Colleges"
                 ],
                 jobs: [
-                  "Senior Specialist",
-                  "Consultant",
-                  "Researcher / Academician",
-                  "Lead Analyst"
+                  "Senior Lab Technologist",
+                  "Lab Supervisor",
+                  "Clinical Lab Scientist",
+                  "Histopathology Technologist"
                 ]
               },
               children: [
@@ -2790,10 +2790,10 @@ export const post10thCareerMap: CareerNode = {
                       "Reputed Private Colleges"
                     ],
                     jobs: [
-                      "Senior Specialist",
-                      "Consultant",
-                      "Researcher / Academician",
-                      "Lead Analyst"
+                      "Chief Lab Technologist",
+                      "Lab Director",
+                      "Research Scientist (Lab Medicine)",
+                      "Quality Manager"
                     ]
                   },
                   children: [
@@ -2822,10 +2822,10 @@ export const post10thCareerMap: CareerNode = {
                           "Reputed Private Colleges"
                         ],
                         jobs: [
-                          "Senior Specialist",
-                          "Consultant",
-                          "Researcher / Academician",
-                          "Lead Analyst"
+                          "Engineering Professor",
+                          "Research Scientist",
+                          "Principal Engineer",
+                          "Technical Director"
                         ]
                       }
                     }
@@ -2842,10 +2842,10 @@ export const post10thCareerMap: CareerNode = {
                 duration: "3-4 Years",
                 fees: "N/A",
                 jobs: [
-                  "Senior Specialist",
-                  "Consultant",
-                  "Researcher / Academician",
-                  "Lead Analyst"
+                  "Hospital Lab Technician",
+                  "Diagnostic Center Technician",
+                  "Blood Collection Technician",
+                  "Sample Processing Tech"
                 ]
               }
             }
@@ -3078,10 +3078,10 @@ export const post10thCareerMap: CareerNode = {
               "Reputed Private Colleges"
             ],
             jobs: [
-              "Senior Specialist",
-              "Consultant",
-              "Researcher / Academician",
-              "Lead Analyst"
+              "Eye Care Technician",
+              "Refractionist",
+              "Optical Dispenser",
+              "Vision Therapist"
             ]
           },
           children: [
@@ -3110,10 +3110,10 @@ export const post10thCareerMap: CareerNode = {
                   "Reputed Private Colleges"
                 ],
                 jobs: [
-                  "Senior Specialist",
-                  "Consultant",
-                  "Researcher / Academician",
-                  "Lead Analyst"
+                  "Optometrist",
+                  "Contact Lens Specialist",
+                  "Low Vision Specialist",
+                  "Optical Store Manager"
                 ]
               },
               children: [
@@ -3142,10 +3142,10 @@ export const post10thCareerMap: CareerNode = {
                       "Reputed Private Colleges"
                     ],
                     jobs: [
-                      "Senior Specialist",
-                      "Consultant",
-                      "Researcher / Academician",
-                      "Lead Analyst"
+                      "Senior Optometrist",
+                      "Clinical Research (Eye Care)",
+                      "Optometry Lecturer",
+                      "Pediatric Optometrist"
                     ]
                   },
                   children: [
@@ -3174,10 +3174,10 @@ export const post10thCareerMap: CareerNode = {
                           "Reputed Private Colleges"
                         ],
                         jobs: [
-                          "Senior Specialist",
-                          "Consultant",
-                          "Researcher / Academician",
-                          "Lead Analyst"
+                          "Engineering Professor",
+                          "Research Scientist",
+                          "Principal Engineer",
+                          "Technical Director"
                         ]
                       }
                     }
@@ -3194,10 +3194,10 @@ export const post10thCareerMap: CareerNode = {
                 duration: "3-4 Years",
                 fees: "N/A",
                 jobs: [
-                  "Senior Specialist",
-                  "Consultant",
-                  "Researcher / Academician",
-                  "Lead Analyst"
+                  "Eye Hospital Technician",
+                  "OPD Eye Assistant",
+                  "Optical Lab Technician",
+                  "Eye Camp Coordinator"
                 ]
               }
             }
@@ -3230,10 +3230,10 @@ export const post10thCareerMap: CareerNode = {
           "Reputed Private Colleges"
         ],
         jobs: [
-          "Senior Specialist",
-          "Consultant",
-          "Researcher / Academician",
-          "Lead Analyst"
+          "Tour Guide",
+          "Salon Manager",
+          "VFX Artist",
+          "Event Coordinator"
         ]
       },
       children: [
@@ -3262,10 +3262,10 @@ export const post10thCareerMap: CareerNode = {
               "Reputed Private Colleges"
             ],
             jobs: [
-              "Senior Specialist",
-              "Consultant",
-              "Researcher / Academician",
-              "Lead Analyst"
+              "Travel Agent",
+              "Tour Guide",
+              "Airport Ground Staff",
+              "Travel Coordinator"
             ]
           },
           children: [
@@ -3294,10 +3294,10 @@ export const post10thCareerMap: CareerNode = {
                   "Reputed Private Colleges"
                 ],
                 jobs: [
-                  "Senior Specialist",
-                  "Consultant",
-                  "Researcher / Academician",
-                  "Lead Analyst"
+                  "Tourism Officer",
+                  "Hotel Manager",
+                  "Event Planner",
+                  "Travel Consultant"
                 ]
               },
               children: [
@@ -3326,10 +3326,10 @@ export const post10thCareerMap: CareerNode = {
                       "Reputed Private Colleges"
                     ],
                     jobs: [
-                      "Senior Specialist",
-                      "Consultant",
-                      "Researcher / Academician",
-                      "Lead Analyst"
+                      "Tourism Director",
+                      "Hospitality Consultant",
+                      "Resort General Manager",
+                      "Airline Manager"
                     ]
                   }
                 }
@@ -3344,10 +3344,10 @@ export const post10thCareerMap: CareerNode = {
                 duration: "3-4 Years",
                 fees: "N/A",
                 jobs: [
-                  "Senior Specialist",
-                  "Consultant",
-                  "Researcher / Academician",
-                  "Lead Analyst"
+                  "Front Desk Executive",
+                  "F&B Manager",
+                  "Housekeeping Supervisor",
+                  "Guest Relations Manager"
                 ]
               }
             }
@@ -3378,10 +3378,10 @@ export const post10thCareerMap: CareerNode = {
               "Reputed Private Colleges"
             ],
             jobs: [
-              "Senior Specialist",
-              "Consultant",
-              "Researcher / Academician",
-              "Lead Analyst"
+              "Hair Stylist",
+              "Makeup Artist",
+              "Spa Therapist",
+              "Nail Technician"
             ]
           },
           children: [
@@ -3410,10 +3410,10 @@ export const post10thCareerMap: CareerNode = {
                   "Reputed Private Colleges"
                 ],
                 jobs: [
-                  "Senior Specialist",
-                  "Consultant",
-                  "Researcher / Academician",
-                  "Lead Analyst"
+                  "Salon Manager",
+                  "Beauty Trainer",
+                  "Cosmetics Consultant",
+                  "Wellness Center Manager"
                 ]
               },
               children: [
@@ -3442,10 +3442,10 @@ export const post10thCareerMap: CareerNode = {
                       "Reputed Private Colleges"
                     ],
                     jobs: [
-                      "Senior Specialist",
-                      "Consultant",
-                      "Researcher / Academician",
-                      "Lead Analyst"
+                      "Beauty Industry Consultant",
+                      "Product Development (Cosmetics)",
+                      "Wellness Director",
+                      "Beauty Academy Director"
                     ]
                   }
                 }
@@ -3460,10 +3460,10 @@ export const post10thCareerMap: CareerNode = {
                 duration: "3-4 Years",
                 fees: "N/A",
                 jobs: [
-                  "Senior Specialist",
-                  "Consultant",
-                  "Researcher / Academician",
-                  "Lead Analyst"
+                  "Celebrity Stylist",
+                  "Film/TV Makeup Artist",
+                  "Salon Owner",
+                  "Brand Ambassador (Beauty)"
                 ]
               }
             }
@@ -3491,10 +3491,10 @@ export const post10thCareerMap: CareerNode = {
               "Research Methodology"
             ],
             jobs: [
-              "Senior Specialist",
-              "Consultant",
-              "Researcher / Academician",
-              "Lead Analyst"
+              "2D Animator",
+              "Motion Graphics Artist",
+              "VFX Compositor",
+              "Storyboard Artist"
             ]
           },
           children: [
@@ -3523,10 +3523,10 @@ export const post10thCareerMap: CareerNode = {
                   "Reputed Private Colleges"
                 ],
                 jobs: [
-                  "Senior Specialist",
-                  "Consultant",
-                  "Researcher / Academician",
-                  "Lead Analyst"
+                  "3D Animator",
+                  "Game Designer",
+                  "VFX Artist",
+                  "Character Designer"
                 ]
               },
               children: [
@@ -3555,10 +3555,10 @@ export const post10thCareerMap: CareerNode = {
                       "Reputed Private Colleges"
                     ],
                     jobs: [
-                      "Senior Specialist",
-                      "Consultant",
-                      "Researcher / Academician",
-                      "Lead Analyst"
+                      "Animation Director",
+                      "VFX Supervisor",
+                      "Creative Head (Animation Studio)",
+                      "Technical Director"
                     ]
                   }
                 }
@@ -3573,10 +3573,10 @@ export const post10thCareerMap: CareerNode = {
                 duration: "2 Years",
                 fees: "N/A",
                 jobs: [
-                  "Senior Specialist",
-                  "Consultant",
-                  "Researcher / Academician",
-                  "Lead Analyst"
+                  "Freelance Animator",
+                  "Film VFX Artist",
+                  "Game Developer",
+                  "AR/VR Content Creator"
                 ]
               }
             }
