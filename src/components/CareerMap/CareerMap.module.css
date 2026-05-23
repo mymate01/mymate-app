@@ -10,18 +10,16 @@
 }
 
 .activeNodeContainer {
-  position: relative;
-  display: flex;
-  justify-content: center;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  width: 100%;
   align-items: center;
   z-index: 10;
 }
 
 .historyPathLeft {
-  position: absolute;
-  right: 100%;
-  top: 50%;
-  transform: translateY(-50%);
+  grid-column: 1;
+  justify-self: end;
   display: flex;
   align-items: center;
 }
@@ -56,8 +54,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding-left: 250px; /* Give room for history nodes to prevent clipping on left edge */
-  padding-right: 250px;
+  width: 100%;
 }
 
 .mainContent {
@@ -171,21 +168,11 @@
   animation: fadeIn 0.4s ease;
 }
 
-.activeNodeWrapper {
-  position: relative;
-  padding-bottom: 30px;
-  display: flex;
-  justify-content: center;
-}
-
 .activeNodeStem {
-  position: absolute;
-  bottom: 0;
-  left: 50%;
   width: 2px;
-  height: 30px;
+  height: 40px;
   background: rgba(255, 107, 107, 0.4);
-  transform: translateX(-50%);
+  margin: 0 auto;
 }
 
 .node {
@@ -205,16 +192,22 @@
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.activeNode {
+.activeNodePill {
+  grid-column: 2;
   background: linear-gradient(135deg, #ff6b6b, #fca048);
   border: none;
-  min-height: 120px;
-  width: 320px;
-  box-shadow: 0 12px 30px rgba(255,107,107,0.3);
-  transform: scale(1.02);
+  border-radius: 30px;
+  padding: 12px 32px;
   color: white;
-  padding: 24px 32px;
-  border-radius: 20px;
+  font-weight: 700;
+  font-size: 1.15rem;
+  box-shadow: 0 8px 20px rgba(255,107,107,0.3);
+  transform: scale(1.05);
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2;
 }
 
 .nodeTitle {

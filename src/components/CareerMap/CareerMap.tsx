@@ -51,11 +51,8 @@ export default function CareerMap({ data }: { data: CareerNode }) {
             )}
 
             {/* The Active Node */}
-            <div className={`${styles.node} ${styles.activeNode}`}>
-              <div className={styles.nodeContent}>
-                <h3 className={styles.nodeTitle}>{activeNode.label}</h3>
-                {activeNode.description && <p className={styles.nodeDescription}>{activeNode.description}</p>}
-              </div>
+            <div className={styles.activeNodePill}>
+              {activeNode.label}
             </div>
           </div>
 
