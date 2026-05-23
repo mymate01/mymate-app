@@ -3,7 +3,7 @@ import { post10thCareerMap } from '../../data/careerMapData';
 
 export default function Page() {
   return (
-    <div className="container" style={{ padding: '60px 24px', textAlign: 'center', maxWidth: '100vw' }}>
+    <div className="container" style={{ padding: '24px', textAlign: 'center', maxWidth: '100vw' }}>
       <div style={{ margin: '0 auto', width: '100%' }}>
         <CareerMap data={post10thCareerMap} />
       </div>
