@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { CareerNode } from '../../data/careerMapData';
 import CourseInfoPanel from './CourseInfoPanel';
 import styles from './CareerMap.module.css';
@@ -83,7 +83,6 @@ export default function CareerMap({ data }: { data: CareerNode }) {
               </>
             )}
           </div>
-        </div>
 
         {/* Detailed tiles render below the tree */}
         <CourseInfoPanel key={activeNode.id} details={activeNode.details} />
