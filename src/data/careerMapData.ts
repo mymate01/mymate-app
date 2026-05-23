@@ -29,7 +29,7 @@ export const post10thCareerMap: CareerNode = {
     {
       id: "intermediate",
       label: "Intermediate (10+2)",
-      description: "2-year pre-university courses",
+      description: "2-year pre-university courses in various streams",
       details: {
         about: "A two-year higher secondary education phase where students pick specialized streams (Science, Commerce, Arts) that dictate their future undergraduate options.",
         duration: "2 Years",
@@ -39,6 +39,7 @@ export const post10thCareerMap: CareerNode = {
         {
           id: "mpc",
           label: "MPC (Maths, Physics, Chem)",
+          description: "Gateway to engineering, tech, and architecture",
           details: {
             about: "The MPC stream focuses heavily on analytical and mathematical skills, making it the primary gateway for engineering, architecture, and defense services.",
             duration: "2 Years",
@@ -49,45 +50,51 @@ export const post10thCareerMap: CareerNode = {
             { 
               id: "btech", 
               label: "Engineering (B.Tech/B.E)",
+              description: "4-year professional engineering degree",
               details: { duration: "4 Years", exams: ["JEE Main", "JEE Advanced"] },
               children: [
                 {
                   id: "mtech", label: "M.Tech / M.E (Post Grad)",
-                  children: [{ id: "phd_eng", label: "Ph.D in Engineering" }]
+                  description: "Master's specialization in engineering",
+                  children: [{ id: "phd_eng", label: "Ph.D in Engineering", description: "Doctoral research in core technology" }]
                 },
                 {
                   id: "mba_eng", label: "MBA (Management)",
-                  children: [{ id: "phd_mgmt", label: "Ph.D in Management" }]
+                  description: "Business administration for tech grads",
+                  children: [{ id: "phd_mgmt", label: "Ph.D in Management", description: "Research in business practices" }]
                 },
-                { id: "job_eng", label: "Direct Employment (IT, Core)" }
+                { id: "job_eng", label: "Direct Employment (IT, Core)", description: "Start working in tech or core industries immediately" }
               ]
             },
             { 
               id: "barch", 
               label: "Architecture (B.Arch)",
+              description: "5-year degree in structural design and architecture",
               details: { duration: "5 Years", exams: ["NATA", "JEE Main Paper 2"] },
               children: [
-                { id: "march", label: "M.Arch", children: [{ id: "phd_arch", label: "Ph.D in Architecture" }] },
-                { id: "job_arch", label: "Architectural Practice" }
+                { id: "march", label: "M.Arch", description: "Master of Architecture", children: [{ id: "phd_arch", label: "Ph.D in Architecture", description: "Doctorate in architectural theory and design" }] },
+                { id: "job_arch", label: "Architectural Practice", description: "Work as a licensed architect" }
               ]
             },
             { 
               id: "nda", 
               label: "NDA (Defense Services)",
+              description: "National Defense Academy entry for armed forces",
               details: { duration: "3 Years Academy + 1 Year Training", exams: ["NDA Exam"] },
               children: [
-                { id: "army", label: "Indian Army (Lieutenant)" },
-                { id: "navy", label: "Indian Navy (Sub-Lieutenant)" },
-                { id: "airforce", label: "Indian Air Force (Flying Officer)" }
+                { id: "army", label: "Indian Army (Lieutenant)", description: "Serve as a commissioned officer in the Army" },
+                { id: "navy", label: "Indian Navy (Sub-Lieutenant)", description: "Serve as a commissioned officer in the Navy" },
+                { id: "airforce", label: "Indian Air Force (Flying Officer)", description: "Serve as a commissioned officer in the Air Force" }
               ]
             },
             { 
               id: "bsc_maths", 
               label: "B.Sc (Mathematics/Physics)",
+              description: "3-year bachelor's degree in pure sciences",
               children: [
-                { id: "msc_maths", label: "M.Sc", children: [{ id: "phd_sci", label: "Ph.D in Science" }] },
-                { id: "mca", label: "MCA (Computer Applications)" },
-                { id: "bed_maths", label: "B.Ed (Teaching)" }
+                { id: "msc_maths", label: "M.Sc", description: "Master of Science in specialization", children: [{ id: "phd_sci", label: "Ph.D in Science", description: "Doctoral research in pure science" }] },
+                { id: "mca", label: "MCA (Computer Applications)", description: "Master of Computer Applications for IT roles" },
+                { id: "bed_maths", label: "B.Ed (Teaching)", description: "Bachelor of Education for teaching profession" }
               ]
             }
           ]
@@ -95,86 +102,100 @@ export const post10thCareerMap: CareerNode = {
         {
           id: "bipc",
           label: "BiPC (Bio, Physics, Chem)",
+          description: "Gateway to medical, pharmacy, and life sciences",
           children: [
             { 
               id: "mbbs", 
               label: "Medicine (MBBS)",
+              description: "5.5-year degree to become a medical doctor",
               details: { duration: "5.5 Years", exams: ["NEET UG"] },
               children: [
-                { id: "md", label: "MD (Doctor of Medicine)", children: [{ id: "dm", label: "DM (Super Specialization)" }] },
-                { id: "ms_med", label: "MS (Master of Surgery)", children: [{ id: "mch", label: "M.Ch (Super Specialization)" }] }
+                { id: "md", label: "MD (Doctor of Medicine)", description: "PG in general medicine, pediatrics, etc.", children: [{ id: "dm", label: "DM (Super Specialization)", description: "Cardiology, Neurology, etc." }] },
+                { id: "ms_med", label: "MS (Master of Surgery)", description: "PG in surgical fields", children: [{ id: "mch", label: "M.Ch (Super Specialization)", description: "Neurosurgery, Plastic Surgery, etc." }] }
               ]
             },
             { 
               id: "bds", 
               label: "Dentistry (BDS)", 
-              children: [ { id: "mds", label: "MDS (Master of Dental Surgery)", children: [{ id: "phd_dent", label: "Ph.D in Dentistry" }] } ] 
+              description: "5-year degree to become a dentist",
+              children: [ { id: "mds", label: "MDS (Master of Dental Surgery)", description: "Postgraduate dental specialization", children: [{ id: "phd_dent", label: "Ph.D in Dentistry", description: "Doctoral research in dental sciences" }] } ] 
             },
             { 
               id: "pharm", 
               label: "Pharmacy (B.Pharm)",
+              description: "4-year degree in pharmaceutical sciences",
               children: [
-                { id: "mpharm", label: "M.Pharm", children: [{ id: "phd_pharm", label: "Ph.D in Pharmacy" }] },
-                { id: "pharmd", label: "Pharm.D (Doctor of Pharmacy)" }
+                { id: "mpharm", label: "M.Pharm", description: "Master's in Pharmacy", children: [{ id: "phd_pharm", label: "Ph.D in Pharmacy", description: "Research in drug development" }] },
+                { id: "pharmd", label: "Pharm.D (Doctor of Pharmacy)", description: "6-year integrated doctorate in pharmacy" }
               ]
             },
             { 
               id: "agri", 
               label: "Agriculture (B.Sc Agri)",
-              children: [ { id: "msc_agri", label: "M.Sc Agriculture", children: [{ id: "phd_agri", label: "Ph.D in Agriculture" }] } ]
+              description: "4-year degree in agricultural science",
+              children: [ { id: "msc_agri", label: "M.Sc Agriculture", description: "Master's in agricultural specialization", children: [{ id: "phd_agri", label: "Ph.D in Agriculture", description: "Doctoral research in agriculture" }] } ]
             },
             { 
               id: "nursing", 
               label: "Nursing (B.Sc Nursing)",
-              children: [ { id: "msc_nursing", label: "M.Sc Nursing", children: [{ id: "phd_nursing", label: "Ph.D in Nursing" }] } ]
+              description: "4-year degree in nursing and healthcare",
+              children: [ { id: "msc_nursing", label: "M.Sc Nursing", description: "Postgraduate nursing specialization", children: [{ id: "phd_nursing", label: "Ph.D in Nursing", description: "Advanced research in clinical nursing" }] } ]
             }
           ]
         },
         {
           id: "cec",
           label: "CEC (Civics, Econ, Comm)",
+          description: "Gateway to commerce, finance, and accounting",
           children: [
             { 
               id: "bcom", 
               label: "B.Com (Commerce)",
+              description: "3-year bachelor's degree in commerce",
               children: [
-                { id: "mcom", label: "M.Com", children: [{ id: "phd_com", label: "Ph.D in Commerce" }] },
-                { id: "mba_com", label: "MBA", children: [{ id: "phd_mgmt_com", label: "Ph.D in Management" }] }
+                { id: "mcom", label: "M.Com", description: "Master's degree in commerce", children: [{ id: "phd_com", label: "Ph.D in Commerce", description: "Doctorate in commerce and trade" }] },
+                { id: "mba_com", label: "MBA", description: "Master of Business Administration", children: [{ id: "phd_mgmt_com", label: "Ph.D in Management", description: "Doctoral research in business" }] }
               ]
             },
             { 
               id: "ca", 
               label: "Chartered Accountancy (CA)",
+              description: "Professional certification in accounting and finance",
               children: [
-                { id: "ca_practice", label: "Independent Practice" },
-                { id: "ca_corp", label: "Corporate Finance/Audit" }
+                { id: "ca_practice", label: "Independent Practice", description: "Start your own CA firm" },
+                { id: "ca_corp", label: "Corporate Finance/Audit", description: "Work in corporate finance and auditing" }
               ]
             },
             { 
               id: "bba", 
               label: "BBA (Business Admin)",
-              children: [ { id: "mba_bba", label: "MBA", children: [{ id: "phd_bus", label: "Ph.D in Business Admin" }] } ]
+              description: "3-year bachelor's degree in business management",
+              children: [ { id: "mba_bba", label: "MBA", description: "Master of Business Administration", children: [{ id: "phd_bus", label: "Ph.D in Business Admin", description: "Doctorate in management studies" }] } ]
             }
           ]
         },
         {
           id: "hec",
           label: "HEC (Arts & Humanities)",
+          description: "Gateway to arts, humanities, law, and design",
           children: [
             { 
               id: "ba", 
               label: "Bachelor of Arts (BA)",
-              children: [ { id: "ma", label: "Master of Arts (MA)", children: [{ id: "phd_arts", label: "Ph.D in Arts/Humanities" }] } ]
+              description: "3-year degree in arts and humanities",
+              children: [ { id: "ma", label: "Master of Arts (MA)", description: "Master's specialization in arts", children: [{ id: "phd_arts", label: "Ph.D in Arts/Humanities", description: "Doctoral research in humanities" }] } ]
             },
             { 
               id: "law", 
               label: "Law (BA LLB)",
-              children: [ { id: "llm", label: "LLM (Master of Laws)", children: [{ id: "lld", label: "LLD (Doctor of Laws) / Judiciary" }] } ]
+              description: "5-year integrated law degree",
+              children: [ { id: "llm", label: "LLM (Master of Laws)", description: "Postgraduate degree in law", children: [{ id: "lld", label: "LLD (Doctor of Laws) / Judiciary", description: "Doctorate in law or judicial services" }] } ]
             },
             { 
               id: "design", 
               label: "Design & Fine Arts (B.Des/BFA)",
-              children: [ { id: "mdes", label: "M.Des / MFA", children: [{ id: "phd_design", label: "Ph.D in Design" }] } ]
+              description: "4-year degree in design and fine arts",
+              children: [ { id: "mdes", label: "M.Des / MFA", description: "Master's degree in design or fine arts", children: [{ id: "phd_design", label: "Ph.D in Design", description: "Doctoral research in design methodologies" }] } ]
             }
           ]
         }
@@ -188,9 +209,10 @@ export const post10thCareerMap: CareerNode = {
         { 
           id: "mech_dip", 
           label: "Mechanical / Civil / CS / ECE",
+          description: "Core engineering diplomas",
           children: [ 
-            { id: "btech_lat", label: "B.Tech (Lateral Entry)", children: [{ id: "mtech_lat", label: "M.Tech", children: [{id: "phd_lat", label: "Ph.D"}]}] },
-            { id: "dip_jobs", label: "Junior Engineer (Govt/Private)" }
+            { id: "btech_lat", label: "B.Tech (Lateral Entry)", description: "Direct admission to 2nd year B.Tech", children: [{ id: "mtech_lat", label: "M.Tech", description: "Master of Technology", children: [{id: "phd_lat", label: "Ph.D", description: "Doctorate in engineering"}]}] },
+            { id: "dip_jobs", label: "Junior Engineer (Govt/Private)", description: "Employment as a diploma engineer" }
           ]
         }
       ]
@@ -203,9 +225,10 @@ export const post10thCareerMap: CareerNode = {
         { 
           id: "dmlt", 
           label: "DMLT / Radiology / Ophthalmic",
+          description: "Clinical and diagnostic technician courses",
           children: [
-            { id: "bsc_paramed", label: "B.Sc Paramedical", children: [{ id: "msc_paramed", label: "M.Sc Paramedical", children: [{ id: "phd_paramed", label: "Ph.D"}] }] },
-            { id: "paramed_jobs", label: "Clinical / Hospital Technician" }
+            { id: "bsc_paramed", label: "B.Sc Paramedical", description: "Bachelor's degree in allied health", children: [{ id: "msc_paramed", label: "M.Sc Paramedical", description: "Master's degree in allied health", children: [{ id: "phd_paramed", label: "Ph.D", description: "Doctorate in clinical research"}] }] },
+            { id: "paramed_jobs", label: "Clinical / Hospital Technician", description: "Employment in hospitals and diagnostic labs" }
           ]
         }
       ]
