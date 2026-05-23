@@ -103,7 +103,11 @@ export default function CareerMap({ data }: { data: CareerNode }) {
                           {child.description && <p className={styles.nodeDescription}>{child.description}</p>}
                         </div>
                         {child.children && child.children.length > 0 && (
-                          <div className={styles.forwardIcon}>→</div>
+                          <div className={styles.forwardIcon}>
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                              <path d="M6 9l6 6 6-6"/>
+                            </svg>
+                          </div>
                         )}
                       </div>
                     </div>
