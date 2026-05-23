@@ -17,8 +17,8 @@ function buildTree(nodes: CareerNodeRow[], parentId: string | null = null): Care
     .map(node => ({
       id: node.id,
       label: node.label,
-      description: node.description,
-      details: node.details,
+      description: node.description ?? undefined,
+      details: node.details ?? undefined,
       children: buildTree(nodes, node.id)
     }));
 }
