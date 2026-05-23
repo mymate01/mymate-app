@@ -19,7 +19,41 @@ export const post10thCareerMap: CareerNode = {
           id: "mpc",
           label: "MPC (Maths, Physics, Chem)",
           children: [
-            { id: "btech", label: "Engineering (B.Tech/B.E)" },
+            { 
+              id: "btech", 
+              label: "Engineering (B.Tech/B.E)",
+              children: [
+                {
+                  id: "mtech",
+                  label: "M.Tech / M.E (Post Grad)",
+                  description: "Master's degree in engineering specializations",
+                  children: [
+                    { id: "phd_eng", label: "Ph.D in Engineering", description: "Research & Academia" }
+                  ]
+                },
+                {
+                  id: "mba_eng",
+                  label: "MBA (Management)",
+                  description: "Master of Business Administration",
+                  children: [
+                    { id: "phd_mgmt", label: "Ph.D in Management", description: "Business Research & Academia" }
+                  ]
+                },
+                {
+                  id: "ms_eng",
+                  label: "MS (Master of Science)",
+                  description: "Higher education usually abroad",
+                  children: [
+                    { id: "phd_ms", label: "Ph.D (Global)", description: "Global Research & Innovations" }
+                  ]
+                },
+                {
+                  id: "job_eng",
+                  label: "Direct Employment",
+                  description: "IT, Core Engineering, PSUs, or UPSC"
+                }
+              ]
+            },
             { id: "barch", label: "Architecture (B.Arch)" },
             { id: "nda", label: "NDA (Defense Services)" },
             { id: "bsc_maths", label: "B.Sc (Mathematics/Physics)" }
@@ -29,7 +63,40 @@ export const post10thCareerMap: CareerNode = {
           id: "bipc",
           label: "BiPC (Bio, Physics, Chem)",
           children: [
-            { id: "mbbs", label: "Medicine (MBBS/BDS)" },
+            { 
+              id: "mbbs", 
+              label: "Medicine (MBBS)",
+              children: [
+                {
+                  id: "md",
+                  label: "MD (Doctor of Medicine)",
+                  description: "General Medicine, Pediatrics, etc.",
+                  children: [
+                    { id: "dm", label: "DM (Super Specialization)", description: "Cardiology, Neurology, etc." }
+                  ]
+                },
+                {
+                  id: "ms_med",
+                  label: "MS (Master of Surgery)",
+                  description: "General Surgery, Orthopedics, etc.",
+                  children: [
+                    { id: "mch", label: "M.Ch (Super Specialization)", description: "Neurosurgery, Plastic Surgery, etc." }
+                  ]
+                },
+                {
+                  id: "diploma_med",
+                  label: "PG Diploma",
+                  description: "2-year clinical diplomas"
+                }
+              ]
+            },
+            { 
+              id: "bds", 
+              label: "Dentistry (BDS)", 
+              children: [ 
+                { id: "mds", label: "MDS (Master of Dental Surgery)" } 
+              ] 
+            },
             { id: "pharm", label: "Pharmacy (B.Pharm)" },
             { id: "agri", label: "Agriculture (B.Sc Agri)" },
             { id: "nursing", label: "Nursing (B.Sc Nursing)" }
