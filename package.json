@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "generate:careers": "tsx src/scripts/generate-career-paths.ts"
+    "generate:careers": "tsx src/scripts/generate-career-paths.ts",
+    "test": "jest --passWithNoTests"
   },
   "dependencies": {
     "@google/generative-ai": "^0.24.1",

@@ -51,7 +51,7 @@ async function generateCareerPath(careerTitle: string) {
     const responseText = result.response.text();
     
     // Clean up potential markdown formatting if the model still outputs it despite the prompt
-    let cleanedText = responseText.replace(/```json/gi, '').replace(/```/g, '').trim();
+    const cleanedText = responseText.replace(/```json/gi, '').replace(/```/g, '').trim();
     
     const parsedData = JSON.parse(cleanedText);
     return parsedData;
