@@ -50,28 +50,32 @@ export default function CareerMap({ data }: { data: CareerNode }) {
       )}
 
       <div className={styles.drillDownContainer} key={activeNode.id}>
-        <div className={`${styles.node} ${styles.activeNode}`}>
-          <div className={styles.nodeContent}>
-            <h3 className={styles.nodeTitle}>{activeNode.label}</h3>
-            {activeNode.description && <p className={styles.nodeDescription}>{activeNode.description}</p>}
+        <div className={styles.activeNodeWrapper}>
+          <div className={`${styles.node} ${styles.activeNode}`}>
+            <div className={styles.nodeContent}>
+              <h3 className={styles.nodeTitle}>{activeNode.label}</h3>
+              {activeNode.description && <p className={styles.nodeDescription}>{activeNode.description}</p>}
+            </div>
           </div>
+          {hasChildren && <div className={styles.activeNodeStem}></div>}
         </div>
 
         {hasChildren && (
           <div className={styles.childrenGrid}>
             {activeNode.children!.map((child) => (
-              <div 
-                key={child.id} 
-                className={`${styles.node} ${styles.childNode} ${child.children && child.children.length > 0 ? styles.clickable : ''}`}
-                onClick={() => handleNodeClick(child)}
-              >
-                <div className={styles.nodeContent}>
-                  <h3 className={styles.nodeTitle}>{child.label}</h3>
-                  {child.description && <p className={styles.nodeDescription}>{child.description}</p>}
+              <div key={child.id} className={styles.childNodeWrapper}>
+                <div 
+                  className={`${styles.node} ${styles.childNode} ${child.children && child.children.length > 0 ? styles.clickable : ''}`}
+                  onClick={() => handleNodeClick(child)}
+                >
+                  <div className={styles.nodeContent}>
+                    <h3 className={styles.nodeTitle}>{child.label}</h3>
+                    {child.description && <p className={styles.nodeDescription}>{child.description}</p>}
+                  </div>
+                  {child.children && child.children.length > 0 && (
+                    <div className={styles.forwardIcon}>→</div>
+                  )}
                 </div>
-                {child.children && child.children.length > 0 && (
-                  <div className={styles.forwardIcon}>→</div>
-                )}
               </div>
             ))}
           </div>
