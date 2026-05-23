@@ -93,7 +93,10 @@ export default function CareerMap({ data }: { data: CareerNode }) {
             </div>
           )}
         </div>
+      </div>
 
+      {/* Right Sidebar: Course Details */}
+      <div className={styles.rightSidebar}>
         <CourseInfoPanel details={activeNode.details} title={activeNode.label} />
       </div>
     </div>
