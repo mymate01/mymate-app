@@ -11,12 +11,20 @@
 .nodeList {
   display: flex;
   gap: 20px;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
   position: relative;
   margin-bottom: 32px;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   width: 100%;
+  max-width: 100%;
+  overflow-x: auto;
+  padding: 15px 10px;
+  scrollbar-width: none; /* Firefox */
+}
+
+.nodeList::-webkit-scrollbar {
+  display: none; /* Chrome */
 }
 
 /* Horizontal Line connecting nodes */
@@ -24,8 +32,9 @@
   content: '';
   position: absolute;
   top: 50%;
-  left: 5%;
-  right: 5%;
+  left: 0;
+  right: 0;
+  min-width: 100%;
   height: 2px;
   background: rgba(255, 107, 107, 0.2);
   z-index: 0;
