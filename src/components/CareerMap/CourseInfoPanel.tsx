@@ -24,8 +24,17 @@ export default function CourseInfoPanel({ details }: CourseInfoPanelProps) {
     return null;
   });
 
+interface JobDetail {
+  description: string;
+  avgSalary: string;
+  skills: string[];
+  workEnvironment: string;
+  growthOutlook: string;
+  icon: string;
+}
+
   const [selectedJob, setSelectedJob] = useState<string | null>(null);
-  const [jobDetail, setJobDetail] = useState<any | null>(null);
+  const [jobDetail, setJobDetail] = useState<JobDetail | null>(null);
   const [loadingJob, setLoadingJob] = useState(false);
 
   useEffect(() => {

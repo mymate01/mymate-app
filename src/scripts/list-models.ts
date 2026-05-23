@@ -1,4 +1,4 @@
-import { GoogleGenerativeAI } from '@google/generative-ai';
+// list-models.ts — fetches available Gemini models via REST API
 import * as dotenv from 'dotenv';
 
 dotenv.config({ path: '.env.local' });

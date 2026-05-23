@@ -2,8 +2,16 @@ import CareerMap from '../../components/CareerMap/CareerMap';
 import { supabase } from '../../utils/supabase';
 import { CareerNode } from '../../types/career';
 
+interface CareerNodeRow {
+  id: string;
+  parent_id: string | null;
+  label: string;
+  description: string | null;
+  details: CareerNode['details'] | null;
+}
+
 // Reconstruct the tree from flattened database rows
-function buildTree(nodes: any[], parentId: string | null = null): CareerNode[] {
+function buildTree(nodes: CareerNodeRow[], parentId: string | null = null): CareerNode[] {
   return nodes
     .filter(node => node.parent_id === parentId)
     .map(node => ({

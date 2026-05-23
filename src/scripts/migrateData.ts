@@ -3,12 +3,30 @@ import * as fs from 'fs';
 import * as path from 'path';
 import * as dotenv from 'dotenv';
 import { supabase } from './supabaseClient';
-import { CareerNode } from '../types/career';
+import { CareerNode, CourseDetails } from '../types/career';
 
 // Ensure env variables are loaded
 dotenv.config({ path: '.env.local' });
 
 const databaseUrl = process.env.DATABASE_URL;
+
+interface JobRoleSeed {
+  title: string;
+  description: string;
+  avgSalary: string;
+  skills: string[];
+  workEnvironment: string;
+  growthOutlook: string;
+  icon: string;
+}
+
+interface CareerNodeInsert {
+  id: string;
+  parent_id: string | null;
+  label: string;
+  description: string | null;
+  details: CourseDetails | null;
+}
 
 async function runSchemaMigration() {
   if (!databaseUrl) {
@@ -43,13 +61,13 @@ async function runSchemaMigration() {
 
     console.log(`Executing ${statements.length} schema statements...`);
 
-    for (let statement of statements) {
+    for (const statement of statements) {
       const sqlQuery = statement + ';';
       
       try {
         await client.query(sqlQuery);
-      } catch (error: any) {
-        const errorMsg = error.message || '';
+      } catch (error: unknown) {
+        const errorMsg = error instanceof Error ? error.message : '';
         if (
           errorMsg.includes('already exists') || 
           errorMsg.includes('already installed')
@@ -92,13 +110,13 @@ async function migrateData() {
     }
 
     const post10thCareerMap: CareerNode = JSON.parse(fs.readFileSync(seedCareerNodesPath, 'utf8'));
-    const jobRoleDetails: Record<string, any> = JSON.parse(fs.readFileSync(seedJobRolesPath, 'utf8'));
+    const jobRoleDetails: Record<string, JobRoleSeed> = JSON.parse(fs.readFileSync(seedJobRolesPath, 'utf8'));
 
     console.log('Starting DML data migration to Supabase...');
 
     // 2. Migrate Job Roles
     console.log('\n--- Migrating Job Roles ---');
-    const jobRolesToInsert = Object.entries(jobRoleDetails).map(([roleName, details]: [string, any]) => ({
+    const jobRolesToInsert = Object.entries(jobRoleDetails).map(([roleName, details]) => ({
       role_name: roleName,
       description: details.description,
       avg_salary: details.avgSalary,
@@ -109,7 +127,7 @@ async function migrateData() {
     }));
 
     if (jobRolesToInsert.length > 0) {
-      const { data: jobData, error: jobError } = await supabase
+      const { error: jobError } = await supabase
         .from('job_roles')
         .upsert(jobRolesToInsert, { onConflict: 'role_name' });
 
@@ -122,7 +140,7 @@ async function migrateData() {
 
     // 3. Flatten and Migrate Career Nodes
     console.log('\n--- Migrating Career Nodes ---');
-    const nodesToInsert: any[] = [];
+    const nodesToInsert: CareerNodeInsert[] = [];
 
     function flattenNode(node: CareerNode, parentId: string | null = null) {
       nodesToInsert.push({
@@ -141,7 +159,7 @@ async function migrateData() {
     flattenNode(post10thCareerMap);
 
     if (nodesToInsert.length > 0) {
-      const { data: nodeData, error: nodeError } = await supabase
+      const { error: nodeError } = await supabase
         .from('career_nodes')
         .upsert(nodesToInsert, { onConflict: 'id' });
 
