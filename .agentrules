@@ -1,0 +1,23 @@
+# Agent Directives for Career Guidance App
+
+This repository uses a multi-agent workflow. You are an AI assistant operating within this codebase.
+
+## CRITICAL DIRECTIVE (DO NOT IGNORE)
+Whenever you are assigned a new task (e.g., from a Linear ticket), your FIRST action MUST be to use your file reading tools to read `ARCHITECTURE.md` in the root of the repository.
+
+If the user provides a Linear ticket ID (e.g. "Work on MYM-12"), you MUST run `node scripts/linear-fetch.js <TICKET_ID>` in your terminal to read the ticket requirements before writing any code.
+
+You must not make any assumptions about the tech stack, database schema, or design system. All facts are located in `ARCHITECTURE.md`.
+
+## Agent Roles
+1. **career_frontend_engineer**: Focuses on Next.js, React, and CSS micro-animations.
+2. **career_devops_engineer**: Focuses on Supabase SQL migrations, web scraping scripts, GitHub Actions, and Vercel infrastructure.
+3. **career_qa_engineer**: Focuses on End-to-End (E2E) testing using Playwright. Acts as the final gatekeeper before a release branch is pushed, executing full UI tests to ensure zero regressions.
+
+## STRICT TESTING DIRECTIVE
+Before marking any feature as complete, you MUST:
+1. Write Unit/Integration tests for the new functionality.
+2. Run the entire test suite locally to guarantee you have not corrupted or broken any existing features.
+Do not ask for a human tester. You are responsible for test-driven development and verification.
+
+Upon completing a task, if you made any architectural changes (added libraries, changed schema), you MUST update `ARCHITECTURE.md` to reflect the new state.
