@@ -12,21 +12,16 @@ interface CourseInfoPanelProps {
 type TabType = 'about' | 'duration_fees' | 'subjects' | 'exams' | 'colleges' | 'jobs';
 
 export default function CourseInfoPanel({ details }: CourseInfoPanelProps) {
-  const [activeTab, setActiveTab] = useState<TabType | null>(null);
-
-  useEffect(() => {
-    if (!details) {
-      setActiveTab(null);
-      return;
-    }
-    // Default to the first available data point when a new node is selected
-    if (details.about) setActiveTab('about');
-    else if (details.duration || details.fees) setActiveTab('duration_fees');
-    else if (details.subjects && details.subjects.length > 0) setActiveTab('subjects');
-    else if (details.exams && details.exams.length > 0) setActiveTab('exams');
-    else if (details.colleges && details.colleges.length > 0) setActiveTab('colleges');
-    else if (details.jobs && details.jobs.length > 0) setActiveTab('jobs');
-  }, [details]);
+  const [activeTab, setActiveTab] = useState<TabType | null>(() => {
+    if (!details) return null;
+    if (details.about) return 'about';
+    if (details.duration || details.fees) return 'duration_fees';
+    if (details.subjects && details.subjects.length > 0) return 'subjects';
+    if (details.exams && details.exams.length > 0) return 'exams';
+    if (details.colleges && details.colleges.length > 0) return 'colleges';
+    if (details.jobs && details.jobs.length > 0) return 'jobs';
+    return null;
+  });
 
   if (!details) return null;
 
