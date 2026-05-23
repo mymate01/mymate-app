@@ -2,6 +2,9 @@ import CareerMap from '../../components/CareerMap/CareerMap';
 import { supabase } from '../../utils/supabase';
 import { CareerNode } from '../../types/career';
 
+// This page fetches from Supabase at runtime — skip static pre-rendering
+export const dynamic = 'force-dynamic';
+
 interface CareerNodeRow {
   id: string;
   parent_id: string | null;
