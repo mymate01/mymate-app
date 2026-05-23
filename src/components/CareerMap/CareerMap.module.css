@@ -9,36 +9,59 @@
   position: relative;
 }
 
-.draggableSidebar {
-  position: fixed;
-  width: 280px;
-  background: rgba(255, 255, 255, 0.85);
-  backdrop-filter: blur(12px);
-  border: 1px solid rgba(255,107,107,0.3);
-  border-radius: 16px;
-  padding: 16px 24px 24px;
-  box-shadow: 0 10px 40px rgba(0,0,0,0.1);
-  z-index: 1000;
-  user-select: none;
-  touch-action: none;
-  animation: slideRight 0.4s ease;
-}
-
-.dragHandle {
+.horizontalPathContainer {
   display: flex;
+  flex-direction: row;
+  align-items: flex-start;
   justify-content: center;
-  align-items: center;
-  color: #a0aec0;
-  font-size: 0.8rem;
-  font-weight: 600;
-  margin-bottom: 16px;
-  text-transform: uppercase;
-  letter-spacing: 1px;
+  width: 100%;
+  margin-bottom: 40px;
+  overflow-x: auto;
+  padding: 20px 0;
+  gap: 0;
 }
 
-.dragIcon {
-  margin-right: 8px;
-  font-size: 1rem;
+.historyNodeWrapper {
+  display: flex;
+  align-items: flex-start;
+}
+
+.horizontalStem {
+  width: 40px;
+  height: 2px;
+  background: rgba(255,107,107,0.3);
+  margin-top: 55px; /* Aligns with middle of history nodes */
+  flex-shrink: 0;
+}
+
+.activeBranchWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.historyNode {
+  background: rgba(241, 245, 249, 0.8);
+  border: 1px solid #cbd5e1;
+  color: #64748b;
+  width: 200px;
+  min-height: 90px;
+  opacity: 0.8;
+  cursor: pointer;
+  transform: scale(0.95);
+  box-shadow: none;
+}
+
+.historyNode .nodeTitle {
+  color: #64748b;
+  font-size: 1.1rem;
+}
+
+.historyNode:hover {
+  opacity: 1;
+  transform: scale(0.98);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+  border-color: #94a3b8;
 }
 
 .mainContent {
