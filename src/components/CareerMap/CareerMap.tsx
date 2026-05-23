@@ -24,34 +24,35 @@ export default function CareerMap({ data }: { data: CareerNode }) {
       
       {/* Main Content Area */}
       <div className={styles.mainContent}>
-        
         {/* Render Active Node and its history path */}
         <div className={styles.activeBranchWrapper} key={`wrapper-${activeNode.id}`}>
-          {/* History path attached to the left */}
-          {path.length > 1 && (
-            <div className={styles.historyPathLeft}>
-              {path.slice(0, -1).map((node, index) => (
-                <React.Fragment key={node.id}>
-                  <div 
-                    className={styles.historyPill}
-                    onClick={() => handleCrumbClick(index)}
-                    title="Click to go back"
-                  >
-                    {node.label}
-                  </div>
-                  <div className={styles.horizontalStem}></div>
-                </React.Fragment>
-              ))}
-            </div>
-          )}
+          <div className={styles.activeNodeContainer}>
+            {/* History path attached to the left */}
+            {path.length > 1 && (
+              <div className={styles.historyPathLeft}>
+                {path.slice(0, -1).map((node, index) => (
+                  <React.Fragment key={node.id}>
+                    <div 
+                      className={styles.historyPill}
+                      onClick={() => handleCrumbClick(index)}
+                      title="Click to go back"
+                    >
+                      {node.label}
+                    </div>
+                    <div className={styles.horizontalStem}></div>
+                  </React.Fragment>
+                ))}
+              </div>
+            )}
 
-          {/* The Active Node */}
-          <div className={styles.activeNodePill}>
-            {activeNode.label}
+            {/* The Active Node */}
+            <div className={styles.activeNodePill}>
+              {activeNode.label}
+            </div>
           </div>
 
           {hasChildren && (
-            <div className={styles.childrenArea}>
+            <>
               <div className={styles.activeNodeStem}></div>
               <div className={styles.childrenGrid}>
                   {activeNode.children!.map((child) => (
@@ -71,7 +72,7 @@ export default function CareerMap({ data }: { data: CareerNode }) {
                     </div>
                   ))}
                 </div>
-            </div>
+            </>
           )}
         </div>
 
