@@ -37,6 +37,7 @@
   1. Create a new branch from `dev`
   2. Pull the latest code
   3. Implement changes
-  4. Push to remote
-  5. Ask the user to merge
+  4. Clean up and delete any temporary scripts/files before committing
+  5. Push to remote
+  6. Ask the user to merge
 - **Testing Rule:** Agents MUST write tests and run the full test suite to guarantee existing functionality is unbroken before completing any ticket.
