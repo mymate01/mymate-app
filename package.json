@@ -9,6 +9,7 @@
     "lint": "eslint",
     "generate:careers": "tsx src/scripts/generate-career-paths.ts",
     "migrate": "tsx src/scripts/migrateData.ts",
+    "create-ticket": "tsx src/scripts/linear-create.ts",
     "test": "jest --passWithNoTests"
   },
   "dependencies": {
