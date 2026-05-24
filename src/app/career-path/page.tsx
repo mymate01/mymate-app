@@ -1,3 +1,5 @@
+import * as fs from 'fs';
+import * as path from 'path';
 import CareerMap from '../../components/CareerMap/CareerMap';
 import { supabase } from '../../utils/supabase';
 import { CareerNode } from '../../types/career';
@@ -27,25 +29,46 @@ function buildTree(nodes: CareerNodeRow[], parentId: string | null = null): Care
 }
 
 export default async function Page() {
-  const { data: nodes, error } = await supabase.from('career_nodes').select('*');
-  
-  if (error || !nodes || nodes.length === 0) {
-    console.error('Failed to load career nodes', error);
-    return <div>Failed to load career data. Make sure to run the migration script and create the tables.</div>;
+  let rootNode: CareerNode | null = null;
+
+  try {
+    const { data: nodes, error } = await supabase.from('career_nodes').select('*');
+    
+    if (error || !nodes || nodes.length === 0) {
+      console.warn('Supabase career_nodes empty or unconfigured. Falling back to local seed JSON...');
+      
+      const seedPath = path.join(process.cwd(), 'supabase', 'seed_career_nodes.json');
+      if (fs.existsSync(seedPath)) {
+        rootNode = JSON.parse(fs.readFileSync(seedPath, 'utf8'));
+      }
+    } else {
+      // Build the tree starting from the root node (assuming 10th_grade has parent_id = null)
+      const tree = buildTree(nodes, null);
+      rootNode = tree[0];
+    }
+  } catch (err) {
+    console.error('Exception fetching career nodes, using local fallback...', err);
+    const seedPath = path.join(process.cwd(), 'supabase', 'seed_career_nodes.json');
+    if (fs.existsSync(seedPath)) {
+      rootNode = JSON.parse(fs.readFileSync(seedPath, 'utf8'));
+    }
   }
 
-  // Build the tree starting from the root node (assuming 10th_grade has parent_id = null)
-  const tree = buildTree(nodes, null);
-  const rootNode = tree[0];
+  if (!rootNode) {
+    return (
+      <div className="container" style={{ padding: '120px 24px', textAlign: 'center' }}>
+        <h2 style={{ color: '#ff6b4a', fontWeight: 800 }}>Failed to load career data</h2>
+        <p style={{ marginTop: '16px', color: '#718096' }}>
+          Please make sure the seed file exists at `supabase/seed_career_nodes.json`.
+        </p>
+      </div>
+    );
+  }
 
   return (
     <div className="container" style={{ padding: '24px', textAlign: 'center', maxWidth: '100vw', overflowX: 'hidden' }}>
       <div style={{ margin: '0 auto', width: '100%' }}>
-        {rootNode ? (
-          <CareerMap data={rootNode} />
-        ) : (
-          <p>Loading career data...</p>
-        )}
+        <CareerMap data={rootNode} />
       </div>
     </div>
   );
