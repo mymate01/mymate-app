@@ -111,7 +111,7 @@ export default function SetupDashboard({
       <div className={styles.setupSection}>
         <h3 className={styles.setupSectionTitle}>Number of Questions</h3>
         <div className={styles.pillsRow}>
-          {[10, 20, 30, 50].map((count) => {
+          {[10, 20, 30, 50, 100].map((count) => {
             const isActive = setupQuestionCount === count;
             const isLocked = count > 10 && !isLoggedIn;
 

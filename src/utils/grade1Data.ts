@@ -1,4 +1,5 @@
 import { PracticeModule, PracticeQuestion } from '../types/practice';
+import { gkTrivia, sciTrivia, hindiTrivia } from './grade1Trivia';
 
 export const GRADE1_MODULES: PracticeModule[] = [
   {
@@ -897,7 +898,14 @@ export function generateAdditionQuestionsDynamic(
     return Math.floor(rand() * (max - min + 1)) + min;
   };
 
-  for (let i = 0; i < count; i++) {
+  const usedTargets = new Set<string>();
+
+  let attemptsOuter = 0;
+  const maxAttemptsOuter = 5000;
+
+  while (questions.length < count && attemptsOuter < maxAttemptsOuter) {
+    attemptsOuter++;
+    const i = questions.length;
     let a = 0;
     let b = 0;
     if (difficulty === 'beginner') {
@@ -910,6 +918,10 @@ export function generateAdditionQuestionsDynamic(
       a = getRandomInt(100, 999);
       b = getRandomInt(100, 999);
     }
+
+    const key = `${a}+${b}`;
+    if (usedTargets.has(key)) continue;
+    usedTargets.add(key);
 
     const sum = a + b;
     const optionsSet = new Set<string>();
@@ -968,7 +980,14 @@ export function generateSubtractionQuestionsDynamic(
     return Math.floor(rand() * (max - min + 1)) + min;
   };
 
-  for (let i = 0; i < count; i++) {
+  const usedTargets = new Set<string>();
+
+  let attemptsOuter = 0;
+  const maxAttemptsOuter = 5000;
+
+  while (questions.length < count && attemptsOuter < maxAttemptsOuter) {
+    attemptsOuter++;
+    const i = questions.length;
     let a = 0;
     let b = 0;
     if (difficulty === 'beginner') {
@@ -987,6 +1006,10 @@ export function generateSubtractionQuestionsDynamic(
       a = b;
       b = temp;
     }
+
+    const key = `${a}-${b}`;
+    if (usedTargets.has(key)) continue;
+    usedTargets.add(key);
 
     const diff = a - b;
     const optionsSet = new Set<string>();
@@ -1048,7 +1071,13 @@ export function generateWordProblemsDynamic(
   const names = ['Aarav', 'Sita', 'Rohan', 'Priya', 'Amit', 'Karan', 'Neha', 'Rahul', 'Kavya', 'Aditya'];
   const items = ['chocolates', 'balloons', 'candies', 'toys', 'pencils', 'books', 'stars', 'stickers', 'apples', 'oranges'];
 
-  for (let i = 0; i < count; i++) {
+  const usedTargets = new Set<string>();
+  let attemptsOuter = 0;
+  const maxAttemptsOuter = 5000;
+
+  while (questions.length < count && attemptsOuter < maxAttemptsOuter) {
+    attemptsOuter++;
+    const i = questions.length;
     const name = names[i % names.length];
     const item = items[(i * 3) % items.length];
     const isAddition = i % 2 === 0;
@@ -1071,6 +1100,10 @@ export function generateWordProblemsDynamic(
       a = b;
       b = temp;
     }
+
+    const key = `${isAddition ? '+' : '-'}-${a}-${b}-${name}-${item}`;
+    if (usedTargets.has(key)) continue;
+    usedTargets.add(key);
 
     const correctAnswerVal = isAddition ? (a + b) : (a - b);
     let questionText = '';
@@ -1233,11 +1266,50 @@ export function generateEnglishLogicQuestionsDynamic(
   const wordsMedium = ['rabbit', 'monkey', 'donkey', 'banana', 'orange', 'purple', 'yellow', 'pencil'];
   const wordsExpert = ['elephant', 'crocodile', 'butterfly', 'dinosaur', 'computer', 'aeroplane', 'umbrella'];
 
+  const allRhymes = [
+    ...rhymesBeginner, ...rhymesMedium, ...rhymesExpert,
+    ['goat', 'boat', 'cow', 'ship'], ['frog', 'log', 'toad', 'tree'], ['duck', 'truck', 'bird', 'car'], ['bear', 'pear', 'lion', 'apple']
+  ];
+  const allOpposites = [
+    ...oppositesBeginner, ...oppositesMedium, ...oppositesExpert,
+    ['clean', 'dirty', 'wash', 'mud'], ['empty', 'full', 'box', 'cup'], ['old', 'young', 'grandpa', 'baby'], ['near', 'far', 'close', 'away'], ['push', 'pull', 'door', 'open'], ['rich', 'poor', 'money', 'coins'], ['thick', 'thin', 'book', 'paper'], ['start', 'finish', 'begin', 'end'], ['win', 'lose', 'game', 'play']
+  ];
+  const allOddOnes = [
+    ...oddOnesBeginner, ...oddOnesMedium, ...oddOnesExpert,
+    ['rose', 'lily', 'tulip', 'broccoli', 'Broccoli is a vegetable, while the others are flowers!'],
+    ['carrot', 'potato', 'onion', 'apple', 'An apple is a fruit, while the others are vegetables!'],
+    ['water', 'milk', 'juice', 'bread', 'Bread is solid food, while the others are liquids!'],
+    ['eagle', 'parrot', 'sparrow', 'dog', 'A dog is a mammal, while the others are birds!'],
+    ['boat', 'ship', 'submarine', 'car', 'A car drives on land, while the others move on water!'],
+    ['airplane', 'helicopter', 'jet', 'bicycle', 'A bicycle travels on the ground, while the others fly in the air!'],
+    ['winter', 'summer', 'spring', 'monday', 'Monday is a day of the week, while the others are seasons!'],
+    ['shirt', 'jacket', 'sweater', 'shoe', 'A shoe is footwear, while the others are worn on the upper body!'],
+    ['pen', 'pencil', 'marker', 'eraser', 'An eraser is used to remove writing, while the others are used to write!'],
+    ['bed', 'couch', 'chair', 'television', 'A television is an electronic device, while the others are furniture for resting!'],
+    ['hammer', 'screwdriver', 'wrench', 'spoon', 'A spoon is cutlery, while the others are tools!']
+  ];
+  const allWords = [...wordsBeginner, ...wordsMedium, ...wordsExpert, 'unicorn', 'rainbow', 'sunshine', 'octopus'];
+
+  const usedTargets = new Set<string>();
+
   for (let i = 0; i < count; i++) {
     const type = i % 4;
+    let attempts = 0;
+    let key = '';
+
     if (type === 0) {
-      const pairList = difficulty === 'beginner' ? rhymesBeginner : difficulty === 'medium' ? rhymesMedium : rhymesExpert;
-      const pair = pairList[i % pairList.length];
+      let pair = allRhymes[0];
+      while (attempts < 500) {
+        attempts++;
+        const pool = (difficulty === 'beginner' && attempts < 20) ? rhymesBeginner : 
+                     (difficulty === 'medium' && attempts < 20) ? rhymesMedium : 
+                     (difficulty === 'expert' && attempts < 20) ? rhymesExpert : allRhymes;
+        pair = pool[getRandomInt(0, pool.length - 1)];
+        key = `rhyme-${pair[0]}`;
+        if (!usedTargets.has(key)) break;
+      }
+      usedTargets.add(key);
+
       const targetWord = pair[0];
       const rhymingWord = pair[1];
       
@@ -1264,8 +1336,18 @@ export function generateEnglishLogicQuestionsDynamic(
         }
       });
     } else if (type === 1) {
-      const pairList = difficulty === 'beginner' ? oppositesBeginner : difficulty === 'medium' ? oppositesMedium : oppositesExpert;
-      const pair = pairList[i % pairList.length];
+      let pair = allOpposites[0];
+      while (attempts < 500) {
+        attempts++;
+        const pool = (difficulty === 'beginner' && attempts < 20) ? oppositesBeginner : 
+                     (difficulty === 'medium' && attempts < 20) ? oppositesMedium : 
+                     (difficulty === 'expert' && attempts < 20) ? oppositesExpert : allOpposites;
+        pair = pool[getRandomInt(0, pool.length - 1)];
+        key = `opp-${pair[0]}`;
+        if (!usedTargets.has(key)) break;
+      }
+      usedTargets.add(key);
+
       const targetWord = pair[0];
       const oppositeWord = pair[1];
 
@@ -1290,8 +1372,18 @@ export function generateEnglishLogicQuestionsDynamic(
         }
       });
     } else if (type === 2) {
-      const oddList = difficulty === 'beginner' ? oddOnesBeginner : difficulty === 'medium' ? oddOnesMedium : oddOnesExpert;
-      const item = oddList[i % oddList.length];
+      let item = allOddOnes[0];
+      while (attempts < 500) {
+        attempts++;
+        const pool = (difficulty === 'beginner' && attempts < 20) ? oddOnesBeginner : 
+                     (difficulty === 'medium' && attempts < 20) ? oddOnesMedium : 
+                     (difficulty === 'expert' && attempts < 20) ? oddOnesExpert : allOddOnes;
+        item = pool[getRandomInt(0, pool.length - 1)];
+        key = `odd-${item[0]}`;
+        if (!usedTargets.has(key)) break;
+      }
+      usedTargets.add(key);
+
       const itemsList = [item[0], item[1], item[2], item[3]];
       const answer = item[3];
       const explanation = item[4];
@@ -1312,8 +1404,17 @@ export function generateEnglishLogicQuestionsDynamic(
         }
       });
     } else {
-      const wordList = difficulty === 'beginner' ? wordsBeginner : difficulty === 'medium' ? wordsMedium : wordsExpert;
-      const targetWord = wordList[i % wordList.length];
+      let targetWord = allWords[0];
+      while (attempts < 500) {
+        attempts++;
+        const pool = (difficulty === 'beginner' && attempts < 20) ? wordsBeginner : 
+                     (difficulty === 'medium' && attempts < 20) ? wordsMedium : 
+                     (difficulty === 'expert' && attempts < 20) ? wordsExpert : allWords;
+        targetWord = pool[getRandomInt(0, pool.length - 1)];
+        key = `vow-${targetWord}`;
+        if (!usedTargets.has(key)) break;
+      }
+      usedTargets.add(key);
       
       let vowelCount = 0;
       for (const char of targetWord) {
@@ -1431,106 +1532,20 @@ export function generateGeneralKnowledgeQuestionsDynamic(
     const x = Math.sin(randomSeed++) * 10000;
     return x - Math.floor(x);
   };
-  const getRandomInt = (min: number, max: number) => {
-    return Math.floor(rand() * (max - min + 1)) + min;
-  };
+  const getRandomInt = (min: number, max: number) => Math.floor(rand() * (max - min + 1)) + min;
 
-  const beginnerGK = [
-    {
-      q: "What color is a ripe banana?",
-      opts: ["Red", "Yellow", "Blue", "Green"],
-      ans: "Yellow",
-      exp: "Ripe bananas are bright yellow and sweet!",
-      hint: "Think about the fruit you peel that is long and yellow."
-    },
-    {
-      q: "Which animal is known as the King of the Jungle?",
-      opts: ["Elephant", "Lion", "Giraffe", "Monkey"],
-      ans: "Lion",
-      exp: "Lions are called the King of the Jungle due to their power and majestic mane.",
-      hint: "This animal roars and has a large furry mane around its face."
-    },
-    {
-      q: "How many legs does a dog have?",
-      opts: ["2", "4", "6", "8"],
-      ans: "4",
-      exp: "Dogs are four-legged animals that run and play on all fours.",
-      hint: "Count the paws of a puppy!"
-    },
-    {
-      q: "What shape is a standard clock on the wall?",
-      opts: ["Square", "Triangle", "Circle", "Star"],
-      ans: "Circle",
-      exp: "Wall clocks are round circles so the hands can spin in a full loop.",
-      hint: "It is round like a ball or a wheel."
-    }
-  ];
-
-  const mediumGK = [
-    {
-      q: "In which season do leaves turn brown and fall from trees?",
-      opts: ["Summer", "Autumn (Fall)", "Winter", "Spring"],
-      ans: "Autumn (Fall)",
-      exp: "Autumn or Fall is the season when trees shed their leaves to prepare for winter.",
-      hint: "This season is also called 'Fall' because leaves drop down."
-    },
-    {
-      q: "Which of the following is the tallest land animal?",
-      opts: ["Elephant", "Giraffe", "Hippopotamus", "Kangaroo"],
-      ans: "Giraffe",
-      exp: "Giraffes are the tallest animals on land, using their long necks to eat leaves high in trees.",
-      hint: "This animal has a very long neck and spots on its body."
-    },
-    {
-      q: "How many colors are there in a rainbow?",
-      opts: ["5", "6", "7", "8"],
-      ans: "7",
-      exp: "A rainbow has seven distinct colors: Violet, Indigo, Blue, Green, Yellow, Orange, and Red (VIBGYOR).",
-      hint: "Remember the acronym VIBGYOR! Count them up."
-    },
-    {
-      q: "Which direction does the Sun rise in the morning?",
-      opts: ["North", "South", "East", "West"],
-      ans: "East",
-      exp: "The Sun always rises in the East and sets in the West due to Earth's rotation.",
-      hint: "The opposite of where the Sun sets in the evening."
-    }
-  ];
-
-  const expertGK = [
-    {
-      q: "Which planet in our solar system is known as the Red Planet?",
-      opts: ["Venus", "Mars", "Jupiter", "Saturn"],
-      ans: "Mars",
-      exp: "Mars is called the Red Planet because its surface is covered in reddish iron-rich dust.",
-      hint: "It is the fourth planet from the Sun, named after the Roman god of war."
-    },
-    {
-      q: "What is the national flower of India?",
-      opts: ["Rose", "Lily", "Lotus", "Marigold"],
-      ans: "Lotus",
-      exp: "The Lotus is the sacred national flower of India, representing purity and beauty.",
-      hint: "It grows in muddy ponds but blossoms beautifully above the water."
-    },
-    {
-      q: "How many days are in a leap year?",
-      opts: ["364", "365", "366", "367"],
-      ans: "366",
-      exp: "A leap year occurs every four years and has 366 days, adding an extra day (February 29).",
-      hint: "It is one day longer than a normal year."
-    },
-    {
-      q: "Who was the first person to walk on the Moon?",
-      opts: ["Neil Armstrong", "Buzz Aldrin", "Yuri Gagarin", "Elon Musk"],
-      ans: "Neil Armstrong",
-      exp: "Neil Armstrong was the commander of Apollo 11 and became the first human to step on the Moon in 1969.",
-      hint: "He famously said: 'That's one small step for man, one giant leap for mankind.'"
-    }
-  ];
+  const usedTargets = new Set<string>();
 
   for (let i = 0; i < count; i++) {
-    const list = difficulty === 'beginner' ? beginnerGK : difficulty === 'medium' ? mediumGK : expertGK;
-    const item = list[i % list.length];
+    let attempts = 0;
+    let item = gkTrivia[0];
+    
+    while (attempts < 500) {
+      attempts++;
+      item = gkTrivia[getRandomInt(0, gkTrivia.length - 1)];
+      if (!usedTargets.has(item.q)) break;
+    }
+    usedTargets.add(item.q);
 
     const options = [...item.opts];
     const correctIdxStr = options.indexOf(item.ans).toString();
@@ -1563,106 +1578,20 @@ export function generateScienceQuestionsDynamic(
     const x = Math.sin(randomSeed++) * 10000;
     return x - Math.floor(x);
   };
-  const getRandomInt = (min: number, max: number) => {
-    return Math.floor(rand() * (max - min + 1)) + min;
-  };
+  const getRandomInt = (min: number, max: number) => Math.floor(rand() * (max - min + 1)) + min;
 
-  const beginnerSci = [
-    {
-      q: "Which of the following is a living thing?",
-      opts: ["Car", "Stone", "Tree", "Teddy Bear"],
-      ans: "Tree",
-      exp: "Trees are living things because they grow, breathe, and need water and sunshine.",
-      hint: "It grows from a small seed and drinks water from the soil."
-    },
-    {
-      q: "Which part of your body do you use to smell a flower?",
-      opts: ["Eyes", "Ears", "Nose", "Mouth"],
-      ans: "Nose",
-      exp: "The nose is the olfactory organ we use to breathe and sense smells.",
-      hint: "It is located in the middle of your face, right above your mouth."
-    },
-    {
-      q: "What part of a plant grows deep down inside the soil?",
-      opts: ["Roots", "Leaves", "Flowers", "Stem"],
-      ans: "Roots",
-      exp: "Roots anchor the plant in the soil and absorb water and nutrients.",
-      hint: "They act like straws to drink water from underground."
-    },
-    {
-      q: "What do plants need most to make their own food?",
-      opts: ["Milk", "Soda", "Sunlight", "Juice"],
-      ans: "Sunlight",
-      exp: "Plants use sunlight, water, and air to make energy through photosynthesis.",
-      hint: "It comes from the big yellow star in the sky during the day."
-    }
-  ];
-
-  const mediumSci = [
-    {
-      q: "Where does a lion live in the wild?",
-      opts: ["Nest", "Den", "Stable", "Coop"],
-      ans: "Den",
-      exp: "Lions make their homes in caves or dens to rest and protect their cubs.",
-      hint: "It is a quiet cave made of rocks or earth."
-    },
-    {
-      q: "Which food is excellent for building strong bones and teeth?",
-      opts: ["Milk", "Potato Chips", "Bread", "Rice"],
-      ans: "Milk",
-      exp: "Milk is rich in calcium, which is essential for bone strength and growth.",
-      hint: "It is a white drink that cows produce."
-    },
-    {
-      q: "What falls from clouds in the sky when it rains?",
-      opts: ["Dust", "Water", "Leaves", "Ice Cream"],
-      ans: "Water",
-      exp: "Rain is liquid water droplets falling from clouds as part of the water cycle.",
-      hint: "You drink it when you are thirsty!"
-    },
-    {
-      q: "Which animal group does a frog belong to?",
-      opts: ["Mammals", "Birds", "Amphibians", "Insects"],
-      ans: "Amphibians",
-      exp: "Frogs are amphibians because they can live both on land and in water.",
-      hint: "They start as tadpoles in water and grow legs to hop on land."
-    }
-  ];
-
-  const expertSci = [
-    {
-      q: "What is ice made of?",
-      opts: ["Frozen Milk", "Frozen Juice", "Frozen Water", "Dry Soil"],
-      ans: "Frozen Water",
-      exp: "Ice is the solid state of water when it cools down to 0 degrees Celsius or below.",
-      hint: "When ice melts, it turns back into clear drinking liquid."
-    },
-    {
-      q: "Which force pulls toys, balls, and people down toward the ground?",
-      opts: ["Wind Force", "Magnetic Force", "Gravity", "Electricity"],
-      ans: "Gravity",
-      exp: "Gravity is the invisible force that pulls objects toward each other, keeping us on the ground.",
-      hint: "It is why apples fall down from trees instead of floating away."
-    },
-    {
-      q: "How long does it take the Earth to make one full spin on its axis?",
-      opts: ["12 Hours", "24 Hours (1 Day)", "7 Days", "365 Days"],
-      ans: "24 Hours (1 Day)",
-      exp: "The Earth spins once every 24 hours, which gives us day and night.",
-      hint: "This duration constitutes one full day and night cycle."
-    },
-    {
-      q: "Which gas do humans inhale (breathe in) to survive?",
-      opts: ["Carbon Dioxide", "Helium", "Oxygen", "Nitrogen"],
-      ans: "Oxygen",
-      exp: "Humans and animals breathe in oxygen to help cells produce energy, and breathe out carbon dioxide.",
-      hint: "Trees produce this gas, and it is vital for our breathing."
-    }
-  ];
+  const usedTargets = new Set<string>();
 
   for (let i = 0; i < count; i++) {
-    const list = difficulty === 'beginner' ? beginnerSci : difficulty === 'medium' ? mediumSci : expertSci;
-    const item = list[i % list.length];
+    let attempts = 0;
+    let item = sciTrivia[0];
+    
+    while (attempts < 500) {
+      attempts++;
+      item = sciTrivia[getRandomInt(0, sciTrivia.length - 1)];
+      if (!usedTargets.has(item.q)) break;
+    }
+    usedTargets.add(item.q);
 
     const options = [...item.opts];
     const correctIdxStr = options.indexOf(item.ans).toString();
@@ -1827,106 +1756,20 @@ export function generateHindiQuestionsDynamic(
     const x = Math.sin(randomSeed++) * 10000;
     return x - Math.floor(x);
   };
-  const getRandomInt = (min: number, max: number) => {
-    return Math.floor(rand() * (max - min + 1)) + min;
-  };
+  const getRandomInt = (min: number, max: number) => Math.floor(rand() * (max - min + 1)) + min;
 
-  const beginnerHindi = [
-    {
-      q: "Hindi letter 'आ' starts which of the following words?",
-      opts: ["इमली (Imali)", "आम (Aam)", "उल्लू (Ullu)", "अनार (Anaar)"],
-      ans: "आम (Aam)",
-      exp: "'आ' makes the long 'aa' sound, which is the starting letter for 'आम' (Mango).",
-      hint: "Think about the delicious sweet yellow mango in Hindi."
-    },
-    {
-      q: "What is the English translation of the Hindi word 'बिल्ली' (Billi)?",
-      opts: ["Dog", "Cow", "Cat", "Rabbit"],
-      ans: "Cat",
-      exp: "'बिल्ली' is the Hindi word for a cat.",
-      hint: "This pet animal says 'Meow'!"
-    },
-    {
-      q: "Which Hindi letter makes the sound of a short 'i' (as in 'pin')?",
-      opts: ["अ", "इ", "ई", "उ"],
-      ans: "इ",
-      exp: "The letter 'इ' is the short vowel 'i', whereas 'ई' is the long vowel 'ee'.",
-      hint: "It is the third vowel of the Hindi alphabet, used in 'इमली'."
-    },
-    {
-      q: "What is a 'कुत्ता' (Kutta) in English?",
-      opts: ["Cat", "Dog", "Monkey", "Horse"],
-      ans: "Dog",
-      exp: "'कुत्ता' is the Hindi word for a dog.",
-      hint: "This animal barks: 'Bow Wow'!"
-    }
-  ];
-
-  const mediumHindi = [
-    {
-      q: "What number is represented by the Hindi word 'तीन' (Teen)?",
-      opts: ["2", "3", "4", "5"],
-      ans: "3",
-      exp: "'एक' = 1, 'दो' = 2, 'तीन' = 3, 'चार' = 4.",
-      hint: "It comes right after two."
-    },
-    {
-      q: "Which color is called 'लाल' (Laal) in Hindi?",
-      opts: ["Green", "Blue", "Red", "Yellow"],
-      ans: "Red",
-      exp: "'लाल' translates to Red, 'हरा' is Green, 'नीला' is Blue.",
-      hint: "It is the color of tomatoes, apples, and fire engines."
-    },
-    {
-      q: "What is the English name of the fruit 'सेब' (Seb)?",
-      opts: ["Mango", "Apple", "Banana", "Grape"],
-      ans: "Apple",
-      exp: "'सेब' means Apple in Hindi.",
-      hint: "This red fruit keeps the doctor away!"
-    },
-    {
-      q: "What does the Hindi number word 'सात' (Saat) mean?",
-      opts: ["5", "6", "7", "8"],
-      ans: "7",
-      exp: "'सात' is the Hindi word for the number 7.",
-      hint: "It is the number of colors in a rainbow."
-    }
-  ];
-
-  const expertHindi = [
-    {
-      q: "How do you say 'Thank you' politely in Hindi?",
-      opts: ["नमस्ते (Namaste)", "धन्यवाद (Dhanyavaad)", "अलविदा (Alvida)", "माफ़ कीजिए (Maaf kijiye)"],
-      ans: "धन्यवाद (Dhanyavaad)",
-      exp: "'धन्यवाद' (Dhanyavaad) means Thank You, while 'नमस्ते' (Namaste) is Hello.",
-      hint: "It starts with the letter 'ध' (dha)."
-    },
-    {
-      q: "What is 'water' called in Hindi?",
-      opts: ["हवा (Hava)", "पानी (Paani)", "आग (Aag)", "धरती (Dharati)"],
-      ans: "पानी (Paani)",
-      exp: "'पानी' (Paani) or 'जल' (Jal) means water. 'हवा' means air and 'आग' means fire.",
-      hint: "You drink it when you feel thirsty."
-    },
-    {
-      q: "Which color is called 'सफ़ेद' (Safed) in Hindi?",
-      opts: ["Black", "White", "Pink", "Orange"],
-      ans: "White",
-      exp: "'सफ़ेद' means White in Hindi, while 'काला' means Black.",
-      hint: "It is the color of snow, milk, and clouds."
-    },
-    {
-      q: "What is the Hindi term for the 'Sun'?",
-      opts: ["चाँद (Chaand)", "सूरज (Sooraj)", "तारा (Taara)", "आकाश (Aakaash)"],
-      ans: "सूरज (Sooraj)",
-      exp: "'सूरज' (Sooraj) or 'सूर्य' (Surya) is the Sun. 'चाँद' is the Moon.",
-      hint: "It shines hot in the morning sky."
-    }
-  ];
+  const usedTargets = new Set<string>();
 
   for (let i = 0; i < count; i++) {
-    const list = difficulty === 'beginner' ? beginnerHindi : difficulty === 'medium' ? mediumHindi : expertHindi;
-    const item = list[i % list.length];
+    let attempts = 0;
+    let item = hindiTrivia[0];
+    
+    while (attempts < 500) {
+      attempts++;
+      item = hindiTrivia[getRandomInt(0, hindiTrivia.length - 1)];
+      if (!usedTargets.has(item.q)) break;
+    }
+    usedTargets.add(item.q);
 
     const options = [...item.opts];
     const correctIdxStr = options.indexOf(item.ans).toString();
@@ -2225,205 +2068,131 @@ export function generateDetectiveQuestionsDynamic(
   const questions: PracticeQuestion[] = [];
   let s = seed;
   const rng = () => { s++; return Math.abs(Math.sin(s) * 10000) % 1; };
+  const getRandomInt = (min: number, max: number) => Math.floor(rng() * (max - min + 1)) + min;
 
-  type Scenario = {
-    emojis: string[];
-    names: string[];
-    story: string;
-    clues: string[];
-    question: string;
-    answerIdx: number; // index into names
-  };
+  const namesPool = ['Tom', 'Sara', 'Ben', 'Alex', 'Mia', 'Jake', 'Lily', 'Sam', 'Rose', 'Max', 'Zoe', 'Leo', 'Amy', 'Nia', 'Dan', 'Finn', 'Kai', 'Eva', 'Nora', 'Jack', 'Olly', 'Mila', 'Zack', 'Isla', 'Noah', 'Ruby', 'Leo', 'Nina', 'Marco', 'Vikram', 'Ananya', 'Rohan', 'Daisy', 'Caleb', 'Freya', 'Ian', 'Sasha', 'Piper', 'Hana', 'Felix', 'Devon', 'Ethan', 'Chloe', 'Liam', 'Aiden', 'Sophia', 'Lucas', 'Grace', 'Henry', 'Owen', 'Ryan', 'Ava', 'Ella', 'Maya', 'Tyler', 'Josh'];
+  const emojisPool = ['👦', '👧', '🧒'];
 
-  const scenarios: Scenario[] = [
+  const crimeTemplates = [
     {
-      emojis: ['👦', '👧', '👦'],
-      names: ['Tom', 'Sara', 'Ben'],
-      story: 'Three friends were playing in the park. Suddenly, two of them got into a fight. When the teacher arrived, she saw that Tom and Ben had torn shirts.',
-      clues: ['Tom has a torn shirt', 'Ben has a torn shirt', 'Sara is standing calmly'],
-      question: 'Who did NOT fight?',
-      answerIdx: 1
+      story: "Someone ate the last cookie from the jar! Mom found cookie crumbs on one child's face.",
+      question: "Who ate the cookie?",
+      guiltyClue: (n: string) => `${n} has crumbs on their face`,
+      innocentClues: [(n: string) => `${n} was outside playing`, (n: string) => `${n} was asleep in bed`, (n: string) => `${n} was reading a book`, (n: string) => `${n} has a clean face`]
     },
     {
-      emojis: ['🧒', '👧', '👦'],
-      names: ['Alex', 'Mia', 'Jake'],
-      story: 'Someone ate the last cookie from the jar! Mom found cookie crumbs on one child\'s face.',
-      clues: ['Alex was outside playing', 'Mia has crumbs on her face', 'Jake was reading a book'],
-      question: 'Who ate the cookie?',
-      answerIdx: 1
+      story: "A crayon drawing appeared on the wall! Only one child was near the wall when it happened.",
+      question: "Who drew on the wall?",
+      guiltyClue: (n: string) => `${n} has crayon on their fingers`,
+      innocentClues: [(n: string) => `${n} was in the kitchen`, (n: string) => `${n} was in the garden`, (n: string) => `${n} has clean hands`, (n: string) => `${n} was taking a nap`]
     },
     {
-      emojis: ['👧', '👦', '👧'],
-      names: ['Lily', 'Sam', 'Rose'],
-      story: 'A crayon drawing appeared on the wall! Only one child was near the wall when it happened.',
-      clues: ['Lily was in the kitchen', 'Sam was standing near the wall', 'Rose was in the garden'],
-      question: 'Who drew on the wall?',
-      answerIdx: 1
+      story: "Someone left the water tap running in the bathroom. When dad checked, only one child had wet hands.",
+      question: "Who left the tap running?",
+      guiltyClue: (n: string) => `${n} has wet hands`,
+      innocentClues: [(n: string) => `${n} has completely dry hands`, (n: string) => `${n} was playing outside`, (n: string) => `${n} was watching TV`]
     },
     {
-      emojis: ['👦', '👧', '🧒'],
-      names: ['Max', 'Zoe', 'Leo'],
-      story: 'Someone left the water tap running in the bathroom. When dad checked, only one child had wet hands.',
-      clues: ['Max has dry hands', 'Zoe has dry hands', 'Leo has wet hands'],
-      question: 'Who left the tap running?',
-      answerIdx: 2
+      story: "Someone broke a flower pot in the garden. Grandma heard a crash and ran outside.",
+      question: "Who broke the flower pot?",
+      guiltyClue: (n: string) => `${n} was playing ball near the pot`,
+      innocentClues: [(n: string) => `${n} was inside watching TV`, (n: string) => `${n} was reading under a tree far away`, (n: string) => `${n} was asleep`]
     },
     {
-      emojis: ['👧', '👧', '👦'],
-      names: ['Amy', 'Nia', 'Dan'],
-      story: 'The class pet hamster was let out of its cage during lunch break! The teacher asked who opened the cage.',
-      clues: ['Amy was eating lunch outside', 'Nia was sitting right next to the cage', 'Dan was in the library'],
-      question: 'Who let the hamster out?',
-      answerIdx: 1
+      story: "Someone spilled juice on the homework! The paper is sticky and wet with orange juice.",
+      question: "Who spilled juice on the homework?",
+      guiltyClue: (n: string) => `${n} was drinking orange juice near the table`,
+      innocentClues: [(n: string) => `${n} was drinking water`, (n: string) => `${n} was not even in the room`, (n: string) => `${n} was playing outside`]
     },
     {
-      emojis: ['👦', '🧒', '👧'],
-      names: ['Finn', 'Kai', 'Eva'],
-      story: 'Someone broke a flower pot in the garden. Grandma heard a crash and ran outside.',
-      clues: ['Finn was playing ball near the pot', 'Kai was inside watching TV', 'Eva was reading under a tree far away'],
-      question: 'Who broke the flower pot?',
-      answerIdx: 0
+      story: "Someone picked all the strawberries from the garden! Only a few stems are left.",
+      question: "Who picked the strawberries?",
+      guiltyClue: (n: string) => `${n} has red-stained fingers`,
+      innocentClues: [(n: string) => `${n} was at their friend's house`, (n: string) => `${n} was playing video games inside`, (n: string) => `${n} hates strawberries`]
     },
     {
-      emojis: ['👧', '👦', '👧'],
-      names: ['Nora', 'Jack', 'Emma'],
-      story: 'Someone spilled juice on the homework! The paper is sticky and wet with orange juice.',
-      clues: ['Nora was drinking water', 'Jack was drinking orange juice near the table', 'Emma was not even in the room'],
-      question: 'Who spilled juice on the homework?',
-      answerIdx: 1
+      story: "Someone used all the glue during art class! The glue bottle is completely empty.",
+      question: "Who used all the glue?",
+      guiltyClue: (n: string) => `${n} has glue all over their hands`,
+      innocentClues: [(n: string) => `${n}'s project uses tape, not glue`, (n: string) => `${n} hasn't started their project yet`, (n: string) => `${n} was absent today`]
     },
     {
-      emojis: ['🧒', '👧', '👦'],
-      names: ['Ravi', 'Priya', 'Arjun'],
-      story: 'Someone mixed up all the shoes at the door! Mom found only one child\'s shoes were still in the right place.',
-      clues: ['Ravi\'s shoes are in the wrong spot', 'Priya\'s shoes are in the right place', 'Arjun\'s shoes are in the wrong spot'],
-      question: 'Who mixed up the shoes?',
-      answerIdx: 0
+      story: "Someone swapped the sugar jar with salt! Dad's tea tastes terrible.",
+      question: "Who swapped sugar with salt?",
+      guiltyClue: (n: string) => `${n} was giggling near the kitchen counter`,
+      innocentClues: [(n: string) => `${n} was playing outside`, (n: string) => `${n} was doing homework in their room`, (n: string) => `${n} doesn't know where the kitchen is`]
     },
     {
-      emojis: ['👦', '👧', '🧒'],
-      names: ['Olly', 'Mila', 'Zack'],
-      story: 'Someone drew a smiley face on the whiteboard after class. Only one child stayed behind.',
-      clues: ['Olly left the classroom first', 'Mila went to the playground', 'Zack stayed behind to pack his bag'],
-      question: 'Who drew on the whiteboard?',
-      answerIdx: 2
+      story: "The jigsaw puzzle on the table is missing one piece! Someone has it.",
+      question: "Who has the missing puzzle piece?",
+      guiltyClue: (n: string) => `${n} has a puzzle piece sticking out of their pocket`,
+      innocentClues: [(n: string) => `${n} is playing with blocks`, (n: string) => `${n} is drawing a picture`, (n: string) => `${n} was reading a book`]
     },
     {
-      emojis: ['👧', '👦', '👧'],
-      names: ['Isla', 'Noah', 'Ruby'],
-      story: 'The cat is hiding! Someone accidentally scared it. The cat was last seen near the kitchen.',
-      clues: ['Isla was in her room upstairs', 'Noah was making loud noises in the kitchen', 'Ruby was sleeping on the couch'],
-      question: 'Who scared the cat?',
-      answerIdx: 1
-    },
-    {
-      emojis: ['👦', '👧', '👦'],
-      names: ['Ethan', 'Chloe', 'Liam'],
-      story: 'Someone picked all the strawberries from the garden! Only a few stems are left.',
-      clues: ['Ethan has red-stained fingers', 'Chloe was at her friend\'s house', 'Liam was playing video games inside'],
-      question: 'Who picked the strawberries?',
-      answerIdx: 0
-    },
-    {
-      emojis: ['🧒', '👧', '👦'],
-      names: ['Aiden', 'Sophia', 'Lucas'],
-      story: 'The classroom goldfish was fed too much food! The fish bowl is cloudy.',
-      clues: ['Aiden doesn\'t know where the fish food is', 'Sophia was the fish monitor today', 'Lucas was absent from school'],
-      question: 'Who overfed the goldfish?',
-      answerIdx: 1
-    },
-    {
-      emojis: ['👧', '👦', '🧒'],
-      names: ['Grace', 'Henry', 'Owen'],
-      story: 'Someone left muddy footprints on the clean floor! Mom just mopped it.',
-      clues: ['Grace is wearing slippers inside', 'Henry is wearing clean shoes', 'Owen has muddy boots on'],
-      question: 'Who left the muddy footprints?',
-      answerIdx: 2
-    },
-    {
-      emojis: ['👦', '👧', '👧'],
-      names: ['Ryan', 'Ava', 'Ella'],
-      story: 'The birthday cake has a missing slice before the party started! Someone sneaked a piece.',
-      clues: ['Ryan has frosting on his chin', 'Ava was helping set up balloons', 'Ella was wrapping the gift'],
-      question: 'Who ate a slice of cake?',
-      answerIdx: 0
-    },
-    {
-      emojis: ['👧', '🧒', '👦'],
-      names: ['Maya', 'Tyler', 'Josh'],
-      story: 'The TV remote is missing! Everyone wants to watch their favorite show.',
-      clues: ['Maya was looking for the remote too', 'Tyler is sitting on the couch and won\'t move', 'Josh is in another room'],
-      question: 'Who is sitting on the remote?',
-      answerIdx: 1
-    },
-    {
-      emojis: ['👦', '👧', '👦'],
-      names: ['Leo', 'Nina', 'Marco'],
-      story: 'Someone used all the glue during art class! The glue bottle is completely empty.',
-      clues: ['Leo has glue all over his hands', 'Nina\'s project uses tape, not glue', 'Marco hasn\'t started his project yet'],
-      question: 'Who used all the glue?',
-      answerIdx: 0
-    },
-    {
-      emojis: ['🧒', '👧', '👦'],
-      names: ['Vikram', 'Ananya', 'Rohan'],
-      story: 'The class bell rang early today! Someone pressed it as a prank.',
-      clues: ['Vikram was in the washroom', 'Ananya was seen near the bell switch', 'Rohan was at his desk'],
-      question: 'Who rang the bell early?',
-      answerIdx: 1
-    },
-    {
-      emojis: ['👧', '👦', '👧'],
-      names: ['Daisy', 'Caleb', 'Freya'],
-      story: 'Someone swapped the sugar jar with salt! Dad\'s tea tastes terrible.',
-      clues: ['Daisy was giggling in the corner', 'Caleb was playing outside', 'Freya was doing homework'],
-      question: 'Who swapped sugar with salt?',
-      answerIdx: 0
-    },
-    {
-      emojis: ['👦', '🧒', '👧'],
-      names: ['Ian', 'Sasha', 'Piper'],
-      story: 'The jigsaw puzzle on the table is missing one piece! Someone has it.',
-      clues: ['Ian is playing with blocks', 'Sasha has something in her pocket', 'Piper is drawing a picture'],
-      question: 'Who has the missing puzzle piece?',
-      answerIdx: 1
-    },
-    {
-      emojis: ['👧', '👦', '🧒'],
-      names: ['Hana', 'Felix', 'Devon'],
-      story: 'Someone fed chocolate to the dog, which is bad for dogs! The dog doesn\'t feel well.',
-      clues: ['Hana knows chocolate is bad for dogs', 'Felix has an empty chocolate wrapper', 'Devon was at school'],
-      question: 'Who fed chocolate to the dog?',
-      answerIdx: 1
-    },
+      story: "Someone fed chocolate to the dog, which is bad for dogs! The dog doesn't feel well.",
+      question: "Who fed chocolate to the dog?",
+      guiltyClue: (n: string) => `${n} has an empty chocolate wrapper`,
+      innocentClues: [(n: string) => `${n} knows chocolate is bad for dogs`, (n: string) => `${n} was at school`, (n: string) => `${n} doesn't like chocolate`]
+    }
   ];
 
-  for (let i = 0; i < count; i++) {
-    const scenario = scenarios[Math.floor(rng() * scenarios.length)];
-    const options = [...scenario.names];
-    const correctIdx = scenario.answerIdx.toString();
+  const usedTargets = new Set<string>();
 
-    // For harder difficulties, add a 4th character as a distractor
-    if (difficulty !== 'beginner' && options.length < 4) {
-      const extraNames = ['Kim', 'Pat', 'Sam', 'Jo'];
-      options.push(extraNames[Math.floor(rng() * extraNames.length)]);
+  for (let i = 0; i < count; i++) {
+    let attempts = 0;
+    let selectedNames: string[] = [];
+    let guiltyIdx = 0;
+    let crimeIdx = 0;
+    let key = '';
+
+    while (attempts < 500) {
+      attempts++;
+      
+      // Select random unique names
+      const shuffledNames = [...namesPool].sort(() => rng() - 0.5);
+      const numOptions = difficulty === 'beginner' ? 3 : 4;
+      selectedNames = shuffledNames.slice(0, numOptions);
+      
+      guiltyIdx = getRandomInt(0, numOptions - 1);
+      crimeIdx = getRandomInt(0, crimeTemplates.length - 1);
+      
+      // Sort names alphabetically so the combination key is order-independent
+      const sortedNames = [...selectedNames].sort().join('-');
+      key = `${crimeIdx}-${sortedNames}-${selectedNames[guiltyIdx]}`;
+      
+      if (!usedTargets.has(key)) break;
     }
+    
+    usedTargets.add(key);
+
+    const crime = crimeTemplates[crimeIdx];
+    const emojis = selectedNames.map(() => emojisPool[getRandomInt(0, emojisPool.length - 1)]);
+    
+    // Generate clues based on guilty/innocent
+    const clues = selectedNames.map((name, idx) => {
+      if (idx === guiltyIdx) {
+        return crime.guiltyClue(name);
+      } else {
+        const shuffledInnocent = [...crime.innocentClues].sort(() => rng() - 0.5);
+        return shuffledInnocent[0](name);
+      }
+    });
 
     questions.push({
       id: `procedural-detective-${difficulty}-${i + 1}`,
       type: 'detective',
       subject: 'games_detective',
-      questionText: scenario.question,
-      options,
-      correctAnswer: correctIdx,
-      explanation: `Based on the clues, ${scenario.names[scenario.answerIdx]} is the answer.`,
+      questionText: crime.question,
+      options: selectedNames,
+      correctAnswer: guiltyIdx.toString(),
+      explanation: `Based on the clues, ${selectedNames[guiltyIdx]} is the answer.`,
       hint: {
         conceptClue: 'Read each clue carefully. Who do the clues point to?',
         stepByStepClue: 'Go through each person and check if the clues match them. Eliminate the ones who couldn\'t have done it.'
       },
-      sceneEmojis: scenario.emojis,
-      sceneStory: scenario.story,
-      sceneClues: scenario.clues
+      sceneEmojis: emojis,
+      sceneStory: crime.story,
+      sceneClues: clues
     });
   }
   return questions;
