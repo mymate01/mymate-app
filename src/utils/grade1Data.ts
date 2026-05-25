@@ -1161,12 +1161,23 @@ export function generateEnglishLogicQuestionsDynamic(
     ['cat', 'hat', 'dog', 'tree'],
     ['dog', 'log', 'cat', 'pig'],
     ['pen', 'hen', 'box', 'run'],
-    ['sun', 'run', 'toy', 'car']
+    ['sun', 'run', 'toy', 'car'],
+    ['bat', 'mat', 'ball', 'sky'],
+    ['fox', 'box', 'pig', 'cow'],
+    ['car', 'star', 'bus', 'bike'],
+    ['bug', 'rug', 'ant', 'bird'],
+    ['man', 'pan', 'boy', 'girl'],
+    ['pig', 'big', 'cow', 'horse']
   ];
   const rhymesMedium = [
     ['ball', 'tall', 'star', 'book'],
     ['ring', 'sing', 'jump', 'cake'],
-    ['cake', 'bake', 'fish', 'bird']
+    ['cake', 'bake', 'fish', 'bird'],
+    ['train', 'rain', 'car', 'bus'],
+    ['boat', 'coat', 'ship', 'shoe'],
+    ['mouse', 'house', 'cat', 'cheese'],
+    ['bear', 'chair', 'lion', 'table'],
+    ['snail', 'tail', 'bug', 'leaf']
   ];
   const rhymesExpert = [
     ['day', 'play', 'moon', 'stop'],
@@ -1178,7 +1189,13 @@ export function generateEnglishLogicQuestionsDynamic(
     ['hot', 'cold', 'sunny', 'fire'],
     ['big', 'small', 'huge', 'heavy'],
     ['up', 'down', 'sky', 'high'],
-    ['in', 'out', 'inside', 'door']
+    ['in', 'out', 'inside', 'door'],
+    ['day', 'night', 'sun', 'moon'],
+    ['happy', 'sad', 'smile', 'cry'],
+    ['fast', 'slow', 'run', 'walk'],
+    ['wet', 'dry', 'rain', 'water'],
+    ['soft', 'hard', 'pillow', 'rock'],
+    ['good', 'bad', 'nice', 'kind']
   ];
   const oppositesMedium = [
     ['tall', 'short', 'long', 'wide'],
@@ -1193,7 +1210,15 @@ export function generateEnglishLogicQuestionsDynamic(
 
   const oddOnesBeginner = [
     ['apple', 'banana', 'orange', 'dog', 'The dog is an animal, while the others are delicious fruits!'],
-    ['red', 'blue', 'green', 'happy', 'Happy is an emotion, while the others are primary or secondary colors!']
+    ['red', 'blue', 'green', 'happy', 'Happy is an emotion, while the others are colors!'],
+    ['cat', 'dog', 'cow', 'car', 'A car is a vehicle, while the others are animals!'],
+    ['shirt', 'pants', 'socks', 'apple', 'An apple is food, while the others are clothing!'],
+    ['milk', 'water', 'juice', 'book', 'A book is for reading, while the others are drinks!'],
+    ['eye', 'ear', 'nose', 'shoe', 'A shoe goes on your foot, while the others are parts of the face!'],
+    ['circle', 'square', 'triangle', 'cat', 'A cat is an animal, while the others are shapes!'],
+    ['one', 'two', 'three', 'red', 'Red is a color, while the others are numbers!'],
+    ['bus', 'car', 'train', 'tree', 'A tree is a plant, while the others are vehicles!'],
+    ['sun', 'moon', 'star', 'fish', 'A fish lives in water, while the others are in the sky!']
   ];
   const oddOnesMedium = [
     ['cat', 'dog', 'cow', 'pencil', 'The pencil is writing stationery, while the others are mammals!'],

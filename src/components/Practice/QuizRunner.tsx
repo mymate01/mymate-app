@@ -1077,7 +1077,7 @@ export default function QuizRunner({
               readOnly={false}
               title="Shade segments to match the fraction!"
             />
-          ) : question.operandA !== undefined && question.operandB !== undefined && question.operator !== undefined ? (
+          ) : (question.subject === 'maths_additions' || question.subject === 'maths_subtractions') && question.operandA !== undefined && question.operandB !== undefined && question.operator !== undefined ? (
             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
               <h3 style={{ fontSize: '1.2rem', fontWeight: 800, color: '#ff6b4a', marginBottom: '8px' }}>
                 {question.subject === 'maths_additions' ? 'Addition Column Sum ➕' : 'Subtraction Column Sum ➖'}
