@@ -15,6 +15,22 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "MyMate - Career Guidance Platform",
   description: "AI-powered career guidance platform for students.",
+  manifest: "/manifest.json",
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: "default",
+    title: "MyMate",
+  },
+  formatDetection: {
+    telephone: false,
+  },
+};
+
+export const viewport = {
+  themeColor: "#FF7E67",
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 1,
 };
 
 import Navbar from "@/components/layout/Navbar";

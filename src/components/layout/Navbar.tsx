@@ -10,6 +10,7 @@ export default function Navbar() {
   const router = useRouter();
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
+  const [mobileOpen, setMobileOpen] = useState(false);
 
   const links = [
     { name: 'Career Path', href: '/career-path' },
@@ -55,7 +56,15 @@ export default function Navbar() {
       <div className="container nav-content">
         <Link href="/" className="logo text-gradient">MyMate</Link>
         
-        <ul className="nav-links">
+        <button 
+          className="mobile-menu-btn" 
+          onClick={() => setMobileOpen(!mobileOpen)}
+          aria-label="Toggle menu"
+        >
+          {mobileOpen ? '✕' : '☰'}
+        </button>
+
+        <ul className={`nav-links ${mobileOpen ? 'mobile-open' : ''}`}>
           {links.map((link) => {
             const isActive = pathname === link.href;
             return (
@@ -63,6 +72,7 @@ export default function Navbar() {
                 <Link 
                   href={link.href} 
                   className={`nav-link ${isActive ? 'active' : ''}`}
+                  onClick={() => setMobileOpen(false)}
                 >
                   {link.name}
                 </Link>
@@ -71,7 +81,7 @@ export default function Navbar() {
           })}
         </ul>
         
-        <div className="nav-actions">
+        <div className={`nav-actions ${mobileOpen ? 'mobile-open' : ''}`}>
           {!loading && (
             user ? (
               <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>

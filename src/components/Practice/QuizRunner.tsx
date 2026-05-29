@@ -187,12 +187,12 @@ export default function QuizRunner({
         <div 
           style={{ 
             display: 'grid', 
-            gridTemplateColumns: qB ? 'repeat(2, 1fr)' : '1fr', 
+            gridTemplateColumns: qB ? 'repeat(auto-fit, minmax(280px, 1fr))' : '1fr', 
             gap: '16px', 
             flexGrow: 1, 
-            height: 0, 
             minHeight: 0, 
-            overflow: 'hidden' 
+            overflowY: 'auto',
+            paddingBottom: '20px'
           }}
         >
           {qA && renderAbacusSheetCard(qA, currentQuestionIndex + 1, activeAbacusA, onAbacusAChange)}
@@ -390,9 +390,10 @@ export default function QuizRunner({
               paddingBottom: '6px',
               marginTop: '2px',
               position: 'relative',
-              paddingRight: '4px'
+              paddingRight: '4px',
+              paddingLeft: '24px' /* Extra space so operator doesn't overlap digits */
             }}>
-              <span style={{ position: 'absolute', left: '0px', bottom: '8px', color: '#ff6b4a', fontWeight: 'bold' }}>
+              <span style={{ position: 'absolute', left: '0px', bottom: '8px', color: '#ff6b4a', fontWeight: 'bold', fontSize: '1.4rem' }}>
                 {q.operator}
               </span>
               {cellsB.map((char, colIdx) => (
@@ -532,10 +533,11 @@ export default function QuizRunner({
 
         <div 
           style={{ 
-            display: 'grid', 
-            gridTemplateColumns: `repeat(${[qA, qB, qC, qD, qE].filter(Boolean).length}, 1fr)`, 
-            gap: '12px', 
-            alignItems: 'start'
+            display: 'flex', 
+            flexWrap: 'wrap',
+            justifyContent: 'center',
+            gap: '16px', 
+            alignItems: 'flex-start'
           }}
         >
           {qA && renderMathSheetCard(qA, currentQuestionIndex + 1)}

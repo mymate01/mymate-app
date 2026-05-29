@@ -262,6 +262,16 @@
   margin-bottom: 20px;
 }
 
+.nextBtnRow {
+  position: sticky;
+  bottom: 0;
+  background: rgba(253, 251, 247, 0.95);
+  backdrop-filter: blur(10px);
+  padding: 12px 0;
+  z-index: 100;
+  border-top: 1px solid rgba(0,0,0,0.05);
+}
+
 .exitBtn {
   padding: 8px 16px;
   background: rgba(255, 255, 255, 0.8);
@@ -300,13 +310,14 @@
 
 /* Split Pane Grid */
 .quizGrid {
-  display: grid;
-  grid-template-columns: 1fr;
+  display: flex;
+  flex-direction: column;
   gap: 20px;
 }
 
 @media (min-width: 850px) {
   .quizGrid {
+    display: grid;
     grid-template-columns: 1.45fr 0.55fr;
   }
 }
@@ -789,6 +800,19 @@
   justify-content: center;
   align-items: center;
   animation: fadeIn 0.3s ease;
+}
+
+.visualAidPanel {
+  background: rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  border-radius: 20px;
+  padding: 20px;
+  min-height: 300px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.03);
 }
 
 .authWallCard {
