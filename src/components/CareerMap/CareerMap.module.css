@@ -11,6 +11,12 @@
   padding: 0 10px;
 }
 
+@media (max-width: 800px) {
+  .mapWrapper {
+    align-items: flex-start;
+  }
+}
+
 .activeNodeContainer {
   display: grid;
   grid-template-columns: 1fr auto 1fr;

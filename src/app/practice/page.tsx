@@ -69,6 +69,15 @@ export default function PracticePage() {
   // Scaffolding hints state: key is question.id, value is hint level (0 | 1 | 2)
   const [hintLevels, setHintLevels] = useState<Record<string, number>>({});
 
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth <= 700);
+    handleResize();
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
   const [startTime, setStartTime] = useState<number>(0);
   const [timeTakenSeconds, setTimeTakenSeconds] = useState(0);
   const [finalScores, setFinalScores] = useState<boolean[]>([]);
@@ -364,7 +373,7 @@ export default function PracticePage() {
 
     const isAbacus = selectedModule.subject === 'abacus';
     const isMathSheet = selectedModule.subject === 'maths_additions' || selectedModule.subject === 'maths_subtractions';
-    const stepSize = isMathSheet ? 5 : isAbacus ? 2 : 1;
+    const stepSize = isMobile ? 1 : (isMathSheet ? 5 : isAbacus ? 2 : 1);
     const prevIndex = currentQuestionIndex - stepSize;
 
     if (prevIndex >= 0) {
@@ -381,7 +390,7 @@ export default function PracticePage() {
 
     const isAbacus = selectedModule.subject === 'abacus';
     const isMathSheet = selectedModule.subject === 'maths_additions' || selectedModule.subject === 'maths_subtractions';
-    const stepSize = isMathSheet ? 5 : isAbacus ? 2 : 1;
+    const stepSize = isMobile ? 1 : (isMathSheet ? 5 : isAbacus ? 2 : 1);
     const nextIndex = currentQuestionIndex + stepSize;
 
     if (nextIndex < selectedModule.questions.length) {
@@ -804,6 +813,7 @@ export default function PracticePage() {
           onNextPage={handleNextQuizPage}
           onPrevPage={handlePrevQuizPage}
           onTextAnswerChange={handleTextAnswerChange}
+          isMobile={isMobile}
         />
       )}
       {!setupMode && activeView === 'review' && selectedModule && (

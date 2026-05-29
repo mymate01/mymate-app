@@ -30,6 +30,7 @@ interface QuizRunnerProps {
   onNextPage: () => void;
   onPrevPage?: () => void;
   onTextAnswerChange?: (qId: string, val: string) => void;
+  isMobile?: boolean;
 }
 
 export default function QuizRunner({
@@ -49,7 +50,8 @@ export default function QuizRunner({
   onExit,
   onNextPage,
   onPrevPage,
-  onTextAnswerChange
+  onTextAnswerChange,
+  isMobile
 }: QuizRunnerProps) {
   const [carryValues, setCarryValues] = React.useState<Record<string, string>>({});
   const [isHelperOpen, setIsHelperOpen] = React.useState(false);
@@ -187,7 +189,7 @@ export default function QuizRunner({
         <div 
           style={{ 
             display: 'grid', 
-            gridTemplateColumns: qB ? 'repeat(auto-fit, minmax(280px, 1fr))' : '1fr', 
+            gridTemplateColumns: (!isMobile && qB) ? 'repeat(auto-fit, minmax(280px, 1fr))' : '1fr', 
             gap: '16px', 
             flexGrow: 1, 
             minHeight: 0, 
@@ -196,7 +198,7 @@ export default function QuizRunner({
           }}
         >
           {qA && renderAbacusSheetCard(qA, currentQuestionIndex + 1, activeAbacusA, onAbacusAChange)}
-          {qB && renderAbacusSheetCard(qB, currentQuestionIndex + 2, activeAbacusB, onAbacusBChange)}
+          {!isMobile && qB && renderAbacusSheetCard(qB, currentQuestionIndex + 2, activeAbacusB, onAbacusBChange)}
         </div>
 
         <div className={styles.nextBtnRow} style={{ marginTop: '8px', display: 'flex', gap: '12px', justifyContent: 'flex-end', width: '100%' }}>
@@ -230,13 +232,14 @@ export default function QuizRunner({
 
   if (isMathSheet) {
     const qA = selectedModule.questions[currentQuestionIndex];
-    const qB = selectedModule.questions[currentQuestionIndex + 1];
-    const qC = selectedModule.questions[currentQuestionIndex + 2];
-    const qD = selectedModule.questions[currentQuestionIndex + 3];
-    const qE = selectedModule.questions[currentQuestionIndex + 4];
+    const qB = isMobile ? undefined : selectedModule.questions[currentQuestionIndex + 1];
+    const qC = isMobile ? undefined : selectedModule.questions[currentQuestionIndex + 2];
+    const qD = isMobile ? undefined : selectedModule.questions[currentQuestionIndex + 3];
+    const qE = isMobile ? undefined : selectedModule.questions[currentQuestionIndex + 4];
 
-    const pageIndex = Math.floor(currentQuestionIndex / 5) + 1;
-    const totalPages = Math.ceil(totalQuestions / 5);
+    const stepSize = isMobile ? 1 : 5;
+    const pageIndex = Math.floor(currentQuestionIndex / stepSize) + 1;
+    const totalPages = Math.ceil(totalQuestions / stepSize);
     const progressPercent = Math.round((pageIndex / totalPages) * 100);
 
     const renderMathSheetCard = (q: PracticeQuestion | undefined, num: number) => {
