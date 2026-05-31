@@ -227,9 +227,12 @@ export default function MazeGame({ question, onComplete }: MazeGameProps) {
             height: `${rows * cellSize}px`,
             background: '#a8e6cf', // Grass background
             borderRadius: '16px',
-            boxShadow: 'inset 0 0 20px rgba(0,0,0,0.1), 0 10px 30px rgba(0,0,0,0.15)',
-            overflow: 'hidden',
-            border: '6px solid #82c8a0'
+            boxShadow: '-15px 25px 25px rgba(0,0,0,0.25), inset 0 0 20px rgba(0,0,0,0.1)',
+            border: '6px solid #82c8a0',
+            transform: 'rotateX(55deg) rotateZ(45deg)',
+            transformStyle: 'preserve-3d',
+            transition: 'transform 0.5s ease',
+            margin: '40px auto'
           }}>
             {/* Draw Maze */}
             {grid.map((row, r) => (
@@ -249,7 +252,11 @@ export default function MazeGame({ question, onComplete }: MazeGameProps) {
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center',
-                      fontSize: '24px'
+                      fontSize: '32px',
+                      transform: 'translateZ(10px) rotateZ(-45deg) rotateX(-55deg)',
+                      transformOrigin: 'bottom center',
+                      textShadow: '0 10px 10px rgba(0,0,0,0.4)',
+                      zIndex: 10
                     }}>
                       🌲
                     </div>
@@ -280,7 +287,10 @@ export default function MazeGame({ question, onComplete }: MazeGameProps) {
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center',
-                      fontSize: '28px',
+                      fontSize: '32px',
+                      transform: 'translateZ(10px) rotateZ(-45deg) rotateX(-55deg)',
+                      transformOrigin: 'bottom center',
+                      textShadow: '0 10px 10px rgba(0,0,0,0.4)',
                       zIndex: 10
                     }}>
                       ⛺
@@ -301,10 +311,13 @@ export default function MazeGame({ question, onComplete }: MazeGameProps) {
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              fontSize: '24px',
+              fontSize: '32px',
               zIndex: 20,
-              transform: `rotate(${Math.atan2(velRef.current.vy, velRef.current.vx)}rad)`,
-              transition: 'transform 0.1s linear'
+              transform: `translateZ(10px) rotateZ(-45deg) rotateX(-55deg) scaleX(${velRef.current.vx < -0.5 ? -1 : 1})`,
+              transformOrigin: 'bottom center',
+              textShadow: '0 15px 15px rgba(0,0,0,0.3)',
+              transition: 'transform 0.1s linear',
+              animation: (Math.abs(velRef.current.vx) > 0.5 || Math.abs(velRef.current.vy) > 0.5) ? 'walkWobble 0.3s alternate infinite' : 'none'
             }}>
               🏃
             </div>
@@ -340,6 +353,10 @@ export default function MazeGame({ question, onComplete }: MazeGameProps) {
           0% { transform: scale(0.3); opacity: 0; }
           50% { transform: scale(1.05); opacity: 1; }
           100% { transform: scale(1); }
+        }
+        @keyframes walkWobble {
+          0% { margin-bottom: 0px; margin-left: -2px; }
+          100% { margin-bottom: 6px; margin-left: 2px; }
         }
       `}} />
     </div>
