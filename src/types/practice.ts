@@ -67,5 +67,6 @@ export interface UserProgressData {
   accuracy: number;
   timeSpentSeconds: number;
   completedAt: string;
+  studentName?: string;
   details?: QuestionResultDetail[];
 }
