@@ -70,6 +70,7 @@ export default function PracticePage() {
   const [hintLevels, setHintLevels] = useState<Record<string, number>>({});
 
   const [isMobile, setIsMobile] = useState(false);
+  const [selectedHistoryItem, setSelectedHistoryItem] = useState<UserProgressData | null>(null);
 
   useEffect(() => {
     const handleResize = () => setIsMobile(window.innerWidth <= 700);
@@ -417,6 +418,14 @@ export default function PracticePage() {
 
       const accuracy = Math.round((correctCount / selectedModule.questions.length) * 100);
 
+      const details = selectedModule.questions.map((q, idx) => ({
+        questionId: q.id,
+        questionText: q.questionText,
+        isCorrect: scores[idx],
+        userAnswer: quizAnswers[q.id],
+        correctAnswer: q.correctAnswer
+      }));
+
       const newProgress: UserProgressData = {
         moduleId: selectedModule.id,
         userId: 'temp-student-id',
@@ -424,7 +433,8 @@ export default function PracticePage() {
         totalQuestions: selectedModule.questions.length,
         accuracy: accuracy,
         timeSpentSeconds: totalTime,
-        completedAt: new Date().toISOString()
+        completedAt: new Date().toISOString(),
+        details: details
       };
 
       await PracticeService.logUserProgress(newProgress);
@@ -614,7 +624,13 @@ export default function PracticePage() {
                 </thead>
                 <tbody>
                   {history.slice(-5).reverse().map((h, i) => (
-                    <tr key={i} style={{ borderBottom: '1px solid rgba(0,0,0,0.03)' }}>
+                    <tr 
+                      key={i} 
+                      style={{ borderBottom: '1px solid rgba(0,0,0,0.03)', cursor: 'pointer', transition: 'background 0.2s' }} 
+                      onClick={() => setSelectedHistoryItem(h)}
+                      onMouseEnter={(e) => e.currentTarget.style.background = 'rgba(255, 107, 74, 0.05)'}
+                      onMouseLeave={(e) => e.currentTarget.style.background = 'transparent'}
+                    >
                       <td style={{ padding: '10px 8px', fontWeight: 600, color: '#2d3748' }}>{getModuleName(h.moduleId)}</td>
                       <td style={{ padding: '10px 8px', color: '#ff6b4a', fontWeight: 700 }}>{h.score} / {h.totalQuestions}</td>
                       <td style={{ padding: '10px 8px' }}>
@@ -827,6 +843,57 @@ export default function PracticePage() {
       )}
       {renderAuthWallModal()}
       {renderComingSoonModal()}
+      
+      {/* Session Details Modal */}
+      {selectedHistoryItem && (
+        <div style={{ position: 'fixed', inset: 0, backgroundColor: 'rgba(0,0,0,0.4)', backdropFilter: 'blur(4px)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1000, padding: '20px' }} onClick={() => setSelectedHistoryItem(null)}>
+          <div style={{ background: '#fff', borderRadius: '24px', padding: '24px', maxWidth: '500px', width: '100%', maxHeight: '80vh', overflowY: 'auto', boxShadow: '0 20px 40px rgba(0,0,0,0.15)' }} onClick={e => e.stopPropagation()}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '2px solid rgba(0,0,0,0.05)', paddingBottom: '12px', marginBottom: '16px' }}>
+              <div>
+                <h3 style={{ fontSize: '1.2rem', fontWeight: 800, color: '#2d3748', margin: 0 }}>Session Review</h3>
+                <p style={{ fontSize: '0.85rem', color: '#718096', margin: '4px 0 0 0' }}>{getModuleName(selectedHistoryItem.moduleId)} • {new Date(selectedHistoryItem.completedAt).toLocaleDateString()}</p>
+              </div>
+              <button onClick={() => setSelectedHistoryItem(null)} style={{ background: '#f7fafc', border: '1px solid rgba(0,0,0,0.1)', borderRadius: '50%', width: '32px', height: '32px', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', fontSize: '1rem' }}>❌</button>
+            </div>
+            
+            <div style={{ display: 'flex', gap: '16px', marginBottom: '20px' }}>
+              <div style={{ background: '#fff0ed', padding: '12px', borderRadius: '12px', flex: 1, textAlign: 'center' }}>
+                <div style={{ fontSize: '0.8rem', fontWeight: 700, color: '#ff6b4a', textTransform: 'uppercase' }}>Score</div>
+                <div style={{ fontSize: '1.4rem', fontWeight: 800, color: '#2d3748' }}>{selectedHistoryItem.score}/{selectedHistoryItem.totalQuestions}</div>
+              </div>
+              <div style={{ background: '#e6fffa', padding: '12px', borderRadius: '12px', flex: 1, textAlign: 'center' }}>
+                <div style={{ fontSize: '0.8rem', fontWeight: 700, color: '#319795', textTransform: 'uppercase' }}>Accuracy</div>
+                <div style={{ fontSize: '1.4rem', fontWeight: 800, color: '#2d3748' }}>{selectedHistoryItem.accuracy}%</div>
+              </div>
+            </div>
+
+            {selectedHistoryItem.details ? (
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                {selectedHistoryItem.details.map((q, idx) => (
+                  <div key={idx} style={{ background: q.isCorrect ? 'rgba(56, 178, 172, 0.05)' : 'rgba(229, 62, 62, 0.05)', border: `1px solid ${q.isCorrect ? 'rgba(56, 178, 172, 0.2)' : 'rgba(229, 62, 62, 0.2)'}`, borderRadius: '12px', padding: '12px' }}>
+                    <div style={{ display: 'flex', gap: '12px', alignItems: 'flex-start' }}>
+                      <div style={{ fontSize: '1.2rem', marginTop: '2px' }}>{q.isCorrect ? '✅' : '❌'}</div>
+                      <div style={{ flex: 1 }}>
+                        <div style={{ fontSize: '0.9rem', fontWeight: 600, color: '#2d3748', marginBottom: '6px' }}>Q{idx + 1}: {q.questionText}</div>
+                        <div style={{ fontSize: '0.85rem', color: '#4a5568', display: 'flex', justifyContent: 'space-between' }}>
+                          <span>Your answer: <strong style={{ color: q.isCorrect ? '#319795' : '#e53e3e' }}>{q.userAnswer !== undefined && q.userAnswer !== '' ? String(q.userAnswer) : '(Skipped)'}</strong></span>
+                          {!q.isCorrect && <span>Correct: <strong style={{ color: '#319795' }}>{String(q.correctAnswer)}</strong></span>}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <div style={{ textAlign: 'center', padding: '30px 20px', background: '#f7fafc', borderRadius: '12px' }}>
+                <span style={{ fontSize: '2rem' }}>🕒</span>
+                <p style={{ color: '#718096', fontWeight: 600, marginTop: '12px', fontSize: '0.95rem' }}>Detailed history is not available for this older session.</p>
+                <p style={{ color: '#a0aec0', fontSize: '0.85rem' }}>Play a new quiz to see detailed insights here!</p>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
     </main>
   );
 }

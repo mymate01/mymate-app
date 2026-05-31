@@ -51,6 +51,14 @@ export interface PracticeModule {
   questions: PracticeQuestion[];
 }
 
+export interface QuestionResultDetail {
+  questionId: string;
+  questionText: string;
+  isCorrect: boolean;
+  userAnswer?: string | number;
+  correctAnswer?: string | number;
+}
+
 export interface UserProgressData {
   moduleId: string;
   userId: string;
@@ -59,4 +67,5 @@ export interface UserProgressData {
   accuracy: number;
   timeSpentSeconds: number;
   completedAt: string;
+  details?: QuestionResultDetail[];
 }
