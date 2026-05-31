@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { PracticeQuestion } from '../../types/practice';
 
 interface SlidingPuzzleProps {
@@ -9,55 +9,31 @@ interface SlidingPuzzleProps {
 }
 
 const TILE_COLORS = [
-  '#FFB3BA', // pastel pink
-  '#FFDFBA', // pastel peach
-  '#FFFFBA', // pastel yellow
-  '#BAFFC9', // pastel green
-  '#BAE1FF', // pastel blue
-  '#D4BAFF', // pastel purple
-  '#FFB3E6', // pastel magenta
-  '#B3FFF0', // pastel teal
-  '#FFDAB3', // pastel orange
-  '#C9BAFF', // pastel indigo
-  '#FFE0B3', // pastel amber
-  '#B3D4FF', // pastel sky
-  '#E8BAFF', // pastel orchid
-  '#B3FFD9', // pastel mint
-  '#FFB3C9', // pastel rose
+  '#FFB3BA', '#FFDFBA', '#FFFFBA', '#BAFFC9', '#BAE1FF',
+  '#D4BAFF', '#FFB3E6', '#B3FFF0', '#FFDAB3', '#C9BAFF',
+  '#FFE0B3', '#B3D4FF', '#E8BAFF', '#B3FFD9', '#FFB3C9',
 ];
-
-const confettiKeyframes = `
-@keyframes slidePuzzleConfettiBurst {
-  0% { transform: translateY(0) scale(1) rotate(0deg); opacity: 1; }
-  50% { opacity: 1; }
-  100% { transform: translateY(-120px) scale(0.3) rotate(360deg); opacity: 0; }
-}
-@keyframes slidePuzzleCelebrate {
-  0%, 100% { transform: scale(1); }
-  50% { transform: scale(1.08); }
-}
-@keyframes slidePuzzleBounceIn {
-  0% { transform: scale(0.3); opacity: 0; }
-  50% { transform: scale(1.1); }
-  100% { transform: scale(1); opacity: 1; }
-}
-`;
 
 const CONFETTI_EMOJIS = ['🎉', '⭐', '🌟', '🎊', '✨', '🥳', '💫', '🎈'];
 
 export default function SlidingPuzzle({ question, onComplete }: SlidingPuzzleProps) {
   const size = question.puzzleSize || 3;
-  const cellSize = size === 3 ? 70 : 55;
-  const gap = 6;
+  const cellSize = size === 3 ? 75 : 60;
+  const gap = 8;
 
-  const [tiles, setTiles] = React.useState<(string | null)[]>(
+  const [tiles, setTiles] = useState<(string | null)[]>(
     () => question.puzzleTiles ? [...question.puzzleTiles] : []
   );
-  const [moves, setMoves] = React.useState(0);
-  const [solved, setSolved] = React.useState(false);
-  const [lastMoved, setLastMoved] = React.useState<number | null>(null);
+  
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [moves, setMoves] = useState(0);
+  const [solved, setSolved] = useState(false);
+  const [tilt, setTilt] = useState({ beta: 0, gamma: 0 });
 
-  const isSolved = React.useCallback((arr: (string | null)[]) => {
+  // Cooldown flags to prevent infinite sliding
+  const tiltLock = useRef({ h: false, v: false });
+
+  const isSolved = useCallback((arr: (string | null)[]) => {
     const total = size * size;
     for (let i = 0; i < total - 1; i++) {
       if (arr[i] !== String(i + 1)) return false;
@@ -65,204 +41,294 @@ export default function SlidingPuzzle({ question, onComplete }: SlidingPuzzlePro
     return arr[total - 1] === null;
   }, [size]);
 
-  const getAdjacentIndices = React.useCallback((index: number) => {
-    const row = Math.floor(index / size);
-    const col = index % size;
-    const adj: number[] = [];
-    if (row > 0) adj.push((row - 1) * size + col);
-    if (row < size - 1) adj.push((row + 1) * size + col);
-    if (col > 0) adj.push(row * size + (col - 1));
-    if (col < size - 1) adj.push(row * size + (col + 1));
-    return adj;
-  }, [size]);
+  const requestPermission = async () => {
+    if (typeof (DeviceOrientationEvent as any).requestPermission === 'function') {
+      try {
+        const permissionState = await (DeviceOrientationEvent as any).requestPermission();
+        if (permissionState === 'granted') {
+          setIsPlaying(true);
+        } else {
+          alert('Tilt permission denied! You can still tap to slide.');
+          setIsPlaying(true);
+        }
+      } catch (e) {
+        setIsPlaying(true);
+      }
+    } else {
+      setIsPlaying(true);
+    }
+  };
 
-  const handleTileClick = React.useCallback((clickedIndex: number) => {
-    if (solved) return;
+  // The core slide logic (can be triggered by tap OR tilt)
+  const slideTileToEmpty = useCallback((fromIndex: number) => {
+    setTiles(prev => {
+      const emptyIndex = prev.indexOf(null);
+      const newTiles = [...prev];
+      newTiles[emptyIndex] = newTiles[fromIndex];
+      newTiles[fromIndex] = null;
+      
+      setMoves(m => m + 1);
+
+      if (isSolved(newTiles)) {
+        setSolved(true);
+        setTimeout(() => onComplete(question.id, true), 2000);
+      }
+      return newTiles;
+    });
+  }, [isSolved, onComplete, question.id]);
+
+  // Tilt handling logic
+  useEffect(() => {
+    if (!isPlaying || solved) return;
+
+    const handleOrientation = (e: DeviceOrientationEvent) => {
+      let b = e.beta || 0; // -180 to 180 (front/back)
+      let g = e.gamma || 0; // -90 to 90 (left/right)
+
+      setTilt({ beta: b, gamma: g });
+
+      setTiles(currentTiles => {
+        const emptyIndex = currentTiles.indexOf(null);
+        if (emptyIndex === -1) return currentTiles;
+
+        const emptyRow = Math.floor(emptyIndex / size);
+        const emptyCol = emptyIndex % size;
+
+        let moved = false;
+        let newFromIndex = -1;
+
+        const tiltThreshold = 25;
+        const resetThreshold = 10;
+
+        // HORIZONTAL TILT LOGIC
+        if (g < -tiltThreshold && !tiltLock.current.h) {
+          // Tilted Left -> Tile on the RIGHT slides LEFT into empty
+          if (emptyCol < size - 1) {
+            newFromIndex = emptyIndex + 1;
+            moved = true;
+          }
+          tiltLock.current.h = true;
+        } else if (g > tiltThreshold && !tiltLock.current.h) {
+          // Tilted Right -> Tile on the LEFT slides RIGHT into empty
+          if (emptyCol > 0) {
+            newFromIndex = emptyIndex - 1;
+            moved = true;
+          }
+          tiltLock.current.h = true;
+        } else if (Math.abs(g) < resetThreshold) {
+          tiltLock.current.h = false;
+        }
+
+        // VERTICAL TILT LOGIC
+        if (b < -tiltThreshold && !tiltLock.current.v) {
+          // Tilted UP (forward) -> Tile BELOW slides UP into empty
+          if (emptyRow < size - 1) {
+            newFromIndex = emptyIndex + size;
+            moved = true;
+          }
+          tiltLock.current.v = true;
+        } else if (b > tiltThreshold && !tiltLock.current.v) {
+          // Tilted DOWN (backward) -> Tile ABOVE slides DOWN into empty
+          if (emptyRow > 0) {
+            newFromIndex = emptyIndex - size;
+            moved = true;
+          }
+          tiltLock.current.v = true;
+        } else if (Math.abs(b) < resetThreshold) {
+          tiltLock.current.v = false;
+        }
+
+        if (moved && newFromIndex !== -1) {
+          const newTiles = [...currentTiles];
+          newTiles[emptyIndex] = newTiles[newFromIndex];
+          newTiles[newFromIndex] = null;
+          
+          setMoves(m => m + 1);
+          if (isSolved(newTiles)) {
+            setSolved(true);
+            setTimeout(() => onComplete(question.id, true), 2000);
+          }
+          return newTiles;
+        }
+
+        return currentTiles;
+      });
+    };
+
+    window.addEventListener('deviceorientation', handleOrientation);
+    return () => window.removeEventListener('deviceorientation', handleOrientation);
+  }, [isPlaying, solved, size, isSolved, onComplete, question.id]);
+
+  const handleTileClick = (clickedIndex: number) => {
+    if (solved || !isPlaying) return;
     if (tiles[clickedIndex] === null) return;
 
     const emptyIndex = tiles.indexOf(null);
-    const adjacent = getAdjacentIndices(clickedIndex);
+    const row = Math.floor(clickedIndex / size);
+    const col = clickedIndex % size;
+    const eRow = Math.floor(emptyIndex / size);
+    const eCol = emptyIndex % size;
 
-    if (!adjacent.includes(emptyIndex)) return;
-
-    const newTiles = [...tiles];
-    newTiles[emptyIndex] = newTiles[clickedIndex];
-    newTiles[clickedIndex] = null;
-
-    setTiles(newTiles);
-    setMoves((m) => m + 1);
-    setLastMoved(emptyIndex);
-
-    if (isSolved(newTiles)) {
-      setSolved(true);
-      onComplete(question.id, true);
+    // Check adjacency
+    const isAdjacent = (Math.abs(row - eRow) === 1 && col === eCol) || 
+                       (Math.abs(col - eCol) === 1 && row === eRow);
+    
+    if (isAdjacent) {
+      slideTileToEmpty(clickedIndex);
     }
-  }, [tiles, solved, getAdjacentIndices, isSolved, onComplete, question.id]);
+  };
 
   const gridWidth = size * cellSize + (size - 1) * gap;
+
+  // Calculate dynamic shadows based on tilt
+  const shadowX = Math.max(-10, Math.min(10, tilt.gamma / 3));
+  const shadowY = Math.max(-10, Math.min(10, tilt.beta / 3));
 
   return (
     <div style={{
       display: 'flex',
       flexDirection: 'column',
       alignItems: 'center',
-      padding: '16px',
-      fontFamily: "'Nunito', 'Segoe UI', sans-serif",
+      padding: '20px',
+      fontFamily: "'Nunito', sans-serif",
     }}>
-      <style>{confettiKeyframes}</style>
-
-      {/* Move Counter */}
-      <div style={{
-        display: 'flex',
-        alignItems: 'center',
-        gap: '8px',
-        marginBottom: '16px',
-        background: '#fff8f5',
-        padding: '8px 20px',
-        borderRadius: '24px',
-        boxShadow: '0 2px 8px rgba(255,107,74,0.12)',
-        border: '2px solid #ffe0d6',
-      }}>
-        <span style={{ fontSize: '20px' }}>🧩</span>
-        <span style={{
-          fontSize: '16px',
-          fontWeight: 700,
-          color: '#2d3748',
-        }}>
-          Moves: {moves}
-        </span>
-      </div>
-
-      {/* Puzzle Grid */}
-      <div style={{
-        position: 'relative',
-        display: 'grid',
-        gridTemplateColumns: `repeat(${size}, ${cellSize}px)`,
-        gridTemplateRows: `repeat(${size}, ${cellSize}px)`,
-        gap: `${gap}px`,
-        padding: '12px',
-        background: 'linear-gradient(135deg, #fff8f5 0%, #ffe8e0 100%)',
-        borderRadius: '16px',
-        boxShadow: '0 4px 20px rgba(255,107,74,0.15)',
-        border: '3px solid #ffcbb8',
-      }}>
-        {tiles.map((tile, index) => {
-          const isEmpty = tile === null;
-          const colorIndex = tile ? (parseInt(tile, 10) - 1) % TILE_COLORS.length : 0;
-          const isLastMoved = lastMoved === index && tile !== null;
-
-          return (
-            <button
-              key={index}
-              onClick={() => handleTileClick(index)}
-              disabled={isEmpty || solved}
-              aria-label={isEmpty ? 'Empty slot' : `Tile ${tile}`}
-              style={{
-                width: `${cellSize}px`,
-                height: `${cellSize}px`,
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                border: isEmpty
-                  ? '2px dashed #ddd'
-                  : '2px solid rgba(0,0,0,0.08)',
-                borderRadius: '12px',
-                background: isEmpty
-                  ? 'transparent'
-                  : `linear-gradient(145deg, ${TILE_COLORS[colorIndex]}, ${TILE_COLORS[(colorIndex + 3) % TILE_COLORS.length]}dd)`,
-                cursor: isEmpty || solved ? 'default' : 'pointer',
-                fontSize: size === 3 ? '24px' : '18px',
-                fontWeight: 800,
-                color: '#2d3748',
-                boxShadow: isEmpty
-                  ? 'none'
-                  : '0 3px 8px rgba(0,0,0,0.12), inset 0 1px 2px rgba(255,255,255,0.6)',
-                transition: 'transform 200ms ease, box-shadow 200ms ease',
-                transform: isLastMoved ? 'scale(1.05)' : 'scale(1)',
-                padding: 0,
-                outline: 'none',
-                position: 'relative',
-                overflow: 'hidden',
-              }}
-              onMouseEnter={(e) => {
-                if (!isEmpty && !solved) {
-                  (e.currentTarget as HTMLButtonElement).style.transform = 'scale(1.06)';
-                  (e.currentTarget as HTMLButtonElement).style.boxShadow = '0 5px 14px rgba(0,0,0,0.18), inset 0 1px 2px rgba(255,255,255,0.6)';
-                }
-              }}
-              onMouseLeave={(e) => {
-                if (!isEmpty && !solved) {
-                  (e.currentTarget as HTMLButtonElement).style.transform = 'scale(1)';
-                  (e.currentTarget as HTMLButtonElement).style.boxShadow = '0 3px 8px rgba(0,0,0,0.12), inset 0 1px 2px rgba(255,255,255,0.6)';
-                }
-              }}
-            >
-              {!isEmpty && tile}
-            </button>
-          );
-        })}
-      </div>
-
-      {/* Solved Celebration */}
-      {solved && (
+      {!isPlaying ? (
         <div style={{
-          marginTop: '20px',
           textAlign: 'center',
-          position: 'relative',
+          background: 'linear-gradient(135deg, #fff8f5 0%, #ffe8e0 100%)',
+          padding: '30px',
+          borderRadius: '24px',
+          boxShadow: '0 10px 25px rgba(255,107,74,0.15)',
+          maxWidth: '400px'
         }}>
-          {/* Confetti Burst */}
-          <div style={{
-            position: 'absolute',
-            top: '-30px',
-            left: '50%',
-            transform: 'translateX(-50%)',
-            width: '200px',
-            height: '120px',
-            pointerEvents: 'none',
-          }}>
-            {CONFETTI_EMOJIS.map((emoji, i) => (
-              <span
-                key={i}
-                style={{
-                  position: 'absolute',
-                  fontSize: '22px',
-                  left: `${10 + (i * 25) % 180}px`,
-                  top: '80px',
-                  animation: `slidePuzzleConfettiBurst ${0.8 + i * 0.15}s ease-out ${i * 0.08}s forwards`,
-                  opacity: 0,
-                }}
-              >
-                {emoji}
-              </span>
-            ))}
-          </div>
-
-          <div style={{
-            animation: 'slidePuzzleBounceIn 0.5s ease-out forwards',
-            background: 'linear-gradient(135deg, #ff6b4a, #ff7e5f)',
-            color: 'white',
-            padding: '14px 32px',
-            borderRadius: '20px',
-            fontSize: '18px',
-            fontWeight: 800,
-            boxShadow: '0 4px 16px rgba(255,107,74,0.35)',
-          }}>
-            🎉 Awesome! Solved in {moves} moves! 🎉
-          </div>
+          <h2 style={{ color: '#2d3748', margin: '0 0 16px 0', fontSize: '1.5rem' }}>Motion Puzzle 🧩</h2>
+          <p style={{ color: '#4a5568', marginBottom: '24px', fontSize: '1.1rem' }}>
+            Tilt your phone to slide the blocks! Get them in numerical order from 1 to {size*size-1}!
+          </p>
+          <button
+            onClick={requestPermission}
+            style={{
+              padding: '14px 32px',
+              fontSize: '1.2rem',
+              borderRadius: '16px',
+              border: 'none',
+              background: 'linear-gradient(135deg, #ff6b4a 0%, #ff7e5f 100%)',
+              color: 'white',
+              cursor: 'pointer',
+              fontWeight: 800,
+              boxShadow: '0 4px 12px rgba(255,107,74,0.3)',
+              transition: 'transform 0.2s ease'
+            }}
+          >
+            Enable Motion Controls 📱
+          </button>
         </div>
+      ) : (
+        <>
+          <div style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: '8px',
+            marginBottom: '24px',
+            background: 'white',
+            padding: '8px 24px',
+            borderRadius: '30px',
+            boxShadow: '0 4px 12px rgba(0,0,0,0.05)',
+            border: '2px solid #edf2f7',
+          }}>
+            <span style={{ fontSize: '18px', fontWeight: 800, color: '#4a5568' }}>Moves:</span>
+            <span style={{ fontSize: '22px', fontWeight: 900, color: '#ff6b4a' }}>{moves}</span>
+          </div>
+
+          <div style={{
+            position: 'relative',
+            display: 'grid',
+            gridTemplateColumns: `repeat(${size}, ${cellSize}px)`,
+            gridTemplateRows: `repeat(${size}, ${cellSize}px)`,
+            gap: \`\${gap}px\`,
+            padding: '16px',
+            background: '#e2e8f0', // Backboard color
+            borderRadius: '20px',
+            boxShadow: \`inset \${shadowX}px \${shadowY}px 20px rgba(0,0,0,0.1), 0 20px 40px rgba(0,0,0,0.15)\`,
+            border: '4px solid #cbd5e0',
+            perspective: '1000px', // For 3D effect
+            transformStyle: 'preserve-3d',
+            transform: \`rotateX(\${-tilt.beta/4}deg) rotateY(\${tilt.gamma/4}deg)\`,
+            transition: 'transform 0.1s ease-out'
+          }}>
+            {tiles.map((tile, index) => {
+              const isEmpty = tile === null;
+              const colorIndex = tile ? (parseInt(tile, 10) - 1) % TILE_COLORS.length : 0;
+              const baseColor = TILE_COLORS[colorIndex];
+
+              return (
+                <button
+                  key={index}
+                  onClick={() => handleTileClick(index)}
+                  disabled={isEmpty || solved}
+                  style={{
+                    width: \`\${cellSize}px\`,
+                    height: \`\${cellSize}px\`,
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    border: 'none',
+                    borderRadius: '16px',
+                    background: isEmpty ? 'transparent' : \`linear-gradient(135deg, \${baseColor}, \${baseColor}dd)\`,
+                    cursor: isEmpty || solved ? 'default' : 'pointer',
+                    fontSize: size === 3 ? '32px' : '24px',
+                    fontWeight: 900,
+                    color: 'rgba(0,0,0,0.6)',
+                    // dynamic shadow reacting to phone tilt!
+                    boxShadow: isEmpty ? 'none' : \`
+                      inset 2px 2px 4px rgba(255,255,255,0.7), 
+                      inset -2px -2px 4px rgba(0,0,0,0.1),
+                      \${shadowX}px \${shadowY}px 8px rgba(0,0,0,0.2)
+                    \`,
+                    padding: 0,
+                    outline: 'none',
+                    transform: isEmpty ? 'none' : \`translateZ(\${solved ? 0 : 15}px)\`,
+                    transition: 'all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275)'
+                  }}
+                >
+                  {!isEmpty && tile}
+                </button>
+              );
+            })}
+          </div>
+
+          <div style={{ marginTop: '24px', color: '#a0aec0', fontSize: '0.9rem', fontWeight: 600 }}>
+            Tilt phone to slide blocks!
+          </div>
+
+          {solved && (
+            <div style={{
+              position: 'absolute',
+              top: '50%',
+              left: '50%',
+              transform: 'translate(-50%, -50%)',
+              background: 'rgba(255,255,255,0.95)',
+              padding: '30px 40px',
+              borderRadius: '24px',
+              textAlign: 'center',
+              boxShadow: '0 20px 40px rgba(0,0,0,0.2)',
+              animation: 'slidePuzzleBounceIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards'
+            }}>
+              <div style={{ fontSize: '4rem', marginBottom: '10px' }}>🏆</div>
+              <h2 style={{ color: '#ff6b4a', margin: 0, fontSize: '2rem' }}>Solved!</h2>
+              <p style={{ color: '#4a5568', fontWeight: 700, margin: '10px 0 0 0' }}>{moves} moves</p>
+            </div>
+          )}
+        </>
       )}
 
-      {/* Helper Text */}
-      {!solved && (
-        <p style={{
-          marginTop: '14px',
-          fontSize: '13px',
-          color: '#888',
-          textAlign: 'center',
-        }}>
-          Tap a tile next to the empty space to slide it! 🧩
-        </p>
-      )}
+      <style dangerouslySetInnerHTML={{__html: \`
+        @keyframes slidePuzzleBounceIn {
+          0% { transform: translate(-50%, -50%) scale(0.3); opacity: 0; }
+          50% { transform: translate(-50%, -50%) scale(1.1); }
+          100% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+        }
+      \`}} />
     </div>
   );
 }

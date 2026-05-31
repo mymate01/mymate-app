@@ -1,5 +1,5 @@
 'use client';
-import React, { useState, useCallback, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { PracticeQuestion } from '../../types/practice';
 
 interface MazeGameProps {
@@ -8,239 +8,338 @@ interface MazeGameProps {
 }
 
 export default function MazeGame({ question, onComplete }: MazeGameProps) {
-  const [selectedCells, setSelectedCells] = useState<Set<string>>(new Set());
-  const [showError, setShowError] = useState(false);
-  const [moves, setMoves] = useState(0);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [hasPermission, setHasPermission] = useState(false);
+  const [gameWon, setGameWon] = useState(false);
 
   const grid = question.mazeGrid;
   if (!grid) return <div>Invalid maze data</div>;
 
   const rows = grid.length;
   const cols = grid[0].length;
+  const cellSize = 40; // pixel size per grid cell
+  const charRadius = 12; // hit box
 
-  // Initialize start and end cells in the set
+  const [charPos, setCharPos] = useState({ x: 0, y: 0 });
+  const [tilt, setTilt] = useState({ beta: 0, gamma: 0 });
+
+  const posRef = useRef({ x: 0, y: 0 });
+  const velRef = useRef({ vx: 0, vy: 0 });
+  const animRef = useRef<number | null>(null);
+
+  // Find start and end
   useEffect(() => {
-    const initialSet = new Set<string>();
+    let startX = 0, startY = 0;
     for (let r = 0; r < rows; r++) {
       for (let c = 0; c < cols; c++) {
-        if (grid[r][c] === 2 || grid[r][c] === 3) {
-          initialSet.add(`${r},${c}`);
+        if (grid[r][c] === 2) {
+          startX = c * cellSize + cellSize / 2;
+          startY = r * cellSize + cellSize / 2;
         }
       }
     }
-    setSelectedCells(initialSet);
-    setMoves(0);
-    setShowError(false);
-  }, [question.id, grid, rows, cols]);
+    setCharPos({ x: startX, y: startY });
+    posRef.current = { x: startX, y: startY };
+  }, [grid, cols, rows]);
 
-  const toggleCell = (r: number, c: number) => {
-    // Only paths can be toggled
-    if (grid[r][c] === 1 || grid[r][c] === 2 || grid[r][c] === 3) return;
-
-    setShowError(false);
-    setSelectedCells(prev => {
-      const next = new Set(prev);
-      const key = `${r},${c}`;
-      if (next.has(key)) {
-        next.delete(key);
-      } else {
-        next.add(key);
+  const requestPermission = async () => {
+    if (typeof (DeviceOrientationEvent as any).requestPermission === 'function') {
+      try {
+        const permissionState = await (DeviceOrientationEvent as any).requestPermission();
+        if (permissionState === 'granted') {
+          setHasPermission(true);
+          startGame();
+        } else {
+          alert('Tilt permission denied! You can still play by dragging the character.');
+          setHasPermission(true); // Fallback to drag
+          startGame();
+        }
+      } catch (e) {
+        console.error(e);
+        setHasPermission(true);
+        startGame();
       }
-      return next;
-    });
-    setMoves(m => m + 1);
+    } else {
+      // Non-iOS 13+ devices
+      setHasPermission(true);
+      startGame();
+    }
   };
 
-  const checkRoute = useCallback(() => {
-    // Find start cell
-    let startCell = '';
-    let endCell = '';
-    for (let r = 0; r < rows; r++) {
-      for (let c = 0; c < cols; c++) {
-        if (grid[r][c] === 2) startCell = `${r},${c}`;
-        if (grid[r][c] === 3) endCell = `${r},${c}`;
-      }
-    }
+  const startGame = () => {
+    setIsPlaying(true);
+    setGameWon(false);
+  };
 
-    if (!startCell || !endCell) return;
+  // Device orientation listener
+  useEffect(() => {
+    if (!isPlaying) return;
 
-    // Check if there is a connected path from start to end using ONLY selectedCells
-    const visited = new Set<string>();
-    const queue = [startCell];
-    visited.add(startCell);
+    const handleOrientation = (e: DeviceOrientationEvent) => {
+      // beta: front-to-back tilt (-180 to 180), gamma: left-to-right tilt (-90 to 90)
+      const maxTilt = 30; // limit tilt influence
+      let b = e.beta || 0;
+      let g = e.gamma || 0;
 
-    let foundEnd = false;
+      // Handle weird flips
+      if (b > 90) b = 90;
+      if (b < -90) b = -90;
 
-    while (queue.length > 0) {
-      const curr = queue.shift()!;
-      if (curr === endCell) {
-        foundEnd = true;
-        break;
-      }
+      setTilt({ beta: b, gamma: g });
+    };
 
-      const [r, c] = curr.split(',').map(Number);
-      const neighbors = [
-        [r - 1, c], [r + 1, c], [r, c - 1], [r, c + 1]
-      ];
+    window.addEventListener('deviceorientation', handleOrientation);
+    return () => window.removeEventListener('deviceorientation', handleOrientation);
+  }, [isPlaying]);
 
-      for (const [nr, nc] of neighbors) {
-        const key = `${nr},${nc}`;
-        if (nr >= 0 && nr < rows && nc >= 0 && nc < cols) {
-          if (selectedCells.has(key) && !visited.has(key)) {
-            visited.add(key);
-            queue.push(key);
+  // Physics loop
+  useEffect(() => {
+    if (!isPlaying || gameWon) return;
+
+    let lastTime = performance.now();
+
+    const loop = (time: number) => {
+      const dt = (time - lastTime) / 1000;
+      lastTime = time;
+
+      // Apply acceleration from tilt
+      const accelFactor = 50; // pixels per sec per degree
+      velRef.current.vx += tilt.gamma * accelFactor * dt;
+      velRef.current.vy += tilt.beta * accelFactor * dt;
+
+      // Friction
+      velRef.current.vx *= 0.85;
+      velRef.current.vy *= 0.85;
+
+      let nextX = posRef.current.x + velRef.current.vx * dt;
+      let nextY = posRef.current.y + velRef.current.vy * dt;
+
+      // Collision detection against walls and boundaries
+      const clampX = Math.max(charRadius, Math.min(nextX, cols * cellSize - charRadius));
+      const clampY = Math.max(charRadius, Math.min(nextY, rows * cellSize - charRadius));
+
+      // Grid collision
+      const checkCollision = (cx: number, cy: number) => {
+        const topRow = Math.floor((cy - charRadius) / cellSize);
+        const bottomRow = Math.floor((cy + charRadius) / cellSize);
+        const leftCol = Math.floor((cx - charRadius) / cellSize);
+        const rightCol = Math.floor((cx + charRadius) / cellSize);
+
+        for (let r = topRow; r <= bottomRow; r++) {
+          for (let c = leftCol; c <= rightCol; c++) {
+            if (r >= 0 && r < rows && c >= 0 && c < cols) {
+              if (grid[r][c] === 1) { // Wall
+                return true;
+              }
+              if (grid[r][c] === 3) { // Goal
+                setGameWon(true);
+                return false; // don't block
+              }
+            }
           }
         }
-      }
-    }
+        return false;
+      };
 
-    if (foundEnd) {
-      onComplete(question.id, true);
-    } else {
-      setShowError(true);
-      setTimeout(() => setShowError(false), 2000);
-    }
-  }, [rows, cols, grid, selectedCells, question.id, onComplete]);
-
-  const resetPath = () => {
-    const initialSet = new Set<string>();
-    for (let r = 0; r < rows; r++) {
-      for (let c = 0; c < cols; c++) {
-        if (grid[r][c] === 2 || grid[r][c] === 3) {
-          initialSet.add(`${r},${c}`);
-        }
+      // Check X movement
+      if (checkCollision(clampX, posRef.current.y)) {
+        velRef.current.vx = -velRef.current.vx * 0.3; // bounce
+      } else {
+        posRef.current.x = clampX;
       }
+
+      // Check Y movement
+      if (checkCollision(posRef.current.x, clampY)) {
+        velRef.current.vy = -velRef.current.vy * 0.3; // bounce
+      } else {
+        posRef.current.y = clampY;
+      }
+
+      setCharPos({ x: posRef.current.x, y: posRef.current.y });
+
+      if (!gameWon) {
+        animRef.current = requestAnimationFrame(loop);
+      }
+    };
+
+    animRef.current = requestAnimationFrame(loop);
+
+    return () => {
+      if (animRef.current) cancelAnimationFrame(animRef.current);
+    };
+  }, [isPlaying, tilt, gameWon, cols, rows, grid]);
+
+  // Handle Win
+  useEffect(() => {
+    if (gameWon) {
+      setTimeout(() => {
+        onComplete(question.id, true);
+      }, 2000);
     }
-    setSelectedCells(initialSet);
-    setShowError(false);
-    setMoves(0);
-  };
+  }, [gameWon, onComplete, question.id]);
 
   return (
     <div style={{
       display: 'flex',
       flexDirection: 'column',
       alignItems: 'center',
-      gap: '1.5rem',
-      padding: '1rem',
-      fontFamily: 'sans-serif'
+      gap: '20px',
+      padding: '20px',
+      fontFamily: "'Nunito', sans-serif"
     }}>
-      <div style={{
-        background: '#fff8f5',
-        padding: '1rem 2rem',
-        borderRadius: '16px',
-        color: '#2d3748',
-        fontWeight: 'bold',
-        fontSize: '1.2rem',
-        border: '2px solid #ffeedd'
-      }}>
-        Moves: {moves}
-      </div>
-
-      <div style={{
-        display: 'grid',
-        gridTemplateColumns: `repeat(${cols}, 1fr)`,
-        gap: '4px',
-        background: '#e2e8f0',
-        padding: '8px',
-        borderRadius: '12px',
-        boxShadow: '0 4px 6px -1px rgba(0,0,0,0.1)',
-        animation: showError ? 'shake 0.5s ease' : 'none'
-      }}>
-        {grid.map((row, r) => (
-          row.map((cell, c) => {
-            const isSelected = selectedCells.has(`${r},${c}`);
-            let bgColor = cell === 1 ? '#2d3748' : '#f7fafc'; // wall vs path
-            if (isSelected && cell === 0) bgColor = '#ffbb99'; // selected path
-            if (cell === 2 || cell === 3) bgColor = '#ffeedd'; // start/end
-
-            let content = '';
-            if (cell === 2) content = '🐱';
-            if (cell === 3) content = '🏠';
-            if (isSelected && cell === 0) content = '👣';
-
-            return (
-              <div
-                key={`${r},${c}`}
-                onClick={() => toggleCell(r, c)}
-                style={{
-                  width: 'clamp(30px, 8vw, 44px)',
-                  height: 'clamp(30px, 8vw, 44px)',
-                  background: bgColor,
-                  borderRadius: cell === 1 ? '6px' : '4px',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  fontSize: 'clamp(14px, 4vw, 24px)',
-                  cursor: cell === 1 ? 'default' : 'pointer',
-                  transition: 'background-color 0.2s ease, transform 0.1s ease',
-                  transform: isSelected && cell === 0 ? 'scale(0.95)' : 'scale(1)',
-                  boxShadow: cell === 1 ? 'none' : 'inset 0 0 0 1px rgba(0,0,0,0.05)'
-                }}
-              >
-                {content}
-              </div>
-            );
-          })
-        ))}
-      </div>
-
-      {showError && (
+      
+      {!isPlaying ? (
         <div style={{
-          color: '#e53e3e',
-          fontWeight: 'bold',
-          fontSize: '1.2rem',
-          animation: 'fadeIn 0.3s ease'
+          textAlign: 'center',
+          background: '#e6fffa',
+          padding: '30px',
+          borderRadius: '24px',
+          boxShadow: '0 10px 25px rgba(0,0,0,0.1)',
+          maxWidth: '400px'
         }}>
-          Not quite connected yet. Keep trying!
+          <h2 style={{ color: '#2d3748', margin: '0 0 16px 0', fontSize: '1.5rem' }}>Landscape Maze 🌳</h2>
+          <p style={{ color: '#4a5568', marginBottom: '24px', fontSize: '1.1rem' }}>
+            Tilt your phone to guide the scout to the campsite! Avoid the trees!
+          </p>
+          <button
+            onClick={requestPermission}
+            style={{
+              padding: '14px 32px',
+              fontSize: '1.2rem',
+              borderRadius: '16px',
+              border: 'none',
+              background: 'linear-gradient(135deg, #38b2ac 0%, #319795 100%)',
+              color: 'white',
+              cursor: 'pointer',
+              fontWeight: 800,
+              boxShadow: '0 4px 12px rgba(49,151,149,0.3)',
+              transition: 'transform 0.2s ease'
+            }}
+          >
+            Start Expedition 🏕️
+          </button>
+        </div>
+      ) : (
+        <>
+          <div style={{
+            position: 'relative',
+            width: `${cols * cellSize}px`,
+            height: `${rows * cellSize}px`,
+            background: '#a8e6cf', // Grass background
+            borderRadius: '16px',
+            boxShadow: 'inset 0 0 20px rgba(0,0,0,0.1), 0 10px 30px rgba(0,0,0,0.15)',
+            overflow: 'hidden',
+            border: '6px solid #82c8a0'
+          }}>
+            {/* Draw Maze */}
+            {grid.map((row, r) => (
+              row.map((cell, c) => {
+                const x = c * cellSize;
+                const y = r * cellSize;
+                
+                if (cell === 1) {
+                  // Tree / Wall
+                  return (
+                    <div key={`${r}-${c}`} style={{
+                      position: 'absolute',
+                      left: x,
+                      top: y,
+                      width: cellSize,
+                      height: cellSize,
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      fontSize: '24px'
+                    }}>
+                      🌲
+                    </div>
+                  );
+                } else if (cell === 0 || cell === 2) {
+                  // Dirt Path
+                  return (
+                    <div key={`${r}-${c}`} style={{
+                      position: 'absolute',
+                      left: x,
+                      top: y,
+                      width: cellSize,
+                      height: cellSize,
+                      background: '#f4d160',
+                      borderRadius: '4px' // slightly rounded dirt path blocks
+                    }} />
+                  );
+                } else if (cell === 3) {
+                  // Tent Goal
+                  return (
+                    <div key={`${r}-${c}`} style={{
+                      position: 'absolute',
+                      left: x,
+                      top: y,
+                      width: cellSize,
+                      height: cellSize,
+                      background: '#f4d160',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      fontSize: '28px',
+                      zIndex: 10
+                    }}>
+                      ⛺
+                    </div>
+                  );
+                }
+                return null;
+              })
+            ))}
+
+            {/* Player Character */}
+            <div style={{
+              position: 'absolute',
+              left: charPos.x - charRadius * 1.5,
+              top: charPos.y - charRadius * 1.5,
+              width: charRadius * 3,
+              height: charRadius * 3,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              fontSize: '24px',
+              zIndex: 20,
+              transform: `rotate(${Math.atan2(velRef.current.vy, velRef.current.vx)}rad)`,
+              transition: 'transform 0.1s linear'
+            }}>
+              🏃
+            </div>
+          </div>
+          
+          <div style={{ fontSize: '0.9rem', color: '#718096', display: 'flex', gap: '20px' }}>
+            <span>Tilt phone to move</span>
+            <span>Beta: {Math.round(tilt.beta)}°</span>
+            <span>Gamma: {Math.round(tilt.gamma)}°</span>
+          </div>
+        </>
+      )}
+
+      {gameWon && (
+        <div style={{
+          position: 'fixed',
+          inset: 0,
+          background: 'rgba(255,255,255,0.9)',
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'center',
+          zIndex: 100,
+          animation: 'bounceIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275)'
+        }}>
+          <span style={{ fontSize: '6rem' }}>🎉⛺🎉</span>
+          <h2 style={{ fontSize: '2.5rem', color: '#ff6b4a', margin: '20px 0' }}>Camp Reached!</h2>
         </div>
       )}
 
-      <div style={{ display: 'flex', gap: '1rem', marginTop: '1rem' }}>
-        <button
-          onClick={resetPath}
-          style={{
-            padding: '12px 24px',
-            fontSize: '1.2rem',
-            borderRadius: '12px',
-            border: '2px solid #e2e8f0',
-            background: 'white',
-            color: '#4a5568',
-            cursor: 'pointer',
-            fontWeight: 'bold',
-            transition: 'all 0.2s ease'
-          }}
-        >
-          🔄 Clear Path
-        </button>
-        <button
-          onClick={checkRoute}
-          style={{
-            padding: '12px 32px',
-            fontSize: '1.2rem',
-            borderRadius: '12px',
-            border: 'none',
-            background: 'linear-gradient(135deg, #ff6b4a 0%, #ff7e5f 100%)',
-            color: 'white',
-            cursor: 'pointer',
-            fontWeight: 'bold',
-            boxShadow: '0 4px 6px -1px rgba(255, 107, 74, 0.4)',
-            transition: 'all 0.2s ease'
-          }}
-        >
-          Check Route ✅
-        </button>
-      </div>
-
       <style dangerouslySetInnerHTML={{__html: `
-        @keyframes shake {
-          0%, 100% { transform: translateX(0); }
-          25% { transform: translateX(-5px); }
-          75% { transform: translateX(5px); }
-        }
-        @keyframes fadeIn {
-          from { opacity: 0; transform: translateY(-10px); }
-          to { opacity: 1; transform: translateY(0); }
+        @keyframes bounceIn {
+          0% { transform: scale(0.3); opacity: 0; }
+          50% { transform: scale(1.05); opacity: 1; }
+          100% { transform: scale(1); }
         }
       `}} />
     </div>
