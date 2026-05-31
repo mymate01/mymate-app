@@ -1834,11 +1834,32 @@ function generateMaze(rows: number, cols: number, seed: number): number[][] {
     for (let c = cols - 2; c >= 0; c--) {
       if (grid[r][c] === 0) {
         grid[r][c] = 3;
-        return grid;
+        break;
+      }
+    }
+    if (grid[rows - 2][cols - 2] === 3) break;
+  }
+  if (grid[rows - 2][cols - 2] !== 3) {
+    grid[rows - 2][cols - 2] = 3;
+  }
+
+  // Add diverse scenery to walls
+  for (let r = 0; r < rows; r++) {
+    for (let c = 0; c < cols; c++) {
+      if (grid[r][c] === 1) {
+        const rand = rng();
+        if (rand < 0.15) {
+          grid[r][c] = 4; // Mountain
+        } else if (rand > 0.15 && rand < 0.25) {
+          grid[r][c] = 5; // River/Water
+        } else if (rand > 0.85) {
+          grid[r][c] = 6; // Hut
+        }
+        // otherwise stays 1 (Tree)
       }
     }
   }
-  grid[rows - 2][cols - 2] = 3;
+
   return grid;
 }
 

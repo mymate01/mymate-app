@@ -240,8 +240,10 @@ export default function MazeGame({ question, onComplete }: MazeGameProps) {
                 const x = c * cellSize;
                 const y = r * cellSize;
                 
-                if (cell === 1) {
-                  // Tree / Wall
+                if (cell === 1 || cell === 4 || cell === 6) {
+                  const icon = cell === 1 ? '🌲' : cell === 4 ? '⛰️' : '🛖';
+                  const size = cell === 4 ? '42px' : '32px'; // mountains are bigger
+                  
                   return (
                     <div key={`${r}-${c}`} style={{
                       position: 'absolute',
@@ -252,15 +254,31 @@ export default function MazeGame({ question, onComplete }: MazeGameProps) {
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center',
-                      fontSize: '32px',
+                      fontSize: size,
                       transform: 'translateZ(10px) rotateZ(-45deg) rotateX(-55deg)',
                       transformOrigin: 'bottom center',
                       textShadow: '0 10px 10px rgba(0,0,0,0.4)',
                       zIndex: 10
                     }}>
-                      🌲
+                      {icon}
                     </div>
                   );
+                } else if (cell === 5) {
+                   // River
+                   return (
+                     <div key={`${r}-${c}`} style={{
+                       position: 'absolute',
+                       left: x,
+                       top: y,
+                       width: cellSize,
+                       height: cellSize,
+                       background: '#4299e1',
+                       borderRadius: '8px',
+                       boxShadow: 'inset 0 0 10px rgba(0,0,0,0.1)'
+                     }}>
+                       <div style={{ width: '100%', height: '100%', opacity: 0.3, backgroundImage: 'radial-gradient(#fff 2px, transparent 2px)', backgroundSize: '10px 10px', animation: 'riverFlow 3s linear infinite' }} />
+                     </div>
+                   );
                 } else if (cell === 0 || cell === 2) {
                   // Dirt Path
                   return (
@@ -271,7 +289,8 @@ export default function MazeGame({ question, onComplete }: MazeGameProps) {
                       width: cellSize,
                       height: cellSize,
                       background: '#f4d160',
-                      borderRadius: '4px' // slightly rounded dirt path blocks
+                      borderRadius: '50%', // very curvy
+                      boxShadow: 'inset 0 0 5px rgba(0,0,0,0.05)'
                     }} />
                   );
                 } else if (cell === 3) {
@@ -317,14 +336,20 @@ export default function MazeGame({ question, onComplete }: MazeGameProps) {
               transformOrigin: 'bottom center',
               transition: 'transform 0.1s linear',
             }}>
-              {/* Head */}
-              <div style={{ width: '14px', height: '14px', borderRadius: '50%', background: '#ffb38a', marginBottom: '2px', boxShadow: 'inset -2px -2px rgba(0,0,0,0.1)' }} />
-              {/* Body */}
-              <div style={{ width: '16px', height: '18px', background: '#4299e1', borderRadius: '6px', zIndex: 2, boxShadow: 'inset -2px -2px rgba(0,0,0,0.1)' }} />
-              {/* Legs */}
-              <div style={{ display: 'flex', gap: '4px', marginTop: '-4px', zIndex: 1 }}>
-                 <div style={{ width: '6px', height: '12px', background: '#2b6cb0', borderRadius: '3px', animation: (Math.abs(velRef.current.vx) > 0.5 || Math.abs(velRef.current.vy) > 0.5) ? 'swingLeg 0.3s alternate infinite' : 'none' }} />
-                 <div style={{ width: '6px', height: '12px', background: '#2b6cb0', borderRadius: '3px', animation: (Math.abs(velRef.current.vx) > 0.5 || Math.abs(velRef.current.vy) > 0.5) ? 'swingLeg 0.3s alternate-reverse infinite' : 'none' }} />
+              <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', animation: (Math.abs(velRef.current.vx) > 0.5 || Math.abs(velRef.current.vy) > 0.5) ? 'walkWobble 0.3s alternate infinite' : 'none' }}>
+                {/* Head */}
+                <div style={{ width: '14px', height: '14px', borderRadius: '50%', background: '#ffb38a', marginBottom: '2px', boxShadow: 'inset -2px -2px rgba(0,0,0,0.1)' }} />
+                {/* Torso & Arms */}
+                <div style={{ position: 'relative', display: 'flex', justifyContent: 'center', zIndex: 2 }}>
+                  <div style={{ position: 'absolute', left: '-5px', top: '2px', width: '5px', height: '13px', background: '#ffb38a', borderRadius: '3px', transformOrigin: 'top center', animation: (Math.abs(velRef.current.vx) > 0.5 || Math.abs(velRef.current.vy) > 0.5) ? 'swingArm 0.3s alternate-reverse infinite' : 'none' }} />
+                  <div style={{ width: '16px', height: '18px', background: '#4299e1', borderRadius: '6px', boxShadow: 'inset -2px -2px rgba(0,0,0,0.1)' }} />
+                  <div style={{ position: 'absolute', right: '-5px', top: '2px', width: '5px', height: '13px', background: '#ffb38a', borderRadius: '3px', transformOrigin: 'top center', animation: (Math.abs(velRef.current.vx) > 0.5 || Math.abs(velRef.current.vy) > 0.5) ? 'swingArm 0.3s alternate infinite' : 'none' }} />
+                </div>
+                {/* Legs */}
+                <div style={{ display: 'flex', gap: '4px', marginTop: '-4px', zIndex: 1 }}>
+                   <div style={{ width: '6px', height: '12px', background: '#2b6cb0', borderRadius: '3px', animation: (Math.abs(velRef.current.vx) > 0.5 || Math.abs(velRef.current.vy) > 0.5) ? 'swingLeg 0.3s alternate infinite' : 'none' }} />
+                   <div style={{ width: '6px', height: '12px', background: '#2b6cb0', borderRadius: '3px', animation: (Math.abs(velRef.current.vx) > 0.5 || Math.abs(velRef.current.vy) > 0.5) ? 'swingLeg 0.3s alternate-reverse infinite' : 'none' }} />
+                </div>
               </div>
             </div>
           </div>
@@ -367,6 +392,14 @@ export default function MazeGame({ question, onComplete }: MazeGameProps) {
         @keyframes swingLeg {
           0% { transform: rotate(35deg); transform-origin: top center; }
           100% { transform: rotate(-35deg); transform-origin: top center; }
+        }
+        @keyframes swingArm {
+          0% { transform: rotate(40deg); transform-origin: top center; }
+          100% { transform: rotate(-40deg); transform-origin: top center; }
+        }
+        @keyframes riverFlow {
+          0% { background-position: 0 0; }
+          100% { background-position: 20px 20px; }
         }
       `}} />
     </div>

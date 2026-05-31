@@ -58,6 +58,16 @@ export default function QuizRunner({
   const [helperLineCounts, setHelperLineCounts] = React.useState<number[]>([0, 0]);
   const [helperLineStrikes, setHelperLineStrikes] = React.useState<Record<number, Record<number, boolean>>>({});
   const [helperObject, setHelperObject] = React.useState('🏀');
+  const [isPortrait, setIsPortrait] = React.useState(false);
+
+  React.useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const checkOrientation = () => setIsPortrait(window.innerHeight > window.innerWidth);
+      checkOrientation();
+      window.addEventListener('resize', checkOrientation);
+      return () => window.removeEventListener('resize', checkOrientation);
+    }
+  }, []);
   const [activeQId, setActiveQId] = React.useState<string | null>(null);
 
   const resetHelperBox = React.useCallback(() => {
@@ -840,6 +850,27 @@ export default function QuizRunner({
   const isGame = selectedModule.subject.startsWith('games_');
   if (isGame) {
     const question = selectedModule.questions[currentQuestionIndex];
+    if (!question) return <div>No question found</div>;
+
+    if (isGame && isMobile && isPortrait) {
+      return (
+        <div style={{ position: 'fixed', inset: 0, background: '#2d3748', color: 'white', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', zIndex: 9999, padding: '20px', textAlign: 'center' }}>
+          <div style={{ fontSize: '4rem', animation: 'wobbleDevice 2.5s infinite ease-in-out' }}>📱</div>
+          <h2 style={{ marginTop: '20px', fontSize: '1.5rem', fontWeight: 800 }}>Please rotate your device</h2>
+          <p style={{ marginTop: '10px', color: '#a0aec0', fontSize: '1.1rem' }}>This game is played in landscape mode!</p>
+          <button onClick={onExit} style={{ marginTop: '30px', padding: '12px 24px', background: 'rgba(255,255,255,0.1)', color: 'white', border: '1px solid rgba(255,255,255,0.2)', borderRadius: '8px' }}>Exit Game</button>
+          <style dangerouslySetInnerHTML={{__html: `
+            @keyframes wobbleDevice {
+              0% { transform: rotate(0deg); }
+              30% { transform: rotate(-90deg); }
+              70% { transform: rotate(-90deg); }
+              100% { transform: rotate(0deg); }
+            }
+          `}} />
+        </div>
+      );
+    }
+
     const progressPercent = Math.round(((currentQuestionIndex + 1) / totalQuestions) * 100);
     const isLastPage = currentQuestionIndex + 1 >= totalQuestions;
     const hLevel = hintLevels[question.id] || 0;
