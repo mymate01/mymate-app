@@ -309,17 +309,23 @@ export default function MazeGame({ question, onComplete }: MazeGameProps) {
               width: charRadius * 3,
               height: charRadius * 3,
               display: 'flex',
+              flexDirection: 'column',
               alignItems: 'center',
-              justifyContent: 'center',
-              fontSize: '32px',
+              justifyContent: 'flex-end',
               zIndex: 20,
-              transform: `translateZ(10px) rotateZ(-45deg) rotateX(-55deg) scaleX(${velRef.current.vx < -0.5 ? -1 : 1})`,
+              transform: `translateZ(10px) rotateZ(-45deg) rotateX(-55deg) scaleX(${velRef.current.vx < -0.5 ? -1 : 1}) rotateZ(${(Math.abs(velRef.current.vx) > 0.5 || Math.abs(velRef.current.vy) > 0.5) ? 15 : 0}deg)`,
               transformOrigin: 'bottom center',
-              textShadow: '0 15px 15px rgba(0,0,0,0.3)',
               transition: 'transform 0.1s linear',
-              animation: (Math.abs(velRef.current.vx) > 0.5 || Math.abs(velRef.current.vy) > 0.5) ? 'walkWobble 0.3s alternate infinite' : 'none'
             }}>
-              🏃
+              {/* Head */}
+              <div style={{ width: '14px', height: '14px', borderRadius: '50%', background: '#ffb38a', marginBottom: '2px', boxShadow: 'inset -2px -2px rgba(0,0,0,0.1)' }} />
+              {/* Body */}
+              <div style={{ width: '16px', height: '18px', background: '#4299e1', borderRadius: '6px', zIndex: 2, boxShadow: 'inset -2px -2px rgba(0,0,0,0.1)' }} />
+              {/* Legs */}
+              <div style={{ display: 'flex', gap: '4px', marginTop: '-4px', zIndex: 1 }}>
+                 <div style={{ width: '6px', height: '12px', background: '#2b6cb0', borderRadius: '3px', animation: (Math.abs(velRef.current.vx) > 0.5 || Math.abs(velRef.current.vy) > 0.5) ? 'swingLeg 0.3s alternate infinite' : 'none' }} />
+                 <div style={{ width: '6px', height: '12px', background: '#2b6cb0', borderRadius: '3px', animation: (Math.abs(velRef.current.vx) > 0.5 || Math.abs(velRef.current.vy) > 0.5) ? 'swingLeg 0.3s alternate-reverse infinite' : 'none' }} />
+              </div>
             </div>
           </div>
           
@@ -357,6 +363,10 @@ export default function MazeGame({ question, onComplete }: MazeGameProps) {
         @keyframes walkWobble {
           0% { margin-bottom: 0px; margin-left: -2px; }
           100% { margin-bottom: 6px; margin-left: 2px; }
+        }
+        @keyframes swingLeg {
+          0% { transform: rotate(35deg); transform-origin: top center; }
+          100% { transform: rotate(-35deg); transform-origin: top center; }
         }
       `}} />
     </div>

@@ -903,10 +903,10 @@ export default function QuizRunner({
 
           <div style={{ flexGrow: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
             {selectedModule.subject === 'games_maze' && (
-              <MazeGame question={question} onComplete={(qId) => onMCQSelect(qId, '1')} />
+              <MazeGame key={question.id} question={question} onComplete={(qId) => onMCQSelect(qId, '1')} />
             )}
             {selectedModule.subject === 'games_puzzle' && (
-              <SlidingPuzzle question={question} onComplete={(qId) => onMCQSelect(qId, '1')} />
+              <SlidingPuzzle key={question.id} question={question} onComplete={(qId) => onMCQSelect(qId, '1')} />
             )}
             {selectedModule.subject === 'games_pattern' && (
               <PatternMatch 
