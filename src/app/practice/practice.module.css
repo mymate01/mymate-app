@@ -265,11 +265,8 @@
 .nextBtnRow {
   position: sticky;
   bottom: 0;
-  background: rgba(253, 251, 247, 0.95);
-  backdrop-filter: blur(10px);
   padding: 12px 0;
   z-index: 100;
-  border-top: 1px solid rgba(0,0,0,0.05);
 }
 
 .exitBtn {

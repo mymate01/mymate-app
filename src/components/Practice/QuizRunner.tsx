@@ -56,14 +56,22 @@ export default function QuizRunner({
   const [carryValues, setCarryValues] = React.useState<Record<string, string>>({});
   const [isHelperOpen, setIsHelperOpen] = React.useState(false);
   const [helperLineCounts, setHelperLineCounts] = React.useState<number[]>([0, 0]);
+  const [helperLineStrikes, setHelperLineStrikes] = React.useState<Record<number, Record<number, boolean>>>({});
   const [helperObject, setHelperObject] = React.useState('🏀');
   const [activeQId, setActiveQId] = React.useState<string | null>(null);
 
   const resetHelperBox = React.useCallback(() => {
-    setHelperLineCounts([0, 0]);
+    setHelperLineCounts(selectedModule.subject === 'maths_subtractions' ? [0] : [0, 0]);
+    setHelperLineStrikes({});
     const symbols = ['🏀', '🍎', '☝️', '📚', '🧸', '🍇', '🎈', '🚗', '⭐', '🦖'];
     setHelperObject(symbols[Math.floor(Math.random() * symbols.length)]);
-  }, []);
+  }, [selectedModule.subject]);
+
+  React.useEffect(() => {
+    if (isHelperOpen) {
+      resetHelperBox();
+    }
+  }, [isHelperOpen, resetHelperBox]);
 
   const totalQuestions = selectedModule.questions.length;
   const isAbacus = selectedModule.subject === 'abacus';
@@ -522,7 +530,7 @@ export default function QuizRunner({
               }}
               onClick={() => setIsHelperOpen(prev => !prev)}
             >
-              🧮 Counting Helper
+              🧮 {isMobile ? "Helper" : "Counting Helper"}
             </button>
             <button type="button" className={styles.exitBtn} onClick={onExit} style={{ padding: '8px 16px', fontSize: '0.85rem' }}>
               Exit Test 🚪
@@ -628,23 +636,43 @@ export default function QuizRunner({
                     background: 'rgba(255, 126, 95, 0.02)',
                     border: '1px dashed rgba(255, 126, 95, 0.15)',
                     borderRadius: '10px',
-                    padding: '4px 10px',
-                    height: '36px'
+                    padding: '8px 10px',
+                    minHeight: '36px'
                   }}
                 >
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                    <span style={{ fontSize: '0.75rem', fontWeight: 800, color: '#718096', width: '50px' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexGrow: 1 }}>
+                    <span style={{ fontSize: '0.75rem', fontWeight: 800, color: '#718096', width: '50px', flexShrink: 0 }}>
                       Line {lineIdx + 1}:
                     </span>
-                    <div style={{ display: 'flex', gap: '4px', overflowX: 'auto', maxWidth: '280px' }}>
-                      {Array.from({ length: count }).map((_, idx) => (
-                        <span key={idx} style={{ fontSize: '1.2rem' }}>
-                          {helperObject}
-                        </span>
-                      ))}
+                    <div style={{ display: 'flex', gap: '4px', flexWrap: 'wrap', flexGrow: 1 }}>
+                      {Array.from({ length: count }).map((_, idx) => {
+                        const isStruck = helperLineStrikes[lineIdx]?.[idx];
+                        return (
+                          <div 
+                            key={idx} 
+                            style={{ position: 'relative', cursor: 'pointer', display: 'inline-flex' }}
+                            onClick={() => {
+                              setHelperLineStrikes(prev => ({
+                                ...prev,
+                                [lineIdx]: {
+                                  ...(prev[lineIdx] || {}),
+                                  [idx]: !isStruck
+                                }
+                              }));
+                            }}
+                          >
+                            <span style={{ fontSize: isMobile ? '0.9rem' : '1.2rem', opacity: isStruck ? 0.4 : 1, transition: 'all 0.2s' }}>
+                              {helperObject}
+                            </span>
+                            {isStruck && (
+                              <div style={{ position: 'absolute', top: '50%', left: '-10%', right: '-10%', height: '3px', background: '#e53e3e', transform: 'rotate(-45deg)', borderRadius: '2px', boxShadow: '0 0 2px rgba(255,255,255,0.5)' }} />
+                            )}
+                          </div>
+                        );
+                      })}
                     </div>
-                    <span style={{ fontSize: '0.75rem', fontWeight: 800, color: '#ff6b4a', marginLeft: '4px' }}>
-                      ({count})
+                    <span style={{ fontSize: '0.75rem', fontWeight: 800, color: '#ff6b4a', marginLeft: '4px', flexShrink: 0 }}>
+                      ({count - Object.values(helperLineStrikes[lineIdx] || {}).filter(Boolean).length})
                     </span>
                   </div>
 
@@ -656,6 +684,15 @@ export default function QuizRunner({
                         setHelperLineCounts(prev => {
                           const next = [...prev];
                           if (next[lineIdx] > 0) next[lineIdx]--;
+                          return next;
+                        });
+                        setHelperLineStrikes(prev => {
+                          const next = { ...prev };
+                          if (next[lineIdx]) {
+                            const newObj = { ...next[lineIdx] };
+                            delete newObj[helperLineCounts[lineIdx] - 1];
+                            next[lineIdx] = newObj;
+                          }
                           return next;
                         });
                       }}
@@ -720,48 +757,50 @@ export default function QuizRunner({
               gap: '8px'
             }}>
               {/* Toggle Line 3 Button */}
-              {helperLineCounts.length === 2 ? (
-                <button
-                  type="button"
-                  onClick={() => setHelperLineCounts(prev => [...prev, 0])}
-                  style={{
-                    padding: '4px 10px',
-                    fontSize: '0.75rem',
-                    fontWeight: 700,
-                    background: '#ffffff',
-                    color: '#4a5568',
-                    border: '1px solid rgba(0,0,0,0.15)',
-                    borderRadius: '8px',
-                    cursor: 'pointer',
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '4px',
-                    outline: 'none'
-                  }}
-                >
-                  ➕ Add 3rd Line
-                </button>
-              ) : (
-                <button
-                  type="button"
-                  onClick={() => setHelperLineCounts(prev => prev.slice(0, 2))}
-                  style={{
-                    padding: '4px 10px',
-                    fontSize: '0.75rem',
-                    fontWeight: 700,
-                    background: '#ffffff',
-                    color: '#e53e3e',
-                    border: '1px solid rgba(229, 62, 62, 0.2)',
-                    borderRadius: '8px',
-                    cursor: 'pointer',
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '4px',
-                    outline: 'none'
-                  }}
-                >
-                  ➖ Remove 3rd Line
-                </button>
+              {selectedModule.subject !== 'maths_subtractions' && (
+                helperLineCounts.length === 2 ? (
+                  <button
+                    type="button"
+                    onClick={() => setHelperLineCounts(prev => [...prev, 0])}
+                    style={{
+                      padding: '4px 10px',
+                      fontSize: '0.75rem',
+                      fontWeight: 700,
+                      background: '#ffffff',
+                      color: '#4a5568',
+                      border: '1px solid rgba(0,0,0,0.15)',
+                      borderRadius: '8px',
+                      cursor: 'pointer',
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '4px',
+                      outline: 'none'
+                    }}
+                  >
+                    ➕ Add 3rd Line
+                  </button>
+                ) : (
+                  <button
+                    type="button"
+                    onClick={() => setHelperLineCounts(prev => prev.slice(0, 2))}
+                    style={{
+                      padding: '4px 10px',
+                      fontSize: '0.75rem',
+                      fontWeight: 700,
+                      background: '#ffffff',
+                      color: '#e53e3e',
+                      border: '1px solid rgba(229,62,62,0.3)',
+                      borderRadius: '8px',
+                      cursor: 'pointer',
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '4px',
+                      outline: 'none'
+                    }}
+                  >
+                    ➖ Remove 3rd Line
+                  </button>
+                )
               )}
 
 
