@@ -764,11 +764,13 @@
   transform: translateY(-1px);
 }
 
-.pillButtonActive {
+.pillButton.pillButtonActive,
+.pillButton.pillButtonActive:hover:not(:disabled) {
   background: linear-gradient(135deg, #ff7e5f, #feb47b);
   border-color: transparent;
   color: white;
   box-shadow: 0 6px 15px rgba(255, 126, 95, 0.25);
+  transform: translateY(-1px);
 }
 
 /* Glassmorphic Locked Overlay */

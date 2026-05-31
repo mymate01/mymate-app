@@ -140,7 +140,7 @@ export default function SetupDashboard({
           onClick={onExit}
           style={{ width: '40%', padding: '14px' }}
         >
-          Cancel 🚪
+          Cancel
         </button>
         <button
           type="button"
@@ -148,7 +148,7 @@ export default function SetupDashboard({
           onClick={onStart}
           style={{ width: '60%', margin: 0 }}
         >
-          Start Challenge 🚀
+          Start 🚀
         </button>
       </div>
     </div>

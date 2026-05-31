@@ -181,11 +181,11 @@ export default function QuizRunner({
                   if (qB) onToggleHint(qB.id, 0);
                 }}
               >
-                💡 Hints Active
+                💡 Hint
               </button>
             )}
             <button type="button" className={styles.exitBtn} onClick={onExit} style={{ padding: '8px 16px', fontSize: '0.85rem' }}>
-              Exit Test 🚪
+              Exit 🚪
             </button>
           </div>
         </div>
@@ -217,7 +217,7 @@ export default function QuizRunner({
               onClick={onPrevPage}
               style={{ padding: '8px 24px', fontSize: '1rem', background: '#fff', border: '1px solid rgba(0,0,0,0.15)', color: '#4a5568', margin: 0 }}
             >
-              ⬅️ Previous Page
+              ⬅️ Previous
             </button>
           )}
           <button
@@ -226,7 +226,7 @@ export default function QuizRunner({
             onClick={onNextPage}
             style={{ padding: '8px 24px', fontSize: '1rem' }}
           >
-            {isLastPage ? 'Submit Quiz 🏁' : 'Next Page ➡️'}
+            {isLastPage ? 'Submit Quiz 🏁' : 'Next ➡️'}
           </button>
         </div>
       </div>
@@ -513,7 +513,7 @@ export default function QuizRunner({
                   if (qE) onToggleHint(qE.id, 0);
                 }}
               >
-                💡 Hints Active
+                💡 Hint
               </button>
             )}
             <button
@@ -530,10 +530,10 @@ export default function QuizRunner({
               }}
               onClick={() => setIsHelperOpen(prev => !prev)}
             >
-              🧮 {isMobile ? "Helper" : "Counting Helper"}
+              🧮 {isMobile ? "Help" : "Counting Helper"}
             </button>
             <button type="button" className={styles.exitBtn} onClick={onExit} style={{ padding: '8px 16px', fontSize: '0.85rem' }}>
-              Exit Test 🚪
+              Exit 🚪
             </button>
           </div>
         </div>
@@ -816,7 +816,7 @@ export default function QuizRunner({
               onClick={onPrevPage}
               style={{ padding: '8px 24px', fontSize: '1rem', background: '#fff', border: '1px solid rgba(0,0,0,0.15)', color: '#4a5568', margin: 0 }}
             >
-              ⬅️ Previous Page
+              ⬅️ Previous
             </button>
           )}
           <button
@@ -825,7 +825,7 @@ export default function QuizRunner({
             onClick={onNextPage}
             style={{ padding: '8px 24px', fontSize: '1rem' }}
           >
-            {isLastPage ? 'Submit Quiz 🏁' : 'Next Page ➡️'}
+            {isLastPage ? 'Submit Quiz 🏁' : 'Next ➡️'}
           </button>
         </div>
       </div>
@@ -870,7 +870,7 @@ export default function QuizRunner({
               </button>
             )}
             <button type="button" className={styles.exitBtn} onClick={onExit} style={{ padding: '8px 16px', fontSize: '0.85rem' }}>
-              Exit Test 🚪
+              Exit 🚪
             </button>
           </div>
         </div>
@@ -988,7 +988,7 @@ export default function QuizRunner({
             </button>
           )}
           <button type="button" className={styles.exitBtn} onClick={onExit} style={{ padding: '8px 16px', fontSize: '0.85rem' }}>
-            Exit Test 🚪
+            Exit 🚪
           </button>
         </div>
       </div>
