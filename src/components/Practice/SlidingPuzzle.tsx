@@ -245,15 +245,15 @@ export default function SlidingPuzzle({ question, onComplete }: SlidingPuzzlePro
             display: 'grid',
             gridTemplateColumns: `repeat(${size}, ${cellSize}px)`,
             gridTemplateRows: `repeat(${size}, ${cellSize}px)`,
-            gap: \`\${gap}px\`,
+            gap: `${gap}px`,
             padding: '16px',
             background: '#e2e8f0', // Backboard color
             borderRadius: '20px',
-            boxShadow: \`inset \${shadowX}px \${shadowY}px 20px rgba(0,0,0,0.1), 0 20px 40px rgba(0,0,0,0.15)\`,
+            boxShadow: `inset ${shadowX}px ${shadowY}px 20px rgba(0,0,0,0.1), 0 20px 40px rgba(0,0,0,0.15)`,
             border: '4px solid #cbd5e0',
             perspective: '1000px', // For 3D effect
             transformStyle: 'preserve-3d',
-            transform: \`rotateX(\${-tilt.beta/4}deg) rotateY(\${tilt.gamma/4}deg)\`,
+            transform: `rotateX(${-tilt.beta/4}deg) rotateY(${tilt.gamma/4}deg)`,
             transition: 'transform 0.1s ease-out'
           }}>
             {tiles.map((tile, index) => {
@@ -267,27 +267,27 @@ export default function SlidingPuzzle({ question, onComplete }: SlidingPuzzlePro
                   onClick={() => handleTileClick(index)}
                   disabled={isEmpty || solved}
                   style={{
-                    width: \`\${cellSize}px\`,
-                    height: \`\${cellSize}px\`,
+                    width: `${cellSize}px`,
+                    height: `${cellSize}px`,
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
                     border: 'none',
                     borderRadius: '16px',
-                    background: isEmpty ? 'transparent' : \`linear-gradient(135deg, \${baseColor}, \${baseColor}dd)\`,
+                    background: isEmpty ? 'transparent' : `linear-gradient(135deg, ${baseColor}, ${baseColor}dd)`,
                     cursor: isEmpty || solved ? 'default' : 'pointer',
                     fontSize: size === 3 ? '32px' : '24px',
                     fontWeight: 900,
                     color: 'rgba(0,0,0,0.6)',
                     // dynamic shadow reacting to phone tilt!
-                    boxShadow: isEmpty ? 'none' : \`
+                    boxShadow: isEmpty ? 'none' : `
                       inset 2px 2px 4px rgba(255,255,255,0.7), 
                       inset -2px -2px 4px rgba(0,0,0,0.1),
-                      \${shadowX}px \${shadowY}px 8px rgba(0,0,0,0.2)
-                    \`,
+                      ${shadowX}px ${shadowY}px 8px rgba(0,0,0,0.2)
+                    `,
                     padding: 0,
                     outline: 'none',
-                    transform: isEmpty ? 'none' : \`translateZ(\${solved ? 0 : 15}px)\`,
+                    transform: isEmpty ? 'none' : `translateZ(${solved ? 0 : 15}px)`,
                     transition: 'all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275)'
                   }}
                 >
@@ -322,13 +322,13 @@ export default function SlidingPuzzle({ question, onComplete }: SlidingPuzzlePro
         </>
       )}
 
-      <style dangerouslySetInnerHTML={{__html: \`
+      <style dangerouslySetInnerHTML={{__html: `
         @keyframes slidePuzzleBounceIn {
           0% { transform: translate(-50%, -50%) scale(0.3); opacity: 0; }
           50% { transform: translate(-50%, -50%) scale(1.1); }
           100% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
         }
-      \`}} />
+      `}} />
     </div>
   );
 }
