@@ -29,6 +29,20 @@ import QuizRunner from '../../components/Practice/QuizRunner';
 import ScoreReview from '../../components/Practice/ScoreReview';
 import GameCategoryPicker from '../../components/Practice/GameCategoryPicker';
 
+export const getModuleName = (id: string) => {
+  if (id.includes('additions')) return 'Grade 1 Additions';
+  if (id.includes('subtractions')) return 'Grade 1 Subtractions';
+  if (id.includes('wordproblems')) return 'Grade 1 Word Problems';
+  if (id.includes('abacus')) return 'Grade 1 Abacus';
+  if (id.includes('english')) return 'Grade 1 English';
+  if (id.includes('fraction')) return 'Grade 1 Fractions';
+  if (id.includes('general-knowledge')) return 'Grade 1 General Knowledge';
+  if (id.includes('science')) return 'Grade 1 Science';
+  if (id.includes('games')) return 'Grade 1 Games';
+  if (id.includes('hindi')) return 'Grade 1 Hindi';
+  return id;
+};
+
 export default function PracticePage() {
   // ─── STATE MANAGEMENT ──────────────────────────────────────────
   const [activeView, setActiveView] = useState<'dashboard' | 'quiz' | 'review' | 'gamePicker'>('dashboard');
@@ -71,6 +85,16 @@ export default function PracticePage() {
 
   const [isMobile, setIsMobile] = useState(false);
   const [selectedHistoryItem, setSelectedHistoryItem] = useState<UserProgressData | null>(null);
+  
+  const [studentName, setStudentName] = useState('');
+  const [pendingModule, setPendingModule] = useState<PracticeModule | null>(null);
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const storedName = localStorage.getItem('mymate_student_name');
+      if (storedName) setStudentName(storedName);
+    }
+  }, []);
 
   useEffect(() => {
     const handleResize = () => setIsMobile(window.innerWidth <= 700);
@@ -138,6 +162,20 @@ export default function PracticePage() {
 
   // ─── HANDLERS ──────────────────────────────────────────────────
   const startQuiz = (module: PracticeModule) => {
+    setPendingModule(module);
+  };
+
+  const confirmStudentName = (e?: React.FormEvent) => {
+    e?.preventDefault();
+    if (!studentName.trim()) return;
+    
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('mymate_student_name', studentName.trim());
+    }
+    const module = pendingModule;
+    setPendingModule(null);
+    if (!module) return;
+
     setSelectedModule(module);
     if (module.subject === 'games') {
       setActiveView('gamePicker');
@@ -434,6 +472,7 @@ export default function PracticePage() {
         accuracy: accuracy,
         timeSpentSeconds: totalTime,
         completedAt: new Date().toISOString(),
+        studentName: studentName || 'Student',
         details: details
       };
 
@@ -478,20 +517,6 @@ export default function PracticePage() {
     const avgAccuracy = hasHistory ? Math.round(history.reduce((sum, h) => sum + h.accuracy, 0) / totalTaken) : 0;
     
     const moduleStats: Record<string, { total: number, correct: number, accuracySum: number, count: number, name: string }> = {};
-    
-    const getModuleName = (id: string) => {
-      if (id.includes('additions')) return 'Grade 1 Additions';
-      if (id.includes('subtractions')) return 'Grade 1 Subtractions';
-      if (id.includes('wordproblems')) return 'Grade 1 Word Problems';
-      if (id.includes('abacus')) return 'Grade 1 Abacus';
-      if (id.includes('english')) return 'Grade 1 English';
-      if (id.includes('fraction')) return 'Grade 1 Fractions';
-      if (id.includes('general-knowledge')) return 'Grade 1 General Knowledge';
-      if (id.includes('science')) return 'Grade 1 Science';
-      if (id.includes('games')) return 'Grade 1 Games';
-      if (id.includes('hindi')) return 'Grade 1 Hindi';
-      return id;
-    };
 
     history.forEach(h => {
       if (!moduleStats[h.moduleId]) {
@@ -617,6 +642,7 @@ export default function PracticePage() {
                 <thead>
                   <tr style={{ borderBottom: '2px solid rgba(0,0,0,0.05)', color: '#718096' }}>
                     <th style={{ padding: '8px', fontWeight: 700 }}>Topic / Module</th>
+                    <th style={{ padding: '8px', fontWeight: 700 }}>Student</th>
                     <th style={{ padding: '8px', fontWeight: 700 }}>Score</th>
                     <th style={{ padding: '8px', fontWeight: 700 }}>Accuracy</th>
                     <th style={{ padding: '8px', fontWeight: 700 }}>Date Completed</th>
@@ -632,6 +658,7 @@ export default function PracticePage() {
                       onMouseLeave={(e) => e.currentTarget.style.background = 'transparent'}
                     >
                       <td style={{ padding: '10px 8px', fontWeight: 600, color: '#2d3748' }}>{getModuleName(h.moduleId)}</td>
+                      <td style={{ padding: '10px 8px', color: '#4a5568', fontStyle: h.studentName ? 'normal' : 'italic' }}>{h.studentName || 'Student'}</td>
                       <td style={{ padding: '10px 8px', color: '#ff6b4a', fontWeight: 700 }}>{h.score} / {h.totalQuestions}</td>
                       <td style={{ padding: '10px 8px' }}>
                         <span style={{
@@ -841,6 +868,33 @@ export default function PracticePage() {
           onDone={() => setActiveView('dashboard')}
         />
       )}
+      
+      {/* Student Name Modal */}
+      {pendingModule && (
+        <div style={{ position: 'fixed', inset: 0, backgroundColor: 'rgba(0,0,0,0.4)', backdropFilter: 'blur(4px)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1000, padding: '20px' }}>
+          <div style={{ background: '#fff', borderRadius: '24px', padding: '32px', maxWidth: '400px', width: '100%', boxShadow: '0 20px 40px rgba(0,0,0,0.15)', textAlign: 'center' }}>
+            <span style={{ fontSize: '3rem', display: 'block', marginBottom: '16px' }}>🧑‍🎓</span>
+            <h3 style={{ fontSize: '1.5rem', fontWeight: 800, color: '#2d3748', margin: '0 0 8px 0' }}>Who is playing?</h3>
+            <p style={{ fontSize: '0.9rem', color: '#718096', marginBottom: '24px' }}>Enter your name so we can save your score!</p>
+            
+            <form onSubmit={confirmStudentName}>
+              <input 
+                type="text" 
+                value={studentName}
+                onChange={(e) => setStudentName(e.target.value)}
+                placeholder="Enter student name..."
+                style={{ width: '100%', padding: '12px 16px', borderRadius: '12px', border: '2px solid rgba(255, 107, 74, 0.2)', fontSize: '1.1rem', marginBottom: '24px', outline: 'none', textAlign: 'center', fontWeight: 600, color: '#2d3748' }}
+                autoFocus
+              />
+              <div style={{ display: 'flex', gap: '12px' }}>
+                <button type="button" onClick={() => setPendingModule(null)} style={{ flex: 1, padding: '12px', background: '#f7fafc', color: '#4a5568', border: '1px solid rgba(0,0,0,0.1)', borderRadius: '12px', fontWeight: 700, cursor: 'pointer' }}>Cancel</button>
+                <button type="submit" disabled={!studentName.trim()} style={{ flex: 2, padding: '12px', background: !studentName.trim() ? '#cbd5e0' : 'linear-gradient(135deg, #ff7e5f, #ff6b4a)', color: '#fff', border: 'none', borderRadius: '12px', fontWeight: 800, cursor: !studentName.trim() ? 'not-allowed' : 'pointer' }}>Start Practice 🚀</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
       {renderAuthWallModal()}
       {renderComingSoonModal()}
       
@@ -852,6 +906,9 @@ export default function PracticePage() {
               <div>
                 <h3 style={{ fontSize: '1.2rem', fontWeight: 800, color: '#2d3748', margin: 0 }}>Session Review</h3>
                 <p style={{ fontSize: '0.85rem', color: '#718096', margin: '4px 0 0 0' }}>{getModuleName(selectedHistoryItem.moduleId)} • {new Date(selectedHistoryItem.completedAt).toLocaleDateString()}</p>
+                {selectedHistoryItem.studentName && (
+                  <p style={{ fontSize: '0.85rem', color: '#ff6b4a', fontWeight: 700, margin: '2px 0 0 0' }}>Student: {selectedHistoryItem.studentName}</p>
+                )}
               </div>
               <button onClick={() => setSelectedHistoryItem(null)} style={{ background: '#f7fafc', border: '1px solid rgba(0,0,0,0.1)', borderRadius: '50%', width: '32px', height: '32px', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', fontSize: '1rem' }}>❌</button>
             </div>
