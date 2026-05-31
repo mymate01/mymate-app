@@ -278,6 +278,10 @@
   font-weight: 600;
   color: #718096;
   transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
 }
 
 .exitBtn:hover {
@@ -923,9 +927,11 @@
 
 .marqueeContainer {
   overflow: hidden;
-  width: 100%;
+  width: auto;
   position: relative;
   padding: 8px 0;
+  margin-left: -24px;
+  margin-right: -24px;
   scrollbar-width: none !important;
   -ms-overflow-style: none !important;
 }

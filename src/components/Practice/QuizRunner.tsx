@@ -185,7 +185,7 @@ export default function QuizRunner({
               </button>
             )}
             <button type="button" className={styles.exitBtn} onClick={onExit} style={{ padding: '8px 16px', fontSize: '0.85rem' }}>
-              Exit 🚪
+              Exit ✖️
             </button>
           </div>
         </div>
@@ -533,7 +533,7 @@ export default function QuizRunner({
               🧮 {isMobile ? "Help" : "Counting Helper"}
             </button>
             <button type="button" className={styles.exitBtn} onClick={onExit} style={{ padding: '8px 16px', fontSize: '0.85rem' }}>
-              Exit 🚪
+              Exit ✖️
             </button>
           </div>
         </div>
@@ -548,7 +548,11 @@ export default function QuizRunner({
             flexWrap: 'wrap',
             justifyContent: 'center',
             gap: '16px', 
-            alignItems: 'flex-start'
+            alignItems: 'flex-start',
+            flexGrow: 1, 
+            minHeight: 0, 
+            overflowY: 'auto',
+            paddingBottom: '20px'
           }}
         >
           {qA && renderMathSheetCard(qA, currentQuestionIndex + 1)}
@@ -870,7 +874,7 @@ export default function QuizRunner({
               </button>
             )}
             <button type="button" className={styles.exitBtn} onClick={onExit} style={{ padding: '8px 16px', fontSize: '0.85rem' }}>
-              Exit 🚪
+              Exit ✖️
             </button>
           </div>
         </div>
@@ -988,7 +992,7 @@ export default function QuizRunner({
             </button>
           )}
           <button type="button" className={styles.exitBtn} onClick={onExit} style={{ padding: '8px 16px', fontSize: '0.85rem' }}>
-            Exit 🚪
+            Exit ✖️
           </button>
         </div>
       </div>
