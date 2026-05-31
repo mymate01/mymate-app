@@ -62,10 +62,16 @@ export default function QuizRunner({
 
   React.useEffect(() => {
     if (typeof window !== 'undefined') {
-      const checkOrientation = () => setIsPortrait(window.innerHeight > window.innerWidth);
+      const checkOrientation = () => {
+        setIsPortrait(window.matchMedia("(orientation: portrait)").matches);
+      };
       checkOrientation();
       window.addEventListener('resize', checkOrientation);
-      return () => window.removeEventListener('resize', checkOrientation);
+      window.addEventListener('orientationchange', checkOrientation);
+      return () => {
+        window.removeEventListener('resize', checkOrientation);
+        window.removeEventListener('orientationchange', checkOrientation);
+      };
     }
   }, []);
   const [activeQId, setActiveQId] = React.useState<string | null>(null);
