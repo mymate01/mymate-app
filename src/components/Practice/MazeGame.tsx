@@ -81,6 +81,13 @@ export default function MazeGame({ question, onComplete }: MazeGameProps) {
       let b = e.beta || 0;
       let g = e.gamma || 0;
 
+      // Adjust for forced CSS landscape rotation
+      if (window.matchMedia("(orientation: portrait)").matches) {
+        const temp = b;
+        b = g;
+        g = temp;
+      }
+
       // Handle weird flips
       if (b > 90) b = 90;
       if (b < -90) b = -90;

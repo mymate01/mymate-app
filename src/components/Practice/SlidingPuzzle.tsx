@@ -85,6 +85,13 @@ export default function SlidingPuzzle({ question, onComplete }: SlidingPuzzlePro
       let b = e.beta || 0; // -180 to 180 (front/back)
       let g = e.gamma || 0; // -90 to 90 (left/right)
 
+      // Adjust for forced CSS landscape rotation
+      if (window.matchMedia("(orientation: portrait)").matches) {
+        const temp = b;
+        b = g;
+        g = temp;
+      }
+
       setTilt({ beta: b, gamma: g });
 
       setTiles(currentTiles => {
